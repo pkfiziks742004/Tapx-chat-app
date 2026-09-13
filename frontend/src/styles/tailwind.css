@@ -1,0 +1,6319 @@
+@import "tailwindcss";
+
+@layer base {
+  html body[data-page="home"] {
+    --ui-bg-top: #08111f;
+    --ui-bg-bottom: #0f172a;
+    --ui-surface: rgba(10, 15, 28, 0.78);
+    --ui-surface-strong: rgba(14, 21, 38, 0.94);
+    --ui-surface-soft: rgba(255, 255, 255, 0.08);
+    --ui-border: rgba(148, 163, 184, 0.14);
+    --ui-border-strong: rgba(129, 140, 248, 0.24);
+    --ui-text-strong: #f8fafc;
+    --ui-text: #dbe6f8;
+    --ui-muted: #93a6c4;
+    --ui-muted-soft: #64748b;
+    --ui-accent: #818cf8;
+    --ui-accent-strong: #6366f1;
+    --ui-accent-soft: rgba(99, 102, 241, 0.18);
+    --ui-accent-shadow: rgba(99, 102, 241, 0.26);
+    --ui-success: #22c55e;
+    --ui-shadow-soft: 0 18px 48px rgba(2, 6, 23, 0.24);
+    --ui-shadow-ambient: 0 28px 80px rgba(2, 6, 23, 0.34);
+    --ui-bubble-in: rgba(17, 24, 39, 0.88);
+    --ui-bubble-out-start: #6366f1;
+    --ui-bubble-out-end: #06b6d4;
+    background-image:
+      radial-gradient(820px 420px at 0% 0%, rgba(99, 102, 241, 0.22), transparent 58%),
+      radial-gradient(720px 360px at 100% 0%, rgba(6, 182, 212, 0.14), transparent 46%),
+      radial-gradient(560px 320px at 50% 100%, rgba(244, 114, 182, 0.08), transparent 56%),
+      linear-gradient(180deg, var(--ui-bg-top) 0%, var(--ui-bg-bottom) 100%);
+  }
+
+  html body[data-page="home"][data-theme="light"] {
+    --ui-bg-top: #f8fbff;
+    --ui-bg-bottom: #eef4ff;
+    --ui-surface: rgba(255, 255, 255, 0.74);
+    --ui-surface-strong: rgba(255, 255, 255, 0.92);
+    --ui-surface-soft: rgba(255, 255, 255, 0.74);
+    --ui-border: rgba(148, 163, 184, 0.2);
+    --ui-border-strong: rgba(99, 102, 241, 0.22);
+    --ui-text-strong: #0f172a;
+    --ui-text: #1e293b;
+    --ui-muted: #5f728d;
+    --ui-muted-soft: #8ca0bb;
+    --ui-accent: #4f46e5;
+    --ui-accent-strong: #4338ca;
+    --ui-accent-soft: rgba(99, 102, 241, 0.1);
+    --ui-accent-shadow: rgba(99, 102, 241, 0.16);
+    --ui-success: #16a34a;
+    --ui-shadow-soft: 0 20px 46px rgba(148, 163, 184, 0.18);
+    --ui-shadow-ambient: 0 30px 80px rgba(148, 163, 184, 0.22);
+    --ui-bubble-in: rgba(255, 255, 255, 0.96);
+  }
+}
+
+@layer components {
+  html body[data-page="home"] .app,
+  html body[data-page="home"] .app.appDesktopWindow {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  html body[data-page="home"] .appBody {
+    gap: 1rem;
+    grid-template-columns: 320px minmax(0, 1fr) 316px;
+  }
+
+  html body[data-page="home"] .appTopbar,
+  html body[data-page="home"] .sidebar,
+  html body[data-page="home"] .chat,
+  html body[data-page="home"] .infoPanel {
+    border: 1px solid var(--ui-border);
+    border-radius: 1.85rem;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+      var(--ui-surface);
+    box-shadow: var(--ui-shadow-soft);
+    backdrop-filter: blur(28px) saturate(1.12);
+    overflow: hidden;
+  }
+
+  html body[data-page="home"] .appTopbar {
+    top: 0.9rem;
+    border-radius: 1.75rem;
+  }
+
+  html body[data-page="home"] .appBrandEyebrow {
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ui-muted);
+  }
+
+  html body[data-page="home"] .appBrandText strong,
+  html body[data-page="home"] .chatName,
+  html body[data-page="home"] .chatItemName,
+  html body[data-page="home"] .callItemTitle,
+  html body[data-page="home"] .infoPanelName,
+  html body[data-page="home"] .sectionHeroTitle,
+  html body[data-page="home"] .sectionCard h3 {
+    color: var(--ui-text-strong);
+  }
+
+  html body[data-page="home"] .appViewChip,
+  html body[data-page="home"] .appBrandStatus {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.55rem;
+    padding: 0.12rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+
+  html body[data-page="home"] .appViewChip {
+    border: 1px solid var(--ui-border-strong);
+    background: linear-gradient(135deg, var(--ui-accent-soft), rgba(255, 255, 255, 0.02));
+    color: var(--ui-accent);
+  }
+
+  html body[data-page="home"] .appBrandStatus {
+    border: 1px solid rgba(34, 197, 94, 0.14);
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--ui-success);
+  }
+
+  html body[data-page="home"] .sidebarSpotlight {
+    margin: 0 1.2rem 0.9rem;
+    padding: 1rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.45rem;
+    background:
+      linear-gradient(135deg, rgba(99, 102, 241, 0.14), rgba(6, 182, 212, 0.08)),
+      rgba(255, 255, 255, 0.03);
+  }
+
+  html body[data-page="home"] .sidebarSpotlightTitle {
+    margin-top: 0.45rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--ui-text-strong);
+  }
+
+  html body[data-page="home"] .sidebarSpotlightSub,
+  html body[data-page="home"] .chatSub,
+  html body[data-page="home"] .chatItemSub,
+  html body[data-page="home"] .chatItemTime,
+  html body[data-page="home"] .callItemSub,
+  html body[data-page="home"] .callItemTime,
+  html body[data-page="home"] .sectionHeroSub,
+  html body[data-page="home"] .infoPanelStatus,
+  html body[data-page="home"] .infoPanelAbout {
+    color: var(--ui-muted);
+  }
+
+  html body[data-page="home"] .topbarThemeBtn,
+  html body[data-page="home"] .sidebarNewChatBtn,
+  html body[data-page="home"] .sectionPrimaryAction,
+  html body[data-page="home"] .floatingActionBtn.primary,
+  html body[data-page="home"] .infoPanelActionHero.toneAccent,
+  html body[data-page="home"] .waSendBtn {
+    background: linear-gradient(135deg, var(--ui-accent-strong), var(--ui-bubble-out-end));
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 16px 28px var(--ui-accent-shadow);
+  }
+
+  html body[data-page="home"] .chatItem.active {
+    border-color: var(--ui-border-strong);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.16), rgba(6, 182, 212, 0.09));
+    box-shadow: 0 16px 34px rgba(99, 102, 241, 0.14);
+  }
+
+  html body[data-page="home"] .badge,
+  html body[data-page="home"] .sidebarDockBadge,
+  html body[data-page="home"] .railBadge,
+  html body[data-page="home"] .topbarNotifyBadge {
+    background: linear-gradient(135deg, var(--ui-accent-strong), var(--ui-bubble-out-end));
+    color: #fff;
+    box-shadow: 0 10px 22px var(--ui-accent-shadow);
+  }
+
+  html body[data-page="home"] .chat {
+    background:
+      radial-gradient(620px 280px at 14% 0%, rgba(99, 102, 241, 0.12), transparent 58%),
+      radial-gradient(520px 240px at 86% 0%, rgba(6, 182, 212, 0.08), transparent 48%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+      transparent;
+  }
+
+  html body[data-page="home"] .bubble {
+    border: 1px solid var(--ui-border);
+    border-radius: 1.5rem;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+      var(--ui-bubble-in);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 14px 32px rgba(15, 23, 42, 0.12);
+  }
+
+  html body[data-page="home"] .bubbleRow.me .bubble {
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    color: #fff;
+    box-shadow: 0 20px 34px var(--ui-accent-shadow);
+  }
+
+  html body[data-page="home"] .bubbleHoverActions {
+    position: absolute;
+    top: -0.55rem;
+    right: 0.7rem;
+    display: inline-flex;
+    gap: 0.35rem;
+    opacity: 0;
+    transform: translateY(0.35rem);
+    transition: opacity 180ms ease, transform 180ms ease;
+    pointer-events: none;
+  }
+
+  html body[data-page="home"] .bubble:hover .bubbleHoverActions,
+  html body[data-page="home"] .bubble:focus-within .bubbleHoverActions,
+  html body[data-page="home"] .bubble.selected .bubbleHoverActions {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  html body[data-page="home"] .bubbleHoverBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 999px;
+    background: var(--ui-surface-strong);
+    color: var(--ui-text);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  html body[data-page="home"] .waComposer {
+    align-items: flex-end;
+    border-radius: 1.55rem;
+  }
+
+  html body[data-page="home"] .waTextarea {
+    width: 100%;
+    min-height: 2.75rem;
+    max-height: 8.5rem;
+    resize: none;
+    background: transparent;
+  }
+
+  html body[data-page="home"] .sectionHero,
+  html body[data-page="home"] .sectionCard,
+  html body[data-page="home"] .infoPanelCard {
+    border-radius: 1.55rem;
+  }
+
+  html body[data-page="home"] .rail.railMobile {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    margin: 0 0.75rem calc(0.75rem + env(safe-area-inset-bottom));
+    padding: 0.45rem;
+    border-radius: 1.55rem;
+    box-shadow: var(--ui-shadow-ambient);
+  }
+
+  @media (max-width: 1100px) {
+    html body[data-page="home"] .appBody {
+      grid-template-columns: 286px minmax(0, 1fr);
+    }
+
+    html body[data-page="home"] .infoPanel {
+      display: none;
+    }
+  }
+
+  @media (max-width: 900px) {
+    html body[data-page="home"] .app.appDesktopWindow,
+    html body[data-page="home"] .app.appMobile {
+      padding: 0;
+      gap: 0;
+    }
+
+    html body[data-page="home"] .appBody {
+      gap: 0;
+    }
+
+    html body[data-page="home"] .sidebar,
+    html body[data-page="home"] .chat,
+    html body[data-page="home"] .infoPanel {
+      border-radius: 0;
+      border-left: 0;
+      border-right: 0;
+      box-shadow: none;
+    }
+  }
+}
+
+@layer base {
+  body[data-page="home"] {
+    @apply bg-slate-950 text-slate-100 antialiased;
+    color-scheme: dark;
+    background-image:
+      radial-gradient(900px 480px at 0% 0%, rgba(37, 99, 235, 0.24), transparent 55%),
+      radial-gradient(700px 420px at 100% 0%, rgba(59, 130, 246, 0.14), transparent 45%),
+      linear-gradient(180deg, #020617 0%, #0f172a 54%, #111827 100%);
+  }
+
+  body[data-page="home"] input,
+  body[data-page="home"] textarea,
+  body[data-page="home"] select,
+  body[data-page="home"] button {
+    @apply font-medium;
+  }
+}
+
+@layer base {
+  body[data-page="home"] {
+    --ui-bg-top: #08111f;
+    --ui-bg-bottom: #0f172a;
+    --ui-surface: rgba(10, 15, 28, 0.78);
+    --ui-surface-strong: rgba(14, 21, 38, 0.94);
+    --ui-surface-soft: rgba(255, 255, 255, 0.08);
+    --ui-border: rgba(148, 163, 184, 0.14);
+    --ui-border-strong: rgba(129, 140, 248, 0.24);
+    --ui-text-strong: #f8fafc;
+    --ui-text: #dbe6f8;
+    --ui-muted: #93a6c4;
+    --ui-muted-soft: #64748b;
+    --ui-accent: #818cf8;
+    --ui-accent-strong: #6366f1;
+    --ui-accent-soft: rgba(99, 102, 241, 0.18);
+    --ui-accent-shadow: rgba(99, 102, 241, 0.26);
+    --ui-accent-cyan-soft: rgba(6, 182, 212, 0.16);
+    --ui-success: #22c55e;
+    --ui-shadow-soft: 0 18px 48px rgba(2, 6, 23, 0.24);
+    --ui-shadow-ambient: 0 28px 80px rgba(2, 6, 23, 0.34);
+    --ui-bubble-in: rgba(17, 24, 39, 0.88);
+    --ui-bubble-out-start: #6366f1;
+    --ui-bubble-out-end: #06b6d4;
+    background-image:
+      radial-gradient(820px 420px at 0% 0%, rgba(99, 102, 241, 0.22), transparent 58%),
+      radial-gradient(720px 360px at 100% 0%, rgba(6, 182, 212, 0.14), transparent 46%),
+      radial-gradient(560px 320px at 50% 100%, rgba(244, 114, 182, 0.08), transparent 56%),
+      linear-gradient(180deg, var(--ui-bg-top) 0%, var(--ui-bg-bottom) 100%);
+  }
+
+  body[data-page="home"][data-theme="light"] {
+    --ui-bg-top: #f8fbff;
+    --ui-bg-bottom: #eef4ff;
+    --ui-surface: rgba(255, 255, 255, 0.74);
+    --ui-surface-strong: rgba(255, 255, 255, 0.92);
+    --ui-surface-soft: rgba(255, 255, 255, 0.74);
+    --ui-border: rgba(148, 163, 184, 0.2);
+    --ui-border-strong: rgba(99, 102, 241, 0.22);
+    --ui-text-strong: #0f172a;
+    --ui-text: #1e293b;
+    --ui-muted: #5f728d;
+    --ui-muted-soft: #8ca0bb;
+    --ui-accent: #4f46e5;
+    --ui-accent-strong: #4338ca;
+    --ui-accent-soft: rgba(99, 102, 241, 0.1);
+    --ui-accent-shadow: rgba(99, 102, 241, 0.16);
+    --ui-accent-cyan-soft: rgba(8, 145, 178, 0.12);
+    --ui-success: #16a34a;
+    --ui-shadow-soft: 0 20px 46px rgba(148, 163, 184, 0.18);
+    --ui-shadow-ambient: 0 30px 80px rgba(148, 163, 184, 0.22);
+    --ui-bubble-in: rgba(255, 255, 255, 0.96);
+  }
+}
+
+@layer components {
+  body[data-page="home"] .app,
+  body[data-page="home"] .app.appDesktopWindow {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  body[data-page="home"] .appBody {
+    gap: 1rem;
+    grid-template-columns: 320px minmax(0, 1fr) 316px;
+  }
+
+  body[data-page="home"] .appTopbar,
+  body[data-page="home"] .sidebar,
+  body[data-page="home"] .chat,
+  body[data-page="home"] .infoPanel,
+  body[data-page="home"] .sectionHero,
+  body[data-page="home"] .sectionCard,
+  body[data-page="home"] .infoPanelCard,
+  body[data-page="home"] .waComposer,
+  body[data-page="home"] .sidebarSearchField,
+  body[data-page="home"] .sidebarDock,
+  body[data-page="home"] .rail.railMobile,
+  body[data-page="home"] .blankShell,
+  body[data-page="home"] .callsBlankShell {
+    border: 1px solid var(--ui-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+      var(--ui-surface);
+    box-shadow: var(--ui-shadow-soft);
+    backdrop-filter: blur(28px) saturate(1.12);
+  }
+
+  body[data-page="home"] .appTopbar,
+  body[data-page="home"] .sidebar,
+  body[data-page="home"] .chat,
+  body[data-page="home"] .infoPanel {
+    border-radius: 1.85rem;
+    overflow: hidden;
+  }
+
+  body[data-page="home"] .appTopbar {
+    top: 0.9rem;
+    border-radius: 1.75rem;
+  }
+
+  body[data-page="home"] .appBrandGlow,
+  body[data-page="home"] .homeRoot::before,
+  body[data-page="home"] .homeRoot::after,
+  body[data-page="home"] .sidebarSpotlightGlow {
+    display: block;
+  }
+
+  body[data-page="home"] .appBrandEyebrow {
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .appBrandMetaRow,
+  body[data-page="home"] .sidebarSpotlightMetrics,
+  body[data-page="home"] .infoPanelHeroMetrics {
+    display: flex;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+  }
+
+  body[data-page="home"] .appBrandText strong,
+  body[data-page="home"] .chatName,
+  body[data-page="home"] .chatItemName,
+  body[data-page="home"] .callItemTitle,
+  body[data-page="home"] .infoPanelName,
+  body[data-page="home"] .sectionHeroTitle,
+  body[data-page="home"] .sectionCard h3 {
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .appBrandStatus,
+  body[data-page="home"] .appViewChip,
+  body[data-page="home"] .sidebarSpotlightMetrics span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.55rem;
+    padding: 0.12rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+
+  body[data-page="home"] .appViewChip {
+    border: 1px solid var(--ui-border-strong);
+    background: linear-gradient(135deg, var(--ui-accent-soft), rgba(255, 255, 255, 0.02));
+    color: var(--ui-accent);
+  }
+
+  body[data-page="home"] .appBrandStatus {
+    border: 1px solid rgba(34, 197, 94, 0.14);
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--ui-success);
+  }
+
+  body[data-page="home"] .appTopbarSearch:focus-within,
+  body[data-page="home"] .sidebarSearchField:focus-within {
+    border-color: var(--ui-border-strong);
+    box-shadow:
+      0 0 0 4px var(--ui-accent-soft),
+      var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .appTopbarSearch input,
+  body[data-page="home"] .sidebarSearchField input,
+  body[data-page="home"] .waInput,
+  body[data-page="home"] .waTextarea {
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .appTopbarSearch input::placeholder,
+  body[data-page="home"] .sidebarSearchField input::placeholder,
+  body[data-page="home"] .waInput::placeholder,
+  body[data-page="home"] .waTextarea::placeholder {
+    color: var(--ui-muted-soft);
+  }
+
+  body[data-page="home"] .topbarThemeBtn,
+  body[data-page="home"] .sidebarNewChatBtn,
+  body[data-page="home"] .sectionPrimaryAction,
+  body[data-page="home"] .floatingActionBtn.primary,
+  body[data-page="home"] .infoPanelActionHero.toneAccent,
+  body[data-page="home"] .waSendBtn {
+    background: linear-gradient(135deg, var(--ui-accent-strong), var(--ui-bubble-out-end));
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 16px 28px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .sidebarSpotlight {
+    margin: 0 1.2rem 0.9rem;
+    padding: 1rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.45rem;
+    background:
+      linear-gradient(135deg, rgba(99, 102, 241, 0.14), rgba(6, 182, 212, 0.08)),
+      rgba(255, 255, 255, 0.03);
+  }
+
+  body[data-page="home"] .sidebarSpotlightTitle {
+    margin-top: 0.45rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .sidebarSpotlightSub,
+  body[data-page="home"] .chatSub,
+  body[data-page="home"] .chatItemSub,
+  body[data-page="home"] .chatItemTime,
+  body[data-page="home"] .callItemSub,
+  body[data-page="home"] .callItemTime,
+  body[data-page="home"] .sectionHeroSub,
+  body[data-page="home"] .infoPanelStatus,
+  body[data-page="home"] .infoPanelAbout {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .chatItem,
+  body[data-page="home"] .callItem {
+    border-radius: 1.45rem;
+    border: 1px solid transparent;
+  }
+
+  body[data-page="home"] .chatItem.active {
+    border-color: var(--ui-border-strong);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.16), rgba(6, 182, 212, 0.09));
+    box-shadow: 0 16px 34px rgba(99, 102, 241, 0.14);
+  }
+
+  body[data-page="home"] .badge,
+  body[data-page="home"] .sidebarDockBadge,
+  body[data-page="home"] .railBadge,
+  body[data-page="home"] .topbarNotifyBadge {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: linear-gradient(135deg, var(--ui-accent-strong), var(--ui-bubble-out-end));
+    color: #fff;
+    box-shadow: 0 10px 22px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .chat {
+    background:
+      radial-gradient(620px 280px at 14% 0%, rgba(99, 102, 241, 0.12), transparent 58%),
+      radial-gradient(520px 240px at 86% 0%, rgba(6, 182, 212, 0.08), transparent 48%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+      transparent;
+  }
+
+  body[data-page="home"] .chatHeader,
+  body[data-page="home"] .composer,
+  body[data-page="home"] .waSearchBar {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+      var(--ui-surface);
+    border-color: var(--ui-border);
+  }
+
+  body[data-page="home"] .bubble {
+    border: 1px solid var(--ui-border);
+    border-radius: 1.5rem;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+      var(--ui-bubble-in);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 14px 32px rgba(15, 23, 42, 0.12);
+  }
+
+  body[data-page="home"] .bubbleRow.me .bubble {
+    border-color: rgba(129, 140, 248, 0.18);
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    color: #fff;
+    box-shadow: 0 20px 34px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .bubbleHoverActions {
+    position: absolute;
+    top: -0.55rem;
+    right: 0.7rem;
+    display: inline-flex;
+    gap: 0.35rem;
+    opacity: 0;
+    transform: translateY(0.35rem);
+    transition: opacity 180ms ease, transform 180ms ease;
+    pointer-events: none;
+  }
+
+  body[data-page="home"] .bubble:hover .bubbleHoverActions,
+  body[data-page="home"] .bubble:focus-within .bubbleHoverActions,
+  body[data-page="home"] .bubble.selected .bubbleHoverActions {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  body[data-page="home"] .bubbleHoverBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 999px;
+    background: var(--ui-surface-strong);
+    color: var(--ui-text);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .waComposer {
+    align-items: flex-end;
+    border-radius: 1.55rem;
+  }
+
+  body[data-page="home"] .waTextarea {
+    width: 100%;
+    min-height: 2.75rem;
+    max-height: 8.5rem;
+    resize: none;
+    background: transparent;
+  }
+
+  body[data-page="home"] .infoPanelCard,
+  body[data-page="home"] .sectionHero,
+  body[data-page="home"] .sectionCard {
+    border-radius: 1.55rem;
+  }
+
+  body[data-page="home"] .infoPanelHeroMetric {
+    padding: 0.72rem 0.78rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.15rem;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  body[data-page="home"] .rail.railMobile {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    margin: 0 0.75rem calc(0.75rem + env(safe-area-inset-bottom));
+    padding: 0.45rem;
+    border-radius: 1.55rem;
+    box-shadow: var(--ui-shadow-ambient);
+  }
+
+  @media (max-width: 1100px) {
+    body[data-page="home"] .appBody {
+      grid-template-columns: 286px minmax(0, 1fr);
+    }
+
+    body[data-page="home"] .infoPanel {
+      display: none;
+    }
+  }
+
+  @media (max-width: 900px) {
+    body[data-page="home"] .app.appDesktopWindow,
+    body[data-page="home"] .app.appMobile {
+      padding: 0;
+      gap: 0;
+    }
+
+    body[data-page="home"] .appBody {
+      gap: 0;
+    }
+
+    body[data-page="home"] .sidebar,
+    body[data-page="home"] .chat,
+    body[data-page="home"] .infoPanel {
+      border-radius: 0;
+      border-left: 0;
+      border-right: 0;
+      box-shadow: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    body[data-page="home"] .messages {
+      padding-left: 0.85rem;
+      padding-right: 0.85rem;
+    }
+
+    body[data-page="home"] .bubble {
+      max-width: 88%;
+    }
+
+    body[data-page="home"] .infoPanelHeroMetrics {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@layer base {
+  body[data-page="home"] {
+    --ui-bg-top: #08111f;
+    --ui-bg-bottom: #0f172a;
+    --ui-surface: rgba(10, 15, 28, 0.78);
+    --ui-surface-strong: rgba(14, 21, 38, 0.94);
+    --ui-surface-soft: rgba(255, 255, 255, 0.08);
+    --ui-surface-hover: rgba(255, 255, 255, 0.12);
+    --ui-surface-glow: rgba(99, 102, 241, 0.2);
+    --ui-border: rgba(148, 163, 184, 0.14);
+    --ui-border-strong: rgba(129, 140, 248, 0.24);
+    --ui-text-strong: #f8fafc;
+    --ui-text: #dbe6f8;
+    --ui-muted: #93a6c4;
+    --ui-muted-soft: #64748b;
+    --ui-accent: #818cf8;
+    --ui-accent-strong: #6366f1;
+    --ui-accent-soft: rgba(99, 102, 241, 0.18);
+    --ui-accent-shadow: rgba(99, 102, 241, 0.26);
+    --ui-accent-cyan: #06b6d4;
+    --ui-accent-cyan-soft: rgba(6, 182, 212, 0.16);
+    --ui-success: #22c55e;
+    --ui-warning: #f59e0b;
+    --ui-shadow-soft: 0 18px 48px rgba(2, 6, 23, 0.24);
+    --ui-shadow-ambient: 0 28px 80px rgba(2, 6, 23, 0.34);
+    --ui-page-glow-a: rgba(99, 102, 241, 0.22);
+    --ui-page-glow-b: rgba(6, 182, 212, 0.14);
+    --ui-page-glow-c: rgba(244, 114, 182, 0.08);
+    --ui-chat-glow-a: rgba(99, 102, 241, 0.12);
+    --ui-chat-glow-b: rgba(6, 182, 212, 0.08);
+    --ui-bubble-in: rgba(17, 24, 39, 0.88);
+    --ui-bubble-out-start: #6366f1;
+    --ui-bubble-out-end: #06b6d4;
+    --ui-nav-bg: rgba(8, 12, 24, 0.82);
+    --ui-media-badge-bg: rgba(15, 23, 42, 0.72);
+    color-scheme: dark;
+    background-image:
+      radial-gradient(820px 420px at 0% 0%, var(--ui-page-glow-a), transparent 58%),
+      radial-gradient(720px 360px at 100% 0%, var(--ui-page-glow-b), transparent 46%),
+      radial-gradient(560px 320px at 50% 100%, var(--ui-page-glow-c), transparent 56%),
+      linear-gradient(180deg, var(--ui-bg-top) 0%, var(--ui-bg-bottom) 100%);
+  }
+
+  body[data-page="home"][data-theme="light"] {
+    --ui-bg-top: #f8fbff;
+    --ui-bg-bottom: #eef4ff;
+    --ui-surface: rgba(255, 255, 255, 0.74);
+    --ui-surface-strong: rgba(255, 255, 255, 0.92);
+    --ui-surface-soft: rgba(255, 255, 255, 0.74);
+    --ui-surface-hover: rgba(255, 255, 255, 0.96);
+    --ui-surface-glow: rgba(99, 102, 241, 0.1);
+    --ui-border: rgba(148, 163, 184, 0.2);
+    --ui-border-strong: rgba(99, 102, 241, 0.22);
+    --ui-text-strong: #0f172a;
+    --ui-text: #1e293b;
+    --ui-muted: #5f728d;
+    --ui-muted-soft: #8ca0bb;
+    --ui-accent: #4f46e5;
+    --ui-accent-strong: #4338ca;
+    --ui-accent-soft: rgba(99, 102, 241, 0.1);
+    --ui-accent-shadow: rgba(99, 102, 241, 0.16);
+    --ui-accent-cyan: #0891b2;
+    --ui-accent-cyan-soft: rgba(8, 145, 178, 0.12);
+    --ui-success: #16a34a;
+    --ui-warning: #d97706;
+    --ui-shadow-soft: 0 20px 46px rgba(148, 163, 184, 0.18);
+    --ui-shadow-ambient: 0 30px 80px rgba(148, 163, 184, 0.22);
+    --ui-page-glow-a: rgba(99, 102, 241, 0.1);
+    --ui-page-glow-b: rgba(6, 182, 212, 0.08);
+    --ui-page-glow-c: rgba(244, 114, 182, 0.05);
+    --ui-chat-glow-a: rgba(99, 102, 241, 0.07);
+    --ui-chat-glow-b: rgba(6, 182, 212, 0.05);
+    --ui-bubble-in: rgba(255, 255, 255, 0.96);
+    --ui-nav-bg: rgba(255, 255, 255, 0.88);
+    --ui-media-badge-bg: rgba(255, 255, 255, 0.86);
+    color-scheme: light;
+  }
+
+  body[data-page="home"][data-view="calls"] {
+    --ui-accent: #67e8f9;
+    --ui-accent-strong: #06b6d4;
+    --ui-accent-soft: rgba(6, 182, 212, 0.18);
+    --ui-accent-shadow: rgba(6, 182, 212, 0.22);
+    --ui-page-glow-a: rgba(6, 182, 212, 0.18);
+    --ui-page-glow-b: rgba(99, 102, 241, 0.14);
+    --ui-bubble-out-start: #06b6d4;
+    --ui-bubble-out-end: #6366f1;
+  }
+}
+
+@layer components {
+  body[data-page="home"] .homeRoot {
+    position: relative;
+    overflow: hidden;
+  }
+
+  body[data-page="home"] .homeRoot::before,
+  body[data-page="home"] .homeRoot::after {
+    content: "";
+    position: fixed;
+    inset: auto;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 999px;
+    filter: blur(90px);
+    opacity: 0.55;
+  }
+
+  body[data-page="home"] .homeRoot::before {
+    top: 3rem;
+    left: -7rem;
+    width: 18rem;
+    height: 18rem;
+    background: var(--ui-accent-soft);
+  }
+
+  body[data-page="home"] .homeRoot::after {
+    right: -6rem;
+    bottom: 7rem;
+    width: 20rem;
+    height: 20rem;
+    background: var(--ui-accent-cyan-soft);
+  }
+
+  body[data-page="home"] .app,
+  body[data-page="home"] .app.appDesktopWindow {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  body[data-page="home"] .app.appMobile {
+    padding: 0;
+    gap: 0;
+  }
+
+  body[data-page="home"] .appTopbar {
+    position: sticky;
+    top: 0.9rem;
+    z-index: 30;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.75rem;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+      var(--ui-surface);
+    box-shadow: var(--ui-shadow-soft);
+    backdrop-filter: blur(28px) saturate(1.14);
+  }
+
+  body[data-page="home"] .appBrand {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-width: 0;
+  }
+
+  body[data-page="home"] .appBrandGlow {
+    position: absolute;
+    left: 0.25rem;
+    top: 50%;
+    width: 3.3rem;
+    height: 3.3rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--ui-accent-soft), rgba(255, 255, 255, 0));
+    filter: blur(16px);
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  body[data-page="home"] .appBrandLogo {
+    position: relative;
+    width: 2.9rem;
+    height: 2.9rem;
+    padding: 0.6rem;
+    border-radius: 1rem;
+    border: 1px solid var(--ui-border);
+    background: linear-gradient(145deg, var(--ui-surface-strong), var(--ui-surface));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 14px 28px rgba(2, 6, 23, 0.22);
+  }
+
+  body[data-page="home"] .appBrandText {
+    display: flex;
+    flex-direction: column;
+    gap: 0.16rem;
+    min-width: 0;
+  }
+
+  body[data-page="home"] .appBrandEyebrow {
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .appBrandHeading {
+    align-items: center;
+  }
+
+  body[data-page="home"] .appBrandText strong {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .appBrandMetaRow {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-width: 0;
+  }
+
+  body[data-page="home"] .appBrandMetaRow > span:first-child {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .appBrandStatus,
+  body[data-page="home"] .appViewChip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 1.55rem;
+    padding: 0.12rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  body[data-page="home"] .appViewChip {
+    border: 1px solid var(--ui-border-strong);
+    background: linear-gradient(135deg, var(--ui-accent-soft), rgba(255, 255, 255, 0.02));
+    color: var(--ui-accent);
+  }
+
+  body[data-page="home"] .appBrandStatus {
+    border: 1px solid rgba(34, 197, 94, 0.14);
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--ui-success);
+  }
+
+  body[data-page="home"] .appTopbarSearch {
+    border: 1px solid var(--ui-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.02)),
+      var(--ui-surface-soft);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 12px 30px rgba(2, 6, 23, 0.12);
+    backdrop-filter: blur(24px) saturate(1.08);
+  }
+
+  body[data-page="home"] .appTopbarSearch:focus-within {
+    border-color: var(--ui-border-strong);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.09),
+      0 0 0 4px var(--ui-accent-soft),
+      0 18px 36px rgba(2, 6, 23, 0.14);
+    transform: translateY(-1px);
+  }
+
+  body[data-page="home"] .appTopbarSearchIcon,
+  body[data-page="home"] .appTopbarShortcut {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .appTopbarSearch input {
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .appTopbarSearch input::placeholder {
+    color: var(--ui-muted-soft);
+  }
+
+  body[data-page="home"] .appTopbarShortcut {
+    border: 1px solid var(--ui-border);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  body[data-page="home"] .appTopbarActions {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  body[data-page="home"] .topbarIconBtn {
+    color: var(--ui-text);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid transparent;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  body[data-page="home"] .topbarIconBtn:hover,
+  body[data-page="home"] .topbarIconBtn:focus-visible,
+  body[data-page="home"] .appProfileBtn:hover {
+    transform: translateY(-1px);
+    border-color: var(--ui-border-strong);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  body[data-page="home"] .topbarThemeBtn {
+    color: var(--ui-accent);
+    background: linear-gradient(135deg, var(--ui-accent-soft), rgba(255, 255, 255, 0.04));
+    border-color: rgba(99, 102, 241, 0.14);
+  }
+
+  body[data-page="home"] .topbarNotifyBadge,
+  body[data-page="home"] .sidebarDockBadge,
+  body[data-page="home"] .railBadge,
+  body[data-page="home"] .badge {
+    animation: aeroBadgePulse 2.8s ease-out infinite;
+  }
+
+  body[data-page="home"] .appProfileBtn {
+    border: 1px solid var(--ui-border);
+    background:
+      linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03)),
+      var(--ui-surface-soft);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  }
+
+  body[data-page="home"] .appProfileText strong {
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .appProfileText span {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .appBody {
+    gap: 1rem;
+    grid-template-columns: 320px minmax(0, 1fr) 316px;
+  }
+
+  body[data-page="home"] .sidebar,
+  body[data-page="home"] .chat,
+  body[data-page="home"] .infoPanel {
+    position: relative;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.9rem;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015)),
+      var(--ui-surface);
+    box-shadow: var(--ui-shadow-soft);
+    backdrop-filter: blur(28px) saturate(1.12);
+    overflow: hidden;
+  }
+
+  body[data-page="home"] .sidebar::before,
+  body[data-page="home"] .chat::before,
+  body[data-page="home"] .infoPanel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(520px 220px at 0% 0%, rgba(255, 255, 255, 0.06), transparent 48%),
+      radial-gradient(420px 180px at 100% 0%, var(--ui-chat-glow-a), transparent 46%);
+  }
+
+  body[data-page="home"] .sidebar > *,
+  body[data-page="home"] .chat > *,
+  body[data-page="home"] .infoPanel > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  body[data-page="home"] .sidebarUtilityCard.minimal {
+    padding: 1.1rem 1.2rem 0.6rem;
+  }
+
+  body[data-page="home"] .sidebarNewChatBtn {
+    justify-content: center;
+    min-height: 3rem;
+    border: 1px solid rgba(99, 102, 241, 0.18);
+    border-radius: 1.15rem;
+    background: linear-gradient(135deg, var(--ui-accent-strong), var(--ui-bubble-out-end));
+    color: #fff;
+    box-shadow: 0 18px 34px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .sidebarNewChatBtn:hover {
+    transform: translateY(-1px) scale(1.01);
+    box-shadow: 0 22px 40px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .sidebarSpotlight {
+    position: relative;
+    margin: 0 1.2rem 0.9rem;
+    padding: 1rem 1rem 1.05rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.45rem;
+    background:
+      linear-gradient(135deg, rgba(99, 102, 241, 0.14), rgba(6, 182, 212, 0.08)),
+      rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+  }
+
+  body[data-page="home"] .sidebarSpotlightGlow {
+    position: absolute;
+    inset: auto -1rem -2rem auto;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.24) 0%, transparent 72%);
+    filter: blur(14px);
+    pointer-events: none;
+  }
+
+  body[data-page="home"] .sidebarSpotlightEyebrow,
+  body[data-page="home"] .sectionCardEyebrow,
+  body[data-page="home"] .sectionHeroTag,
+  body[data-page="home"] .blankEyebrow {
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .sidebarSpotlightTitle {
+    margin-top: 0.45rem;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .sidebarSpotlightSub {
+    margin-top: 0.45rem;
+    color: var(--ui-muted);
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+
+  body[data-page="home"] .sidebarSpotlightMetrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 0.8rem;
+  }
+
+  body[data-page="home"] .sidebarSpotlightMetrics span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.8rem;
+    padding: 0.18rem 0.7rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ui-text);
+  }
+
+  body[data-page="home"] .sidebarSearch,
+  body[data-page="home"] .sidebarMetaRow {
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+  }
+
+  body[data-page="home"] .sidebarSearchField,
+  body[data-page="home"] .sidebarDock,
+  body[data-page="home"] .rail.railMobile,
+  body[data-page="home"] .waComposer,
+  body[data-page="home"] .sectionHero,
+  body[data-page="home"] .sectionCard,
+  body[data-page="home"] .infoPanelCard,
+  body[data-page="home"] .groupHubCard,
+  body[data-page="home"] .workspaceSidebarCard,
+  body[data-page="home"] .workspaceTipCard {
+    border: 1px solid var(--ui-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+      var(--ui-surface-soft);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .sidebarSearchField:focus-within {
+    border-color: var(--ui-border-strong);
+    box-shadow:
+      0 0 0 4px var(--ui-accent-soft),
+      var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .sidebarSearchField input,
+  body[data-page="home"] .sidebarTitle,
+  body[data-page="home"] .chatName,
+  body[data-page="home"] .chatItemName,
+  body[data-page="home"] .callItemTitle,
+  body[data-page="home"] .infoPanelName,
+  body[data-page="home"] .sectionHeroTitle,
+  body[data-page="home"] .sectionCard h3 {
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .sidebarList {
+    padding: 0 0.75rem 0.8rem;
+  }
+
+  body[data-page="home"] .chatItem,
+  body[data-page="home"] .callItem {
+    position: relative;
+    margin-bottom: 0.45rem;
+    border-radius: 1.45rem;
+    border: 1px solid transparent;
+    overflow: hidden;
+  }
+
+  body[data-page="home"] .chatItem::before,
+  body[data-page="home"] .callItem::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(6, 182, 212, 0.08));
+    transition: opacity 220ms ease;
+    pointer-events: none;
+  }
+
+  body[data-page="home"] .chatItem:hover,
+  body[data-page="home"] .callItem:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  body[data-page="home"] .chatItem:hover::before,
+  body[data-page="home"] .callItem:hover::before,
+  body[data-page="home"] .chatItem.active::before {
+    opacity: 1;
+  }
+
+  body[data-page="home"] .chatItem.active {
+    border-color: var(--ui-border-strong);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.16), rgba(6, 182, 212, 0.09));
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+      0 16px 34px rgba(99, 102, 241, 0.14);
+  }
+
+  body[data-page="home"] .chatItemMain,
+  body[data-page="home"] .callItemMain {
+    padding: 0.88rem 0.95rem;
+  }
+
+  body[data-page="home"] .chatItemSub,
+  body[data-page="home"] .callItemSub,
+  body[data-page="home"] .chatItemTime,
+  body[data-page="home"] .callItemTime,
+  body[data-page="home"] .chatSub,
+  body[data-page="home"] .sidebarMetaLabel,
+  body[data-page="home"] .sidebarMetaCount,
+  body[data-page="home"] .sectionHeroSub,
+  body[data-page="home"] .sectionHeaderMeta,
+  body[data-page="home"] .infoPanelStatus,
+  body[data-page="home"] .infoPanelAbout,
+  body[data-page="home"] .infoPanelRow span,
+  body[data-page="home"] .infoPanelLinkRow span,
+  body[data-page="home"] .profileSummaryRow span,
+  body[data-page="home"] .settingsRow small {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .badge,
+  body[data-page="home"] .sidebarDockBadge,
+  body[data-page="home"] .railBadge,
+  body[data-page="home"] .topbarNotifyBadge {
+    min-width: 1.35rem;
+    min-height: 1.35rem;
+    padding: 0 0.35rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: linear-gradient(135deg, var(--ui-accent-strong), var(--ui-bubble-out-end));
+    color: #fff;
+    box-shadow: 0 10px 22px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .sidebarDock {
+    margin: 0.65rem 1rem 1rem;
+    border-radius: 1.5rem;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  body[data-page="home"] .sidebarDockBtn,
+  body[data-page="home"] .rail.railMobile .railBtn {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .sidebarDockBtn.active,
+  body[data-page="home"] .rail.railMobile .railBtn.active {
+    color: var(--ui-text-strong);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.18), rgba(6, 182, 212, 0.1));
+  }
+
+  body[data-page="home"] .chat {
+    background:
+      radial-gradient(620px 280px at 14% 0%, var(--ui-chat-glow-a), transparent 58%),
+      radial-gradient(520px 240px at 86% 0%, var(--ui-chat-glow-b), transparent 48%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+      transparent;
+  }
+
+  body[data-page="home"] .chatHeader,
+  body[data-page="home"] .composer,
+  body[data-page="home"] .waSearchBar {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+      var(--ui-surface);
+    border-color: var(--ui-border);
+    backdrop-filter: blur(22px) saturate(1.08);
+  }
+
+  body[data-page="home"] .chatHeader {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    box-shadow: 0 10px 24px rgba(2, 6, 23, 0.08);
+  }
+
+  body[data-page="home"] .chatBackBtn,
+  body[data-page="home"] .waIconBtn,
+  body[data-page="home"] .iconBtn,
+  body[data-page="home"] .infoPanelClose {
+    color: var(--ui-text);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid transparent;
+  }
+
+  body[data-page="home"] .waIconBtn:hover,
+  body[data-page="home"] .iconBtn:hover,
+  body[data-page="home"] .chatBackBtn:hover {
+    transform: translateY(-1px);
+    border-color: var(--ui-border-strong);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  body[data-page="home"] .waSearchBar {
+    margin: 0.85rem 1.15rem 0;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.2rem;
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .waSearchBar input {
+    color: var(--ui-text-strong);
+    background: transparent;
+  }
+
+  body[data-page="home"] .messages {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    scroll-behavior: smooth;
+  }
+
+  body[data-page="home"] .bubbleRow {
+    padding-inline: 0.15rem;
+  }
+
+  body[data-page="home"] .bubble {
+    position: relative;
+    max-width: min(42rem, 78%);
+    padding: 0.82rem 0.95rem 0.68rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.5rem;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+      var(--ui-bubble-in);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 14px 32px rgba(15, 23, 42, 0.12);
+    overflow: visible;
+  }
+
+  body[data-page="home"] .bubbleRow.me .bubble {
+    border-color: rgba(129, 140, 248, 0.18);
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    color: #fff;
+    box-shadow: 0 20px 34px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .bubbleText {
+    line-height: 1.55;
+    word-break: break-word;
+  }
+
+  body[data-page="home"] .bubbleMeta {
+    margin-top: 0.45rem;
+    font-size: 0.72rem;
+    color: inherit;
+    opacity: 0.72;
+  }
+
+  body[data-page="home"] .bubbleRow:not(.me) .bubbleMeta,
+  body[data-page="home"] .bubbleRow:not(.me) .bubbleDeleted {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .bubbleSender {
+    margin-bottom: 0.3rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--ui-accent);
+  }
+
+  body[data-page="home"] .bubbleHoverActions {
+    position: absolute;
+    top: -0.55rem;
+    right: 0.7rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    opacity: 0;
+    transform: translateY(0.35rem);
+    transition: opacity 180ms ease, transform 180ms ease;
+    pointer-events: none;
+  }
+
+  body[data-page="home"] .bubble:hover .bubbleHoverActions,
+  body[data-page="home"] .bubble:focus-within .bubbleHoverActions,
+  body[data-page="home"] .bubble.selected .bubbleHoverActions {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  body[data-page="home"] .bubbleHoverBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 999px;
+    background: var(--ui-surface-strong);
+    color: var(--ui-text);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .bubbleHoverBtn:hover {
+    color: var(--ui-text-strong);
+    border-color: var(--ui-border-strong);
+  }
+
+  body[data-page="home"] .reactions {
+    margin-top: 0.52rem;
+    gap: 0.35rem;
+  }
+
+  body[data-page="home"] .reactionChip {
+    border: 1px solid var(--ui-border);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  body[data-page="home"] .voiceNote {
+    gap: 0.75rem;
+    padding: 0.6rem 0.7rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.2rem;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  body[data-page="home"] .voiceNoteBtn {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--ui-accent-strong), var(--ui-bubble-out-end));
+    color: #fff;
+    box-shadow: 0 12px 24px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .voiceNoteTrack {
+    height: 0.3rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  body[data-page="home"] .voiceNoteProg {
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--ui-accent-strong), var(--ui-bubble-out-end));
+  }
+
+  body[data-page="home"] .composer {
+    position: sticky;
+    bottom: 0;
+    z-index: 4;
+    background:
+      linear-gradient(180deg, rgba(15, 23, 42, 0), var(--ui-surface) 24%),
+      transparent;
+  }
+
+  body[data-page="home"] .waComposer {
+    align-items: flex-end;
+    border-radius: 1.55rem;
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .waInputWrap {
+    display: flex;
+    align-items: center;
+    min-height: 2.85rem;
+  }
+
+  body[data-page="home"] .waInput,
+  body[data-page="home"] .waTextarea {
+    width: 100%;
+    min-height: 2.75rem;
+    max-height: 8.5rem;
+    padding: 0.65rem 0;
+    border: 0;
+    background: transparent;
+    color: var(--ui-text-strong);
+    font: inherit;
+    line-height: 1.48;
+    resize: none;
+    outline: none;
+  }
+
+  body[data-page="home"] .waInput::placeholder,
+  body[data-page="home"] .waTextarea::placeholder {
+    color: var(--ui-muted-soft);
+  }
+
+  body[data-page="home"] .waTextarea::-webkit-scrollbar {
+    width: 0.35rem;
+  }
+
+  body[data-page="home"] .waTextarea::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.4);
+  }
+
+  body[data-page="home"] .waSendBtn {
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: linear-gradient(135deg, var(--ui-accent-strong), var(--ui-bubble-out-end));
+    color: #fff;
+    box-shadow: 0 16px 28px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .waSendBtn:hover {
+    transform: translateY(-1px) scale(1.02);
+  }
+
+  body[data-page="home"] .waSendBtn.recording {
+    background: linear-gradient(135deg, #ef4444, #f97316);
+  }
+
+  body[data-page="home"] .attachMenu,
+  body[data-page="home"] .emojiMenu,
+  body[data-page="home"] .waMenu,
+  body[data-page="home"] .sideMenu {
+    border: 1px solid var(--ui-border);
+    border-radius: 1.35rem;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+      var(--ui-surface-strong);
+    box-shadow: var(--ui-shadow-ambient);
+    backdrop-filter: blur(24px) saturate(1.08);
+  }
+
+  body[data-page="home"] .attachMenuBtn,
+  body[data-page="home"] .waMenuItem,
+  body[data-page="home"] .emojiBtn {
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  body[data-page="home"] .attachMenuBtn:hover,
+  body[data-page="home"] .waMenuItem:hover,
+  body[data-page="home"] .emojiBtn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-1px);
+  }
+
+  body[data-page="home"] .infoPanel {
+    padding: 0.95rem;
+  }
+
+  body[data-page="home"] .infoPanelCard {
+    border-radius: 1.55rem;
+    margin-bottom: 0.8rem;
+    padding: 1rem;
+  }
+
+  body[data-page="home"] .infoPanelIdentity.large .avatarWithPresence::before {
+    background: radial-gradient(circle, var(--ui-accent-soft) 0%, transparent 70%);
+  }
+
+  body[data-page="home"] .infoPanelHeroMetrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.55rem;
+    margin-top: 0.95rem;
+  }
+
+  body[data-page="home"] .infoPanelHeroMetrics.compact {
+    margin-bottom: 0.95rem;
+  }
+
+  body[data-page="home"] .infoPanelHeroMetric {
+    padding: 0.72rem 0.78rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.15rem;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  body[data-page="home"] .infoPanelHeroMetric span {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .infoPanelHeroMetric strong {
+    display: block;
+    margin-top: 0.28rem;
+    font-size: 0.9rem;
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .infoPanelAction,
+  body[data-page="home"] .sectionPrimaryAction,
+  body[data-page="home"] .sectionSecondaryAction,
+  body[data-page="home"] .groupsHeroAction,
+  body[data-page="home"] .floatingActionBtn {
+    border-radius: 1.1rem;
+    border: 1px solid var(--ui-border);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .infoPanelActionHero.toneAccent,
+  body[data-page="home"] .sectionPrimaryAction,
+  body[data-page="home"] .floatingActionBtn.primary {
+    background: linear-gradient(135deg, var(--ui-accent-strong), var(--ui-bubble-out-end));
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+
+  body[data-page="home"] .sectionSecondaryAction,
+  body[data-page="home"] .floatingActionBtn,
+  body[data-page="home"] .infoPanelAction:not(.toneAccent) {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--ui-text);
+  }
+
+  body[data-page="home"] .sectionWorkspace {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  body[data-page="home"] .sectionHero,
+  body[data-page="home"] .sectionCard {
+    position: relative;
+    overflow: hidden;
+  }
+
+  body[data-page="home"] .sectionHero::before,
+  body[data-page="home"] .sectionCard::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
+  }
+
+  body[data-page="home"] .sectionHeroTitle,
+  body[data-page="home"] .blankTitle.compact {
+    font-size: clamp(1.45rem, 2vw, 2.2rem);
+    line-height: 1.04;
+    letter-spacing: -0.04em;
+  }
+
+  body[data-page="home"] .sectionMetricCard {
+    border: 1px solid var(--ui-border);
+    border-radius: 1.3rem;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+      var(--ui-surface-soft);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .sectionMetricCard strong,
+  body[data-page="home"] .profileSummaryRow strong,
+  body[data-page="home"] .communityHighlightItem strong,
+  body[data-page="home"] .settingsRow strong,
+  body[data-page="home"] .settingsAccountSummary strong {
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .sectionMetricCard span {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .floatingActionDock {
+    position: sticky;
+    bottom: 0.6rem;
+    z-index: 3;
+    padding-top: 0.35rem;
+    backdrop-filter: blur(6px);
+  }
+
+  body[data-page="home"] .callsHistoryRow,
+  body[data-page="home"] .communityActivityItem,
+  body[data-page="home"] .communityMediaTile,
+  body[data-page="home"] .profileGalleryTile,
+  body[data-page="home"] .settingsVisualOption,
+  body[data-page="home"] .settingsRow,
+  body[data-page="home"] .workspaceNavBtn {
+    border: 1px solid var(--ui-border);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  body[data-page="home"] .settingsVisualOption.active,
+  body[data-page="home"] .settingsSegmentBtn.active,
+  body[data-page="home"] .workspaceNavBtn.active {
+    border-color: var(--ui-border-strong);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.16), rgba(6, 182, 212, 0.08));
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .rail.railMobile {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    justify-content: space-between;
+    margin: 0 0.75rem calc(0.75rem + env(safe-area-inset-bottom));
+    padding: 0.45rem;
+    border-radius: 1.55rem;
+    backdrop-filter: blur(30px) saturate(1.12);
+    box-shadow: var(--ui-shadow-ambient);
+  }
+
+  body[data-page="home"] .rail.railMobile .railBtn {
+    min-height: 3.2rem;
+    border-radius: 1.15rem;
+  }
+
+  body[data-page="home"] .rail.railMobile .railLabel {
+    color: currentColor;
+  }
+
+  body[data-page="home"] .blankShell,
+  body[data-page="home"] .callsBlankShell {
+    border: 1px solid var(--ui-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+      var(--ui-surface);
+    box-shadow: var(--ui-shadow-ambient);
+    backdrop-filter: blur(28px) saturate(1.08);
+  }
+
+  body[data-page="home"] .blankLogoWrap,
+  body[data-page="home"] .callsBlankIcon {
+    background: linear-gradient(135deg, var(--ui-accent-soft), rgba(255, 255, 255, 0.06));
+    box-shadow: 0 22px 36px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .settingsToggle.active,
+  body[data-page="home"] .infoPanelSwitch.active {
+    background: linear-gradient(135deg, var(--ui-accent-strong), var(--ui-bubble-out-end));
+  }
+
+  @media (max-width: 1100px) {
+    body[data-page="home"] .appBody {
+      grid-template-columns: 286px minmax(0, 1fr);
+    }
+
+    body[data-page="home"] .infoPanel {
+      display: none;
+    }
+  }
+
+  @media (max-width: 900px) {
+    body[data-page="home"] .app.appDesktopWindow,
+    body[data-page="home"] .app.appMobile {
+      padding: 0;
+      gap: 0;
+    }
+
+    body[data-page="home"] .appBody {
+      gap: 0;
+    }
+
+    body[data-page="home"] .sidebar,
+    body[data-page="home"] .chat,
+    body[data-page="home"] .infoPanel {
+      border-radius: 0;
+      border-left: 0;
+      border-right: 0;
+      box-shadow: none;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)),
+        transparent;
+    }
+
+    body[data-page="home"] .sidebarSpotlight {
+      margin-inline: 0.9rem;
+    }
+
+    body[data-page="home"] .chatHeader,
+    body[data-page="home"] .composer {
+      border-left: 0;
+      border-right: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    body[data-page="home"] .appTopbar {
+      top: 0.6rem;
+      margin: 0 0.75rem;
+      border-radius: 1.35rem;
+      padding-left: 0.95rem;
+      padding-right: 0.95rem;
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    body[data-page="home"] .appTopbarSearch {
+      grid-column: 1 / -1;
+      order: 3;
+      min-height: 2.75rem;
+    }
+
+    body[data-page="home"] .appBrandMetaRow {
+      flex-wrap: wrap;
+    }
+
+    body[data-page="home"] .messages {
+      padding-left: 0.85rem;
+      padding-right: 0.85rem;
+    }
+
+    body[data-page="home"] .bubble {
+      max-width: 88%;
+    }
+
+    body[data-page="home"] .infoPanelHeroMetrics {
+      grid-template-columns: 1fr;
+    }
+
+    body[data-page="home"] .sectionWorkspace {
+      padding: 0.85rem;
+    }
+  }
+}
+
+@keyframes aeroBadgePulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 10px 22px var(--ui-accent-shadow);
+  }
+
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 14px 28px var(--ui-accent-shadow);
+  }
+}
+
+@layer base {
+  body[data-page="home"] {
+    color-scheme: dark;
+    --ui-bg-top: #050b17;
+    --ui-bg-bottom: #0f172a;
+    --ui-surface: rgba(10, 18, 35, 0.72);
+    --ui-surface-strong: rgba(8, 15, 32, 0.84);
+    --ui-surface-soft: rgba(255, 255, 255, 0.06);
+    --ui-surface-hover: rgba(255, 255, 255, 0.1);
+    --ui-border: rgba(148, 163, 184, 0.16);
+    --ui-border-strong: rgba(148, 163, 184, 0.28);
+    --ui-text-strong: #f8fafc;
+    --ui-text: #d9e4f3;
+    --ui-muted: #8b9bb3;
+    --ui-muted-soft: #67768e;
+    --ui-accent: #60a5fa;
+    --ui-accent-strong: #2563eb;
+    --ui-accent-soft: rgba(37, 99, 235, 0.16);
+    --ui-accent-shadow: rgba(37, 99, 235, 0.24);
+    --ui-success: #34d399;
+    --ui-shadow-soft: 0 16px 30px rgba(2, 6, 23, 0.18);
+    --ui-shadow-ambient: 0 26px 54px rgba(2, 6, 23, 0.24);
+    --ui-page-glow-a: rgba(37, 99, 235, 0.24);
+    --ui-page-glow-b: rgba(56, 189, 248, 0.14);
+    --ui-page-glow-c: rgba(244, 114, 182, 0.07);
+    --ui-chat-glow-a: rgba(37, 99, 235, 0.12);
+    --ui-chat-glow-b: rgba(255, 255, 255, 0.05);
+    --ui-bubble-in: rgba(15, 23, 42, 0.9);
+    --ui-bubble-out-start: #2563eb;
+    --ui-bubble-out-end: #1d4ed8;
+    --ui-nav-bg: rgba(8, 15, 30, 0.82);
+    --ui-hero-sub: rgba(255, 255, 255, 0.76);
+    --ui-media-badge-bg: rgba(15, 23, 42, 0.72);
+    background-image:
+      radial-gradient(880px 480px at 0% 0%, var(--ui-page-glow-a), transparent 56%),
+      radial-gradient(720px 420px at 100% 0%, var(--ui-page-glow-b), transparent 46%),
+      radial-gradient(520px 280px at 50% 100%, var(--ui-page-glow-c), transparent 58%),
+      linear-gradient(180deg, var(--ui-bg-top) 0%, var(--ui-bg-bottom) 58%, #111827 100%);
+  }
+
+  body[data-page="home"][data-view="calls"] {
+    --ui-accent: #67e8f9;
+    --ui-accent-strong: #0891b2;
+    --ui-accent-soft: rgba(34, 211, 238, 0.16);
+    --ui-accent-shadow: rgba(8, 145, 178, 0.22);
+    --ui-page-glow-a: rgba(34, 211, 238, 0.18);
+    --ui-page-glow-b: rgba(59, 130, 246, 0.14);
+    --ui-chat-glow-a: rgba(34, 211, 238, 0.12);
+    --ui-bubble-out-start: #0ea5e9;
+    --ui-bubble-out-end: #0891b2;
+  }
+
+  body[data-page="home"][data-theme="light"] {
+    color-scheme: light;
+    --ui-bg-top: #f8fbff;
+    --ui-bg-bottom: #edf4ff;
+    --ui-surface: rgba(255, 255, 255, 0.7);
+    --ui-surface-strong: rgba(255, 255, 255, 0.9);
+    --ui-surface-soft: rgba(255, 255, 255, 0.7);
+    --ui-surface-hover: rgba(255, 255, 255, 0.92);
+    --ui-border: rgba(148, 163, 184, 0.18);
+    --ui-border-strong: rgba(148, 163, 184, 0.3);
+    --ui-text-strong: #0f172a;
+    --ui-text: #1e293b;
+    --ui-muted: #607086;
+    --ui-muted-soft: #8290a3;
+    --ui-accent: #2563eb;
+    --ui-accent-strong: #1d4ed8;
+    --ui-accent-soft: rgba(37, 99, 235, 0.1);
+    --ui-accent-shadow: rgba(37, 99, 235, 0.14);
+    --ui-success: #10b981;
+    --ui-shadow-soft: 0 16px 30px rgba(148, 163, 184, 0.12);
+    --ui-shadow-ambient: 0 24px 48px rgba(148, 163, 184, 0.15);
+    --ui-page-glow-a: rgba(37, 99, 235, 0.1);
+    --ui-page-glow-b: rgba(56, 189, 248, 0.08);
+    --ui-page-glow-c: rgba(244, 114, 182, 0.04);
+    --ui-chat-glow-a: rgba(37, 99, 235, 0.08);
+    --ui-chat-glow-b: rgba(37, 99, 235, 0.035);
+    --ui-bubble-in: rgba(255, 255, 255, 0.92);
+    --ui-nav-bg: rgba(255, 255, 255, 0.84);
+    --ui-hero-sub: rgba(15, 23, 42, 0.72);
+    --ui-media-badge-bg: rgba(255, 255, 255, 0.82);
+  }
+
+  body[data-page="home"][data-theme="light"][data-view="calls"] {
+    --ui-accent: #0891b2;
+    --ui-accent-strong: #0f766e;
+    --ui-accent-soft: rgba(8, 145, 178, 0.1);
+    --ui-accent-shadow: rgba(15, 118, 110, 0.12);
+    --ui-page-glow-a: rgba(8, 145, 178, 0.08);
+    --ui-page-glow-b: rgba(37, 99, 235, 0.08);
+    --ui-bubble-out-start: #06b6d4;
+    --ui-bubble-out-end: #0f766e;
+  }
+}
+
+@layer components {
+  body[data-page="home"],
+  body[data-page="home"] .app,
+  body[data-page="home"] .appTopbar,
+  body[data-page="home"] .appTopbarSearch,
+  body[data-page="home"] .topbarIconBtn,
+  body[data-page="home"] .appProfileBtn,
+  body[data-page="home"] .sidebar,
+  body[data-page="home"] .chat,
+  body[data-page="home"] .infoPanel,
+  body[data-page="home"] .sidebarSearchField,
+  body[data-page="home"] .chatItem,
+  body[data-page="home"] .callItem,
+  body[data-page="home"] .groupHubCard,
+  body[data-page="home"] .chatHeader,
+  body[data-page="home"] .composer,
+  body[data-page="home"] .waComposer,
+  body[data-page="home"] .bubble,
+  body[data-page="home"] .sidebarDock,
+  body[data-page="home"] .sidebarDockBtn,
+  body[data-page="home"] .rail.railMobile,
+  body[data-page="home"] .rail.railMobile .railBtn,
+  body[data-page="home"] .sectionHero,
+  body[data-page="home"] .sectionCard,
+  body[data-page="home"] .groupsHeroCard,
+  body[data-page="home"] .workspaceSidebarCard,
+  body[data-page="home"] .workspaceTipCard,
+  body[data-page="home"] .sectionMetricCard,
+  body[data-page="home"] .groupsOverviewCard,
+  body[data-page="home"] .communityActivityItem,
+  body[data-page="home"] .callsHistoryRow,
+  body[data-page="home"] .communityMediaTile,
+  body[data-page="home"] .profileGalleryTile,
+  body[data-page="home"] .settingsVisualOption,
+  body[data-page="home"] .workspaceNavBtn,
+  body[data-page="home"] .settingsRow,
+  body[data-page="home"] .profileSummaryRow,
+  body[data-page="home"] .settingsAccountSummary,
+  body[data-page="home"] .sectionPrimaryAction,
+  body[data-page="home"] .sectionSecondaryAction,
+  body[data-page="home"] .groupsHeroAction,
+  body[data-page="home"] .floatingActionBtn,
+  body[data-page="home"] .settingsToggle,
+  body[data-page="home"] .settingsSegmentBtn,
+  body[data-page="home"] .pill,
+  body[data-page="home"] .infoPanelSwitch,
+  body[data-page="home"] .modal,
+  body[data-page="home"] .settingsModal,
+  body[data-page="home"] .attachMenu,
+  body[data-page="home"] .emojiMenu,
+  body[data-page="home"] .waMenu,
+  body[data-page="home"] .sideMenu {
+    transition-property: color, background-color, background-image, border-color, box-shadow, opacity, filter, transform;
+    transition-duration: 240ms;
+    transition-timing-function: ease;
+  }
+
+  body[data-page="home"][data-reduce-motion="1"],
+  body[data-page="home"][data-reduce-motion="1"] * {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+
+  body[data-page="home"] .appTopbar,
+  body[data-page="home"] .app.appDesktopWindow .appTopbar {
+    min-height: 4.4rem;
+    padding: 0.95rem 1.25rem;
+    grid-template-columns: auto minmax(18rem, 1fr) auto;
+    gap: 1rem;
+  }
+
+  body[data-page="home"] .appTopbarSearch {
+    min-height: 2.9rem;
+    border-radius: 1.15rem;
+    padding: 0 1rem;
+  }
+
+  body[data-page="home"] .appProfileBtn {
+    min-height: 2.8rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 1.1rem;
+  }
+
+  body[data-page="home"] .topbarIconBtn,
+  body[data-page="home"] .waIconBtn.headerAction,
+  body[data-page="home"] .waMenuWrap .waIconBtn,
+  body[data-page="home"] .iconBtn,
+  body[data-page="home"] .chatBackBtn {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.95rem;
+  }
+
+  body[data-page="home"] .sidebar,
+  body[data-page="home"] .infoPanel {
+    backdrop-filter: blur(22px) saturate(1.1);
+  }
+
+  body[data-page="home"] .sidebarSearchField,
+  body[data-page="home"] .waComposer,
+  body[data-page="home"] .sectionHero,
+  body[data-page="home"] .sectionCard,
+  body[data-page="home"] .groupsHeroCard,
+  body[data-page="home"] .workspaceSidebarCard,
+  body[data-page="home"] .workspaceTipCard,
+  body[data-page="home"] .groupHubCard,
+  body[data-page="home"] .communityMediaTile,
+  body[data-page="home"] .profileGalleryTile,
+  body[data-page="home"] .settingsVisualOption {
+    border-radius: 1.25rem;
+  }
+
+  body[data-page="home"] .chatHeader {
+    min-height: 4rem;
+    padding: 0 1.15rem;
+  }
+
+  body[data-page="home"] .messages {
+    padding: 1rem 1.15rem 1.2rem;
+  }
+
+  body[data-page="home"] .composer {
+    padding: 0.8rem 1.15rem calc(0.9rem + env(safe-area-inset-bottom));
+  }
+
+  body[data-page="home"] .waComposer {
+    gap: 0.55rem;
+    padding: 0.45rem 0.55rem;
+    border-radius: 1.25rem;
+  }
+
+  body[data-page="home"] .waInput {
+    min-height: 2.6rem;
+  }
+
+  body[data-page="home"] .waSendBtn {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+
+  body[data-page="home"] .sidebarDock {
+    padding: 0.5rem 0.85rem 0.65rem;
+  }
+
+  body[data-page="home"] .sidebarDockBtn {
+    padding: 0.5rem 0.25rem 0.4rem;
+    border-radius: 0.95rem;
+  }
+
+  body[data-page="home"] .rail.railMobile {
+    margin: 0 0.75rem calc(0.75rem + env(safe-area-inset-bottom));
+    padding: 0.4rem;
+    border-radius: 1.35rem;
+  }
+
+  body[data-page="home"] .rail.railMobile .railBtn {
+    min-width: 0;
+    padding: 0.45rem 0.35rem;
+    border-radius: 1rem;
+  }
+
+  body[data-page="home"] .sectionWorkspace {
+    gap: 1rem;
+    padding: 1.2rem;
+  }
+
+  body[data-page="home"] .sectionHero {
+    min-height: 15rem;
+    padding: 1.25rem;
+  }
+
+  body[data-page="home"] .sectionCard,
+  body[data-page="home"] .groupsHeroCard,
+  body[data-page="home"] .workspaceSidebarCard,
+  body[data-page="home"] .workspaceTipCard {
+    padding: 1rem;
+  }
+
+  body[data-page="home"] .sectionHeroSub {
+    color: var(--ui-hero-sub);
+  }
+
+  body[data-page="home"] .infoPanelMediaBadge {
+    background: var(--ui-media-badge-bg);
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .settingsToggle span,
+  body[data-page="home"] .infoPanelSwitch span {
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
+  }
+
+  @media (max-width: 900px) {
+    body[data-page="home"] .appTopbar,
+    body[data-page="home"] .app.appDesktopWindow .appTopbar {
+      padding: 0.9rem 1rem;
+    }
+
+    body[data-page="home"] .sectionWorkspace {
+      padding: 0.9rem;
+    }
+
+    body[data-page="home"] .chatHeader {
+      padding-left: 0.9rem;
+      padding-right: 0.9rem;
+    }
+
+    body[data-page="home"] .messages,
+    body[data-page="home"] .composer,
+    body[data-page="home"] .sidebarSearch {
+      padding-left: 0.85rem;
+      padding-right: 0.85rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    body[data-page="home"] .sectionWorkspace {
+      padding: 0.8rem;
+      gap: 0.8rem;
+    }
+
+    body[data-page="home"] .sectionHero {
+      min-height: auto;
+      padding: 1rem;
+    }
+
+    body[data-page="home"] .rail.railMobile {
+      margin: 0 0.65rem calc(0.65rem + env(safe-area-inset-bottom));
+      padding: 0.35rem;
+    }
+
+    body[data-page="home"] .rail.railMobile .railBtn {
+      padding: 0.42rem 0.2rem;
+    }
+  }
+}
+
+@layer components {
+  body[data-page="home"] .app,
+  body[data-page="home"] .app.appDesktopWindow,
+  body[data-page="home"] .app.appMobile {
+    color: var(--ui-text);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0) 16%),
+      transparent;
+  }
+
+  body[data-page="home"] .appTopbar,
+  body[data-page="home"] .app.appDesktopWindow .appTopbar,
+  body[data-page="home"] .chatHeader,
+  body[data-page="home"] .composer,
+  body[data-page="home"] .sidebar,
+  body[data-page="home"] .infoPanel {
+    border-color: var(--ui-border);
+  }
+
+  body[data-page="home"] .appTopbar,
+  body[data-page="home"] .app.appDesktopWindow .appTopbar {
+    background: var(--ui-surface);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .appBrandText {
+    gap: 0.2rem;
+  }
+
+  body[data-page="home"] .appBrandHeading {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-width: 0;
+  }
+
+  body[data-page="home"] .appBrandLogo {
+    background: var(--ui-surface-strong);
+    border-color: var(--ui-border);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .appViewChip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 1.5rem;
+    padding: 0.1rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid var(--ui-border);
+    background: var(--ui-accent-soft);
+    color: var(--ui-accent-strong);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  body[data-page="home"] .appBrandText strong,
+  body[data-page="home"] .sidebarTitle,
+  body[data-page="home"] .chatName,
+  body[data-page="home"] .chatItemName,
+  body[data-page="home"] .callItemTitle,
+  body[data-page="home"] .blankTitle,
+  body[data-page="home"] .callsBlankTitle,
+  body[data-page="home"] .infoPanelName,
+  body[data-page="home"] .infoPanelMediaText strong,
+  body[data-page="home"] .infoPanelMediaMeta strong,
+  body[data-page="home"] .infoPanelToggleTitle,
+  body[data-page="home"] .infoPanelActionLabel {
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .appBrandText > span,
+  body[data-page="home"] .appProfileText span,
+  body[data-page="home"] .chatSub,
+  body[data-page="home"] .chatItemSub,
+  body[data-page="home"] .chatItemTime,
+  body[data-page="home"] .callItemSub,
+  body[data-page="home"] .callItemTime,
+  body[data-page="home"] .callItemDur,
+  body[data-page="home"] .blankSub,
+  body[data-page="home"] .callsBlankSub,
+  body[data-page="home"] .small,
+  body[data-page="home"] .sidebarMetaLabel,
+  body[data-page="home"] .sidebarMetaCount,
+  body[data-page="home"] .sidebarOffline,
+  body[data-page="home"] .appTopbarShortcut,
+  body[data-page="home"] .infoPanelAbout,
+  body[data-page="home"] .infoPanelStatus,
+  body[data-page="home"] .infoPanelRow span,
+  body[data-page="home"] .infoPanelRow strong,
+  body[data-page="home"] .infoPanelLinkRow span,
+  body[data-page="home"] .infoPanelLinkRow strong,
+  body[data-page="home"] .infoPanelToggleSub,
+  body[data-page="home"] .infoPanelMediaMeta span,
+  body[data-page="home"] .infoPanelMediaText small,
+  body[data-page="home"] .infoPanelMediaEmpty,
+  body[data-page="home"] .empty {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .appTopbarSearch,
+  body[data-page="home"] .appProfileBtn,
+  body[data-page="home"] .sidebarSearchField,
+  body[data-page="home"] .sidebarNewChatBtn,
+  body[data-page="home"] .waComposer,
+  body[data-page="home"] .infoPanelAction,
+  body[data-page="home"] .infoPanelActionHero,
+  body[data-page="home"] .infoPanelMediaCard,
+  body[data-page="home"] .modal,
+  body[data-page="home"] .settingsModal,
+  body[data-page="home"] .attachMenu,
+  body[data-page="home"] .emojiMenu,
+  body[data-page="home"] .sideMenu,
+  body[data-page="home"] .waMenu,
+  body[data-page="home"] .blankCard,
+  body[data-page="home"] .blankShell,
+  body[data-page="home"] .callsBlankShell,
+  body[data-page="home"] .sidebarDock,
+  body[data-page="home"] .rail.railMobile {
+    background: var(--ui-surface-soft);
+    border-color: var(--ui-border);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .appTopbarSearch,
+  body[data-page="home"] .sidebarSearchField,
+  body[data-page="home"] .waComposer,
+  body[data-page="home"] .blankShell,
+  body[data-page="home"] .callsBlankShell {
+    background:
+      linear-gradient(180deg, var(--ui-surface-soft), rgba(255, 255, 255, 0.02)),
+      transparent;
+  }
+
+  body[data-page="home"] .appTopbarSearch:focus-within,
+  body[data-page="home"] .sidebarSearchField:focus-within {
+    border-color: var(--ui-border-strong);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 0 0 4px var(--ui-accent-soft),
+      var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .appTopbarSearchIcon,
+  body[data-page="home"] .sidebarSearchIcon,
+  body[data-page="home"] .infoPanelActionGlyph,
+  body[data-page="home"] .callMediaIcon,
+  body[data-page="home"] .blankIcon,
+  body[data-page="home"] .blankBadge,
+  body[data-page="home"] .blankEyebrow {
+    color: var(--ui-accent-strong);
+  }
+
+  body[data-page="home"] .appTopbarSearch input,
+  body[data-page="home"] .sidebarSearchField input,
+  body[data-page="home"] .waInput {
+    color: var(--ui-text);
+  }
+
+  body[data-page="home"] .appTopbarSearch input::placeholder,
+  body[data-page="home"] .sidebarSearchField input::placeholder,
+  body[data-page="home"] .waInput::placeholder {
+    color: var(--ui-muted-soft);
+  }
+
+  body[data-page="home"] .topbarIconBtn,
+  body[data-page="home"] .appProfileBtn,
+  body[data-page="home"] .waIconBtn,
+  body[data-page="home"] .iconBtn,
+  body[data-page="home"] .infoPanelClose,
+  body[data-page="home"] .chatBackBtn,
+  body[data-page="home"] .sidebarDockBtn,
+  body[data-page="home"] .rail.railMobile .railBtn {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .topbarIconBtn:hover,
+  body[data-page="home"] .appProfileBtn:hover,
+  body[data-page="home"] .waIconBtn:hover,
+  body[data-page="home"] .iconBtn:hover,
+  body[data-page="home"] .infoPanelClose:hover,
+  body[data-page="home"] .chatBackBtn:hover,
+  body[data-page="home"] .sidebarDockBtn:hover,
+  body[data-page="home"] .rail.railMobile .railBtn:hover,
+  body[data-page="home"] .blankCard:hover,
+  body[data-page="home"] .infoPanelAction:hover,
+  body[data-page="home"] .infoPanelActionHero:hover,
+  body[data-page="home"] .infoPanelMediaCard:hover {
+    background: var(--ui-surface-hover);
+    border-color: var(--ui-border-strong);
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .sidebar,
+  body[data-page="home"] .infoPanel {
+    background:
+      linear-gradient(180deg, var(--ui-surface-strong), rgba(255, 255, 255, 0.02)),
+      transparent;
+  }
+
+  body[data-page="home"] .chat::before {
+    background:
+      radial-gradient(620px 320px at 16% 0%, var(--ui-chat-glow-a), transparent 60%),
+      radial-gradient(460px 260px at 82% 8%, var(--ui-chat-glow-b), transparent 52%),
+      linear-gradient(180deg, rgba(15, 23, 42, 0.18) 0%, rgba(15, 23, 42, 0.04) 100%);
+  }
+
+  body[data-page="home"][data-theme="light"] .chat::before {
+    background:
+      radial-gradient(620px 320px at 16% 0%, var(--ui-chat-glow-a), transparent 60%),
+      radial-gradient(460px 260px at 82% 8%, var(--ui-chat-glow-b), transparent 52%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.02) 100%);
+  }
+
+  body[data-page="home"] .messages {
+    background:
+      radial-gradient(720px 340px at 12% 0%, var(--ui-chat-glow-a), transparent 56%),
+      radial-gradient(520px 280px at 88% 10%, var(--ui-chat-glow-b), transparent 52%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+      linear-gradient(180deg, rgba(2, 6, 23, 0.02), rgba(2, 6, 23, 0.02));
+  }
+
+  body[data-page="home"] .chatItem,
+  body[data-page="home"] .callItem {
+    position: relative;
+    overflow: hidden;
+    border-color: transparent;
+  }
+
+  body[data-page="home"] .chatItem::before,
+  body[data-page="home"] .callItem::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    border-radius: 999px;
+    background: transparent;
+    transition: background 180ms ease, box-shadow 180ms ease;
+  }
+
+  body[data-page="home"] .chatItem:hover,
+  body[data-page="home"] .callItem:hover {
+    background: var(--ui-surface-soft);
+    transform: translateX(2px);
+  }
+
+  body[data-page="home"] .chatItem.active {
+    background: linear-gradient(135deg, var(--ui-accent-soft), rgba(255, 255, 255, 0.02));
+    border-color: var(--ui-border);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  }
+
+  body[data-page="home"] .chatItem.active::before {
+    background: var(--ui-accent-strong);
+    box-shadow: 0 0 18px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .badge,
+  body[data-page="home"] .railBadge,
+  body[data-page="home"] .sidebarDockBadge,
+  body[data-page="home"] .topbarNotifyBadge {
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    box-shadow: 0 8px 18px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .sidebarDockBtn.active,
+  body[data-page="home"] .rail.railMobile .railBtn.active,
+  body[data-page="home"] .pill.active {
+    background: var(--ui-accent-soft);
+    color: var(--ui-accent-strong);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  }
+
+  body[data-page="home"] .sidebarDock,
+  body[data-page="home"] .rail.railMobile {
+    background: var(--ui-nav-bg);
+  }
+
+  body[data-page="home"] .rail.railMobile {
+    margin: 0 0.75rem calc(0.75rem + env(safe-area-inset-bottom));
+    padding: 0.4rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.4rem;
+    backdrop-filter: blur(26px) saturate(1.3);
+  }
+
+  body[data-page="home"] .rail.railMobile .railBtn {
+    min-width: 0;
+    flex: 1 1 0;
+    gap: 0.18rem;
+    padding: 0.45rem 0.35rem;
+    border-radius: 1rem;
+  }
+
+  body[data-page="home"] .rail.railMobile .railLabel,
+  body[data-page="home"] .sidebarDockLabel {
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+
+  body[data-page="home"] .rail.railMobile .railLabel {
+    font-size: 0.58rem;
+  }
+
+  body[data-page="home"] .chatHeader,
+  body[data-page="home"] .composer {
+    background: var(--ui-surface);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .bubble {
+    background: var(--ui-bubble-in);
+    border-color: var(--ui-border);
+    color: var(--ui-text);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .bubbleRow.me .bubble {
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    box-shadow: 0 12px 26px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .bubbleSender {
+    color: var(--ui-accent);
+  }
+
+  body[data-page="home"] .bubbleMeta {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .typingBubble,
+  body[data-page="home"] .attachFile {
+    background: var(--ui-surface-soft);
+    border-color: var(--ui-border);
+  }
+
+  body[data-page="home"] .waSendBtn {
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    box-shadow: 0 10px 20px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .blankShell,
+  body[data-page="home"] .callsBlankShell {
+    width: min(31rem, 100%);
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    text-align: center;
+  }
+
+  body[data-page="home"] .blankLogoWrap,
+  body[data-page="home"] .callsBlankIcon {
+    background: var(--ui-accent-soft);
+    color: var(--ui-accent-strong);
+    box-shadow: 0 16px 34px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .infoPanelIdentity.large .avatarWithPresence,
+  body[data-page="home"] .infoPanelIdentity .avatarWithPresence,
+  body[data-page="home"] .chatHeader .avatarWithPresence {
+    position: relative;
+    isolation: isolate;
+  }
+
+  body[data-page="home"] .infoPanelIdentity.large .avatarWithPresence::before {
+    content: "";
+    position: absolute;
+    inset: -0.9rem;
+    border-radius: 999px;
+    background: radial-gradient(circle, var(--ui-accent-soft) 0%, transparent 70%);
+    filter: blur(18px);
+    z-index: -1;
+  }
+
+  body[data-page="home"] .infoPanelStatus.online,
+  body[data-page="home"] .chatSub.online {
+    color: var(--ui-success);
+  }
+
+  body[data-page="home"] .infoPanelStatus.online::before {
+    content: "";
+    display: inline-block;
+    width: 0.45rem;
+    height: 0.45rem;
+    margin-right: 0.45rem;
+    border-radius: 999px;
+    background: currentColor;
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.34);
+    animation: homePresencePulse 2.8s ease-out infinite;
+    vertical-align: middle;
+  }
+
+  body[data-page="home"] .presenceDot.online,
+  body[data-page="home"] .avatarWithPresence::after {
+    background: var(--ui-success);
+    animation: homePresencePulse 2.8s ease-out infinite;
+  }
+
+  body[data-page="home"] .avatarWithPresence::after {
+    border-color: rgba(15, 23, 42, 0.9);
+  }
+
+  body[data-page="home"][data-theme="light"] .avatarWithPresence::after {
+    border-color: rgba(255, 255, 255, 0.92);
+  }
+
+  body[data-page="home"] .infoPanelMediaBadge {
+    background: rgba(15, 23, 42, 0.7);
+  }
+
+  body[data-page="home"][data-theme="light"] .infoPanelMediaBadge {
+    background: rgba(255, 255, 255, 0.76);
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .infoPanelSwitch {
+    background: var(--ui-surface-soft);
+    border-color: var(--ui-border);
+  }
+
+  body[data-page="home"] .infoPanelSwitch.active {
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    border-color: transparent;
+  }
+
+  body[data-page="home"] .menuItemIcon,
+  body[data-page="home"] .pill {
+    background: var(--ui-surface-soft);
+    border-color: var(--ui-border);
+    color: var(--ui-muted);
+  }
+
+  @media (max-width: 900px) {
+    body[data-page="home"] .sidebar,
+    body[data-page="home"] .chat {
+      background: transparent;
+    }
+
+    body[data-page="home"] .sidebarHeader.mobileHeader {
+      padding: 0.85rem 0.95rem;
+      background: var(--ui-surface);
+      border-bottom-color: var(--ui-border);
+      box-shadow: var(--ui-shadow-soft);
+    }
+
+    body[data-page="home"] .sidebarSearch,
+    body[data-page="home"] .messages,
+    body[data-page="home"] .composer {
+      padding-left: 0.85rem;
+      padding-right: 0.85rem;
+    }
+
+    body[data-page="home"] .sidebarList {
+      padding-left: 0.65rem;
+      padding-right: 0.65rem;
+    }
+
+    body[data-page="home"] .chatHeader {
+      min-height: 4rem;
+      padding-left: 0.9rem;
+      padding-right: 0.9rem;
+    }
+
+    body[data-page="home"] .messages {
+      padding-top: 1rem;
+      padding-bottom: 1.15rem;
+    }
+
+    body[data-page="home"] .composer {
+      padding-top: 0.75rem;
+      padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0), var(--ui-surface));
+    }
+
+    body[data-page="home"] .waComposer {
+      padding: 0.45rem 0.55rem;
+      border-radius: 1.25rem;
+    }
+
+    body[data-page="home"] .waComposer .waIconBtn {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    body[data-page="home"] .waInput {
+      min-height: 2.6rem;
+    }
+
+    body[data-page="home"] .waSendBtn {
+      width: 2.35rem;
+      height: 2.35rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    body[data-page="home"] .pill {
+      min-height: 2rem;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      font-size: 0.72rem;
+    }
+
+    body[data-page="home"] .blankActions {
+      grid-template-columns: 1fr;
+    }
+
+    body[data-page="home"] .rail.railMobile {
+      margin: 0 0.65rem calc(0.65rem + env(safe-area-inset-bottom));
+      padding: 0.35rem;
+    }
+
+    body[data-page="home"] .rail.railMobile .railBtn {
+      padding: 0.42rem 0.2rem;
+    }
+  }
+}
+
+@layer base {
+  body[data-page="home"] {
+    --ui-bg-top: #08111f;
+    --ui-bg-bottom: #0f172a;
+    --ui-surface: rgba(10, 15, 28, 0.78);
+    --ui-surface-strong: rgba(14, 21, 38, 0.94);
+    --ui-surface-soft: rgba(255, 255, 255, 0.08);
+    --ui-border: rgba(148, 163, 184, 0.14);
+    --ui-border-strong: rgba(129, 140, 248, 0.24);
+    --ui-text-strong: #f8fafc;
+    --ui-text: #dbe6f8;
+    --ui-muted: #93a6c4;
+    --ui-muted-soft: #64748b;
+    --ui-accent: #818cf8;
+    --ui-accent-strong: #6366f1;
+    --ui-accent-soft: rgba(99, 102, 241, 0.18);
+    --ui-accent-shadow: rgba(99, 102, 241, 0.26);
+    --ui-accent-cyan-soft: rgba(6, 182, 212, 0.16);
+    --ui-success: #22c55e;
+    --ui-shadow-soft: 0 18px 48px rgba(2, 6, 23, 0.24);
+    --ui-shadow-ambient: 0 28px 80px rgba(2, 6, 23, 0.34);
+    --ui-bubble-in: rgba(17, 24, 39, 0.88);
+    --ui-bubble-out-start: #6366f1;
+    --ui-bubble-out-end: #06b6d4;
+    background-image:
+      radial-gradient(820px 420px at 0% 0%, rgba(99, 102, 241, 0.22), transparent 58%),
+      radial-gradient(720px 360px at 100% 0%, rgba(6, 182, 212, 0.14), transparent 46%),
+      radial-gradient(560px 320px at 50% 100%, rgba(244, 114, 182, 0.08), transparent 56%),
+      linear-gradient(180deg, var(--ui-bg-top) 0%, var(--ui-bg-bottom) 100%);
+  }
+
+  body[data-page="home"][data-theme="light"] {
+    --ui-bg-top: #f8fbff;
+    --ui-bg-bottom: #eef4ff;
+    --ui-surface: rgba(255, 255, 255, 0.74);
+    --ui-surface-strong: rgba(255, 255, 255, 0.92);
+    --ui-surface-soft: rgba(255, 255, 255, 0.74);
+    --ui-border: rgba(148, 163, 184, 0.2);
+    --ui-border-strong: rgba(99, 102, 241, 0.22);
+    --ui-text-strong: #0f172a;
+    --ui-text: #1e293b;
+    --ui-muted: #5f728d;
+    --ui-muted-soft: #8ca0bb;
+    --ui-accent: #4f46e5;
+    --ui-accent-strong: #4338ca;
+    --ui-accent-soft: rgba(99, 102, 241, 0.1);
+    --ui-accent-shadow: rgba(99, 102, 241, 0.16);
+    --ui-accent-cyan-soft: rgba(8, 145, 178, 0.12);
+    --ui-success: #16a34a;
+    --ui-shadow-soft: 0 20px 46px rgba(148, 163, 184, 0.18);
+    --ui-shadow-ambient: 0 30px 80px rgba(148, 163, 184, 0.22);
+    --ui-bubble-in: rgba(255, 255, 255, 0.96);
+  }
+}
+
+@layer components {
+  body[data-page="home"] .app,
+  body[data-page="home"] .app.appDesktopWindow {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  body[data-page="home"] .appBody {
+    gap: 1rem;
+    grid-template-columns: 320px minmax(0, 1fr) 316px;
+  }
+
+  body[data-page="home"] .appTopbar,
+  body[data-page="home"] .sidebar,
+  body[data-page="home"] .chat,
+  body[data-page="home"] .infoPanel,
+  body[data-page="home"] .sectionHero,
+  body[data-page="home"] .sectionCard,
+  body[data-page="home"] .infoPanelCard,
+  body[data-page="home"] .waComposer,
+  body[data-page="home"] .sidebarSearchField,
+  body[data-page="home"] .sidebarDock,
+  body[data-page="home"] .rail.railMobile,
+  body[data-page="home"] .blankShell,
+  body[data-page="home"] .callsBlankShell {
+    border: 1px solid var(--ui-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+      var(--ui-surface);
+    box-shadow: var(--ui-shadow-soft);
+    backdrop-filter: blur(28px) saturate(1.12);
+  }
+
+  body[data-page="home"] .appTopbar,
+  body[data-page="home"] .sidebar,
+  body[data-page="home"] .chat,
+  body[data-page="home"] .infoPanel {
+    border-radius: 1.85rem;
+    overflow: hidden;
+  }
+
+  body[data-page="home"] .appTopbar {
+    top: 0.9rem;
+    border-radius: 1.75rem;
+  }
+
+  body[data-page="home"] .appBrandEyebrow {
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .appBrandMetaRow,
+  body[data-page="home"] .sidebarSpotlightMetrics,
+  body[data-page="home"] .infoPanelHeroMetrics {
+    display: flex;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+  }
+
+  body[data-page="home"] .appBrandText strong,
+  body[data-page="home"] .chatName,
+  body[data-page="home"] .chatItemName,
+  body[data-page="home"] .callItemTitle,
+  body[data-page="home"] .infoPanelName,
+  body[data-page="home"] .sectionHeroTitle,
+  body[data-page="home"] .sectionCard h3 {
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .appBrandStatus,
+  body[data-page="home"] .appViewChip,
+  body[data-page="home"] .sidebarSpotlightMetrics span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.55rem;
+    padding: 0.12rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+
+  body[data-page="home"] .appViewChip {
+    border: 1px solid var(--ui-border-strong);
+    background: linear-gradient(135deg, var(--ui-accent-soft), rgba(255, 255, 255, 0.02));
+    color: var(--ui-accent);
+  }
+
+  body[data-page="home"] .appBrandStatus {
+    border: 1px solid rgba(34, 197, 94, 0.14);
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--ui-success);
+  }
+
+  body[data-page="home"] .appTopbarSearch:focus-within,
+  body[data-page="home"] .sidebarSearchField:focus-within {
+    border-color: var(--ui-border-strong);
+    box-shadow:
+      0 0 0 4px var(--ui-accent-soft),
+      var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .appTopbarSearch input,
+  body[data-page="home"] .sidebarSearchField input,
+  body[data-page="home"] .waInput,
+  body[data-page="home"] .waTextarea {
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .appTopbarSearch input::placeholder,
+  body[data-page="home"] .sidebarSearchField input::placeholder,
+  body[data-page="home"] .waInput::placeholder,
+  body[data-page="home"] .waTextarea::placeholder {
+    color: var(--ui-muted-soft);
+  }
+
+  body[data-page="home"] .topbarThemeBtn,
+  body[data-page="home"] .sidebarNewChatBtn,
+  body[data-page="home"] .sectionPrimaryAction,
+  body[data-page="home"] .floatingActionBtn.primary,
+  body[data-page="home"] .infoPanelActionHero.toneAccent,
+  body[data-page="home"] .waSendBtn {
+    background: linear-gradient(135deg, var(--ui-accent-strong), var(--ui-bubble-out-end));
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 16px 28px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .sidebarSpotlight {
+    margin: 0 1.2rem 0.9rem;
+    padding: 1rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.45rem;
+    background:
+      linear-gradient(135deg, rgba(99, 102, 241, 0.14), rgba(6, 182, 212, 0.08)),
+      rgba(255, 255, 255, 0.03);
+  }
+
+  body[data-page="home"] .sidebarSpotlightTitle {
+    margin-top: 0.45rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .sidebarSpotlightSub,
+  body[data-page="home"] .chatSub,
+  body[data-page="home"] .chatItemSub,
+  body[data-page="home"] .chatItemTime,
+  body[data-page="home"] .callItemSub,
+  body[data-page="home"] .callItemTime,
+  body[data-page="home"] .sectionHeroSub,
+  body[data-page="home"] .infoPanelStatus,
+  body[data-page="home"] .infoPanelAbout {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .chatItem,
+  body[data-page="home"] .callItem {
+    border-radius: 1.45rem;
+    border: 1px solid transparent;
+  }
+
+  body[data-page="home"] .chatItem.active {
+    border-color: var(--ui-border-strong);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.16), rgba(6, 182, 212, 0.09));
+    box-shadow: 0 16px 34px rgba(99, 102, 241, 0.14);
+  }
+
+  body[data-page="home"] .badge,
+  body[data-page="home"] .sidebarDockBadge,
+  body[data-page="home"] .railBadge,
+  body[data-page="home"] .topbarNotifyBadge {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: linear-gradient(135deg, var(--ui-accent-strong), var(--ui-bubble-out-end));
+    color: #fff;
+    box-shadow: 0 10px 22px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .chat {
+    background:
+      radial-gradient(620px 280px at 14% 0%, rgba(99, 102, 241, 0.12), transparent 58%),
+      radial-gradient(520px 240px at 86% 0%, rgba(6, 182, 212, 0.08), transparent 48%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+      transparent;
+  }
+
+  body[data-page="home"] .chatHeader,
+  body[data-page="home"] .composer,
+  body[data-page="home"] .waSearchBar {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+      var(--ui-surface);
+    border-color: var(--ui-border);
+  }
+
+  body[data-page="home"] .bubble {
+    border: 1px solid var(--ui-border);
+    border-radius: 1.5rem;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+      var(--ui-bubble-in);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 14px 32px rgba(15, 23, 42, 0.12);
+  }
+
+  body[data-page="home"] .bubbleRow.me .bubble {
+    border-color: rgba(129, 140, 248, 0.18);
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    color: #fff;
+    box-shadow: 0 20px 34px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .bubbleHoverActions {
+    position: absolute;
+    top: -0.55rem;
+    right: 0.7rem;
+    display: inline-flex;
+    gap: 0.35rem;
+    opacity: 0;
+    transform: translateY(0.35rem);
+    transition: opacity 180ms ease, transform 180ms ease;
+    pointer-events: none;
+  }
+
+  body[data-page="home"] .bubble:hover .bubbleHoverActions,
+  body[data-page="home"] .bubble:focus-within .bubbleHoverActions,
+  body[data-page="home"] .bubble.selected .bubbleHoverActions {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  body[data-page="home"] .bubbleHoverBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 999px;
+    background: var(--ui-surface-strong);
+    color: var(--ui-text);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .waComposer {
+    align-items: flex-end;
+    border-radius: 1.55rem;
+  }
+
+  body[data-page="home"] .waTextarea {
+    width: 100%;
+    min-height: 2.75rem;
+    max-height: 8.5rem;
+    resize: none;
+    background: transparent;
+  }
+
+  body[data-page="home"] .infoPanelCard,
+  body[data-page="home"] .sectionHero,
+  body[data-page="home"] .sectionCard {
+    border-radius: 1.55rem;
+  }
+
+  body[data-page="home"] .infoPanelHeroMetric {
+    padding: 0.72rem 0.78rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.15rem;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  body[data-page="home"] .rail.railMobile {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    margin: 0 0.75rem calc(0.75rem + env(safe-area-inset-bottom));
+    padding: 0.45rem;
+    border-radius: 1.55rem;
+    box-shadow: var(--ui-shadow-ambient);
+  }
+
+  @media (max-width: 1100px) {
+    body[data-page="home"] .appBody {
+      grid-template-columns: 286px minmax(0, 1fr);
+    }
+
+    body[data-page="home"] .infoPanel {
+      display: none;
+    }
+  }
+
+  @media (max-width: 900px) {
+    body[data-page="home"] .app.appDesktopWindow,
+    body[data-page="home"] .app.appMobile {
+      padding: 0;
+      gap: 0;
+    }
+
+    body[data-page="home"] .appBody {
+      gap: 0;
+    }
+
+    body[data-page="home"] .sidebar,
+    body[data-page="home"] .chat,
+    body[data-page="home"] .infoPanel {
+      border-radius: 0;
+      border-left: 0;
+      border-right: 0;
+      box-shadow: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    body[data-page="home"] .messages {
+      padding-left: 0.85rem;
+      padding-right: 0.85rem;
+    }
+
+    body[data-page="home"] .bubble {
+      max-width: 88%;
+    }
+
+    body[data-page="home"] .infoPanelHeroMetrics {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@layer base {
+  body[data-page="home"] {
+    color-scheme: dark;
+    --ui-bg-top: #050b17;
+    --ui-bg-bottom: #0f172a;
+    --ui-surface: rgba(10, 18, 35, 0.72);
+    --ui-surface-strong: rgba(8, 15, 32, 0.84);
+    --ui-surface-soft: rgba(255, 255, 255, 0.06);
+    --ui-surface-hover: rgba(255, 255, 255, 0.1);
+    --ui-border: rgba(148, 163, 184, 0.16);
+    --ui-border-strong: rgba(148, 163, 184, 0.28);
+    --ui-text-strong: #f8fafc;
+    --ui-text: #d9e4f3;
+    --ui-muted: #8b9bb3;
+    --ui-muted-soft: #67768e;
+    --ui-accent: #60a5fa;
+    --ui-accent-strong: #2563eb;
+    --ui-accent-soft: rgba(37, 99, 235, 0.16);
+    --ui-accent-shadow: rgba(37, 99, 235, 0.24);
+    --ui-success: #34d399;
+    --ui-shadow-soft: 0 16px 30px rgba(2, 6, 23, 0.18);
+    --ui-shadow-ambient: 0 26px 54px rgba(2, 6, 23, 0.24);
+    --ui-page-glow-a: rgba(37, 99, 235, 0.24);
+    --ui-page-glow-b: rgba(56, 189, 248, 0.14);
+    --ui-page-glow-c: rgba(244, 114, 182, 0.07);
+    --ui-chat-glow-a: rgba(37, 99, 235, 0.12);
+    --ui-chat-glow-b: rgba(255, 255, 255, 0.05);
+    --ui-bubble-in: rgba(15, 23, 42, 0.9);
+    --ui-bubble-out-start: #2563eb;
+    --ui-bubble-out-end: #1d4ed8;
+    --ui-nav-bg: rgba(8, 15, 30, 0.82);
+    --ui-hero-sub: rgba(255, 255, 255, 0.76);
+    --ui-media-badge-bg: rgba(15, 23, 42, 0.72);
+    background-image:
+      radial-gradient(880px 480px at 0% 0%, var(--ui-page-glow-a), transparent 56%),
+      radial-gradient(720px 420px at 100% 0%, var(--ui-page-glow-b), transparent 46%),
+      radial-gradient(520px 280px at 50% 100%, var(--ui-page-glow-c), transparent 58%),
+      linear-gradient(180deg, var(--ui-bg-top) 0%, var(--ui-bg-bottom) 58%, #111827 100%);
+  }
+
+  body[data-page="home"][data-view="calls"] {
+    --ui-accent: #67e8f9;
+    --ui-accent-strong: #0891b2;
+    --ui-accent-soft: rgba(34, 211, 238, 0.16);
+    --ui-accent-shadow: rgba(8, 145, 178, 0.22);
+    --ui-page-glow-a: rgba(34, 211, 238, 0.18);
+    --ui-page-glow-b: rgba(59, 130, 246, 0.14);
+    --ui-chat-glow-a: rgba(34, 211, 238, 0.12);
+    --ui-bubble-out-start: #0ea5e9;
+    --ui-bubble-out-end: #0891b2;
+  }
+
+  body[data-page="home"][data-theme="light"] {
+    color-scheme: light;
+    --ui-bg-top: #f8fbff;
+    --ui-bg-bottom: #edf4ff;
+    --ui-surface: rgba(255, 255, 255, 0.7);
+    --ui-surface-strong: rgba(255, 255, 255, 0.9);
+    --ui-surface-soft: rgba(255, 255, 255, 0.7);
+    --ui-surface-hover: rgba(255, 255, 255, 0.92);
+    --ui-border: rgba(148, 163, 184, 0.18);
+    --ui-border-strong: rgba(148, 163, 184, 0.3);
+    --ui-text-strong: #0f172a;
+    --ui-text: #1e293b;
+    --ui-muted: #607086;
+    --ui-muted-soft: #8290a3;
+    --ui-accent: #2563eb;
+    --ui-accent-strong: #1d4ed8;
+    --ui-accent-soft: rgba(37, 99, 235, 0.1);
+    --ui-accent-shadow: rgba(37, 99, 235, 0.14);
+    --ui-success: #10b981;
+    --ui-shadow-soft: 0 16px 30px rgba(148, 163, 184, 0.12);
+    --ui-shadow-ambient: 0 24px 48px rgba(148, 163, 184, 0.15);
+    --ui-page-glow-a: rgba(37, 99, 235, 0.1);
+    --ui-page-glow-b: rgba(56, 189, 248, 0.08);
+    --ui-page-glow-c: rgba(244, 114, 182, 0.04);
+    --ui-chat-glow-a: rgba(37, 99, 235, 0.08);
+    --ui-chat-glow-b: rgba(37, 99, 235, 0.035);
+    --ui-bubble-in: rgba(255, 255, 255, 0.92);
+    --ui-nav-bg: rgba(255, 255, 255, 0.84);
+    --ui-hero-sub: rgba(15, 23, 42, 0.72);
+    --ui-media-badge-bg: rgba(255, 255, 255, 0.82);
+  }
+
+  body[data-page="home"][data-theme="light"][data-view="calls"] {
+    --ui-accent: #0891b2;
+    --ui-accent-strong: #0f766e;
+    --ui-accent-soft: rgba(8, 145, 178, 0.1);
+    --ui-accent-shadow: rgba(15, 118, 110, 0.12);
+    --ui-page-glow-a: rgba(8, 145, 178, 0.08);
+    --ui-page-glow-b: rgba(37, 99, 235, 0.08);
+    --ui-bubble-out-start: #06b6d4;
+    --ui-bubble-out-end: #0f766e;
+  }
+}
+
+@layer components {
+  body[data-page="home"],
+  body[data-page="home"] .app,
+  body[data-page="home"] .appTopbar,
+  body[data-page="home"] .appTopbarSearch,
+  body[data-page="home"] .topbarIconBtn,
+  body[data-page="home"] .appProfileBtn,
+  body[data-page="home"] .sidebar,
+  body[data-page="home"] .chat,
+  body[data-page="home"] .infoPanel,
+  body[data-page="home"] .sidebarSearchField,
+  body[data-page="home"] .chatItem,
+  body[data-page="home"] .callItem,
+  body[data-page="home"] .groupHubCard,
+  body[data-page="home"] .chatHeader,
+  body[data-page="home"] .composer,
+  body[data-page="home"] .waComposer,
+  body[data-page="home"] .bubble,
+  body[data-page="home"] .sidebarDock,
+  body[data-page="home"] .sidebarDockBtn,
+  body[data-page="home"] .rail.railMobile,
+  body[data-page="home"] .rail.railMobile .railBtn,
+  body[data-page="home"] .sectionHero,
+  body[data-page="home"] .sectionCard,
+  body[data-page="home"] .groupsHeroCard,
+  body[data-page="home"] .workspaceSidebarCard,
+  body[data-page="home"] .workspaceTipCard,
+  body[data-page="home"] .sectionMetricCard,
+  body[data-page="home"] .groupsOverviewCard,
+  body[data-page="home"] .communityActivityItem,
+  body[data-page="home"] .callsHistoryRow,
+  body[data-page="home"] .communityMediaTile,
+  body[data-page="home"] .profileGalleryTile,
+  body[data-page="home"] .settingsVisualOption,
+  body[data-page="home"] .workspaceNavBtn,
+  body[data-page="home"] .settingsRow,
+  body[data-page="home"] .profileSummaryRow,
+  body[data-page="home"] .settingsAccountSummary,
+  body[data-page="home"] .sectionPrimaryAction,
+  body[data-page="home"] .sectionSecondaryAction,
+  body[data-page="home"] .groupsHeroAction,
+  body[data-page="home"] .floatingActionBtn,
+  body[data-page="home"] .settingsToggle,
+  body[data-page="home"] .settingsSegmentBtn,
+  body[data-page="home"] .pill,
+  body[data-page="home"] .infoPanelSwitch,
+  body[data-page="home"] .modal,
+  body[data-page="home"] .settingsModal,
+  body[data-page="home"] .attachMenu,
+  body[data-page="home"] .emojiMenu,
+  body[data-page="home"] .waMenu,
+  body[data-page="home"] .sideMenu {
+    transition-property: color, background-color, background-image, border-color, box-shadow, opacity, filter, transform;
+    transition-duration: 240ms;
+    transition-timing-function: ease;
+  }
+
+  body[data-page="home"][data-reduce-motion="1"],
+  body[data-page="home"][data-reduce-motion="1"] * {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+
+  body[data-page="home"] .appTopbar,
+  body[data-page="home"] .app.appDesktopWindow .appTopbar {
+    min-height: 4.4rem;
+    padding: 0.95rem 1.25rem;
+    grid-template-columns: auto minmax(18rem, 1fr) auto;
+    gap: 1rem;
+  }
+
+  body[data-page="home"] .appTopbarSearch {
+    min-height: 2.9rem;
+    border-radius: 1.15rem;
+    padding: 0 1rem;
+  }
+
+  body[data-page="home"] .appProfileBtn {
+    min-height: 2.8rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 1.1rem;
+  }
+
+  body[data-page="home"] .topbarIconBtn,
+  body[data-page="home"] .waIconBtn.headerAction,
+  body[data-page="home"] .waMenuWrap .waIconBtn,
+  body[data-page="home"] .iconBtn,
+  body[data-page="home"] .chatBackBtn {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.95rem;
+  }
+
+  body[data-page="home"] .chatHeader {
+    min-height: 4rem;
+    padding: 0 1.15rem;
+  }
+
+  body[data-page="home"] .messages {
+    padding: 1rem 1.15rem 1.2rem;
+  }
+
+  body[data-page="home"] .composer {
+    padding: 0.8rem 1.15rem calc(0.9rem + env(safe-area-inset-bottom));
+  }
+
+  body[data-page="home"] .waComposer {
+    gap: 0.55rem;
+    padding: 0.45rem 0.55rem;
+    border-radius: 1.25rem;
+  }
+
+  body[data-page="home"] .waInput {
+    min-height: 2.6rem;
+  }
+
+  body[data-page="home"] .waSendBtn {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+
+  body[data-page="home"] .sidebarDock {
+    padding: 0.5rem 0.85rem 0.65rem;
+  }
+
+  body[data-page="home"] .sidebarDockBtn {
+    padding: 0.5rem 0.25rem 0.4rem;
+    border-radius: 0.95rem;
+  }
+
+  body[data-page="home"] .rail.railMobile {
+    margin: 0 0.75rem calc(0.75rem + env(safe-area-inset-bottom));
+    padding: 0.4rem;
+    border-radius: 1.35rem;
+  }
+
+  body[data-page="home"] .rail.railMobile .railBtn {
+    min-width: 0;
+    padding: 0.45rem 0.35rem;
+    border-radius: 1rem;
+  }
+
+  body[data-page="home"] .sectionWorkspace {
+    gap: 1rem;
+    padding: 1.2rem;
+  }
+
+  body[data-page="home"] .sectionHero {
+    min-height: 15rem;
+    padding: 1.25rem;
+  }
+
+  body[data-page="home"] .sectionCard,
+  body[data-page="home"] .groupsHeroCard,
+  body[data-page="home"] .workspaceSidebarCard,
+  body[data-page="home"] .workspaceTipCard {
+    padding: 1rem;
+  }
+
+  body[data-page="home"] .sectionHeroSub {
+    color: var(--ui-hero-sub);
+  }
+
+  body[data-page="home"] .infoPanelMediaBadge {
+    background: var(--ui-media-badge-bg);
+    color: var(--ui-text-strong);
+  }
+
+  @media (max-width: 900px) {
+    body[data-page="home"] .sectionWorkspace {
+      padding: 0.9rem;
+    }
+
+    body[data-page="home"] .chatHeader {
+      padding-left: 0.9rem;
+      padding-right: 0.9rem;
+    }
+
+    body[data-page="home"] .messages,
+    body[data-page="home"] .composer,
+    body[data-page="home"] .sidebarSearch {
+      padding-left: 0.85rem;
+      padding-right: 0.85rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    body[data-page="home"] .sectionWorkspace {
+      padding: 0.8rem;
+      gap: 0.8rem;
+    }
+
+    body[data-page="home"] .sectionHero {
+      min-height: auto;
+      padding: 1rem;
+    }
+
+    body[data-page="home"] .rail.railMobile {
+      margin: 0 0.65rem calc(0.65rem + env(safe-area-inset-bottom));
+      padding: 0.35rem;
+    }
+
+    body[data-page="home"] .rail.railMobile .railBtn {
+      padding: 0.42rem 0.2rem;
+    }
+  }
+}
+
+@layer components {
+  body[data-page="home"] .appBody.appBodyExpanded {
+    grid-template-columns: 300px minmax(0, 1fr);
+  }
+
+  body[data-page="home"] .sectionWorkspace {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 1rem;
+    height: 100%;
+    overflow-y: auto;
+    padding: 1.2rem;
+  }
+
+  body[data-page="home"] .sectionHero,
+  body[data-page="home"] .sectionCard,
+  body[data-page="home"] .groupsHeroCard,
+  body[data-page="home"] .workspaceSidebarCard,
+  body[data-page="home"] .workspaceTipCard,
+  body[data-page="home"] .groupHubCard,
+  body[data-page="home"] .groupsOverviewCard {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.5rem;
+    background:
+      linear-gradient(180deg, var(--ui-surface-soft), rgba(255, 255, 255, 0.02)),
+      transparent;
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .sectionHero {
+    padding: 1.25rem;
+    min-height: 15rem;
+  }
+
+  body[data-page="home"] .sectionHeroBackdrop {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 20%, var(--ui-accent-soft), transparent 40%),
+      radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.08), transparent 30%),
+      linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.22));
+    opacity: 1;
+  }
+
+  body[data-page="home"] .groupPageBackdrop {
+    background:
+      radial-gradient(circle at 14% 18%, rgba(56, 189, 248, 0.24), transparent 30%),
+      radial-gradient(circle at 88% 0%, rgba(16, 185, 129, 0.16), transparent 26%),
+      linear-gradient(135deg, rgba(8, 15, 32, 0.82), rgba(15, 23, 42, 0.3));
+  }
+
+  body[data-page="home"] .callsPageBackdrop {
+    background:
+      radial-gradient(circle at 10% 16%, rgba(34, 211, 238, 0.22), transparent 28%),
+      radial-gradient(circle at 88% 0%, rgba(59, 130, 246, 0.16), transparent 24%),
+      linear-gradient(135deg, rgba(8, 15, 32, 0.84), rgba(15, 23, 42, 0.28));
+  }
+
+  body[data-page="home"] .settingsPageBackdrop {
+    background:
+      radial-gradient(circle at 12% 18%, rgba(244, 114, 182, 0.18), transparent 26%),
+      radial-gradient(circle at 90% 0%, rgba(37, 99, 235, 0.16), transparent 24%),
+      linear-gradient(135deg, rgba(8, 15, 32, 0.84), rgba(15, 23, 42, 0.28));
+  }
+
+  body[data-page="home"] .profilePageBackdrop {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(10px) saturate(1.05);
+    transform: scale(1.08);
+  }
+
+  body[data-page="home"] .profileHeroOverlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(15, 23, 42, 0.2), rgba(15, 23, 42, 0.82)),
+      radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.08), transparent 30%);
+  }
+
+  body[data-page="home"] .sectionHeroTop,
+  body[data-page="home"] .sectionHeroMain,
+  body[data-page="home"] .sectionCardHeader {
+    position: relative;
+    z-index: 1;
+  }
+
+  body[data-page="home"] .sectionHeroTop {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  body[data-page="home"] .sectionBackBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 999px;
+    border: 1px solid var(--ui-border);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .sectionHeroTag,
+  body[data-page="home"] .groupsHeroPill,
+  body[data-page="home"] .workspaceTipBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 1.55rem;
+    padding: 0.15rem 0.65rem;
+    border-radius: 999px;
+    background: var(--ui-accent-soft);
+    color: var(--ui-accent-strong);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  body[data-page="home"] .sectionHeroMain,
+  body[data-page="home"] .profileHeroMain {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 100%;
+  }
+
+  body[data-page="home"] .sectionHeroIdentity,
+  body[data-page="home"] .profileIdentityBlock,
+  body[data-page="home"] .settingsHeroIdentity {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  body[data-page="home"] .sectionHeroTitle {
+    margin-top: 0.55rem;
+    color: var(--ui-text-strong);
+    font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    line-height: 1.05;
+  }
+
+  body[data-page="home"] .sectionHeroSub {
+    margin-top: 0.5rem;
+    max-width: 42rem;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  body[data-page="home"][data-theme="light"] .sectionHeroSub {
+    color: rgba(15, 23, 42, 0.72);
+  }
+
+  body[data-page="home"] .sectionHeroActions,
+  body[data-page="home"] .settingsActionRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  body[data-page="home"] .sectionPrimaryAction,
+  body[data-page="home"] .sectionSecondaryAction,
+  body[data-page="home"] .groupsHeroAction,
+  body[data-page="home"] .floatingActionBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 2.7rem;
+    padding: 0.65rem 1rem;
+    border-radius: 999px;
+    border: 1px solid var(--ui-border);
+    color: var(--ui-text-strong);
+    background: rgba(255, 255, 255, 0.08);
+    transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+  }
+
+  body[data-page="home"] .sectionPrimaryAction,
+  body[data-page="home"] .floatingActionBtn.primary {
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    border-color: transparent;
+    box-shadow: 0 12px 26px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .sectionSecondaryAction.danger {
+    color: #fda4af;
+  }
+
+  body[data-page="home"] .sectionPrimaryAction:hover,
+  body[data-page="home"] .sectionSecondaryAction:hover,
+  body[data-page="home"] .groupsHeroAction:hover,
+  body[data-page="home"] .floatingActionBtn:hover {
+    transform: translateY(-1px);
+    background: var(--ui-surface-hover);
+    border-color: var(--ui-border-strong);
+  }
+
+  body[data-page="home"] .sectionPrimaryAction:hover,
+  body[data-page="home"] .floatingActionBtn.primary:hover {
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+  }
+
+  body[data-page="home"] .sectionMetricGrid,
+  body[data-page="home"] .sectionContentGrid,
+  body[data-page="home"] .communityHighlightGrid,
+  body[data-page="home"] .groupsOverviewRow,
+  body[data-page="home"] .profileGalleryGrid,
+  body[data-page="home"] .settingsOptionGrid {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  body[data-page="home"] .sectionMetricGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  body[data-page="home"] .sectionContentGrid,
+  body[data-page="home"] .profileContentGrid,
+  body[data-page="home"] .settingsContentGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body[data-page="home"] .sectionMetricCard,
+  body[data-page="home"] .groupsOverviewCard {
+    display: grid;
+    gap: 0.35rem;
+    padding: 1rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.2rem;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  body[data-page="home"] .sectionMetricCard span,
+  body[data-page="home"] .groupsOverviewCard span {
+    color: var(--ui-muted);
+    font-size: 0.78rem;
+  }
+
+  body[data-page="home"] .sectionMetricCard strong,
+  body[data-page="home"] .groupsOverviewCard strong {
+    color: var(--ui-text-strong);
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  body[data-page="home"] .sectionCard {
+    padding: 1rem;
+  }
+
+  body[data-page="home"] .sectionCardHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  body[data-page="home"] .sectionCardEyebrow {
+    display: inline-block;
+    margin-bottom: 0.3rem;
+    color: var(--ui-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  body[data-page="home"] .sectionCardHeader h3 {
+    color: var(--ui-text-strong);
+    font-size: 1.1rem;
+    font-weight: 650;
+    letter-spacing: -0.03em;
+  }
+
+  body[data-page="home"] .sectionHeaderMeta {
+    color: var(--ui-muted);
+    font-size: 0.8rem;
+  }
+
+  body[data-page="home"] .sectionBlankState {
+    display: grid;
+    place-items: center;
+    gap: 0.75rem;
+    height: 100%;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  body[data-page="home"] .sectionBlankEyebrow {
+    color: var(--ui-accent-strong);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  body[data-page="home"] .sectionBlankTitle {
+    color: var(--ui-text-strong);
+    font-size: clamp(1.4rem, 2vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.05em;
+  }
+
+  body[data-page="home"] .sectionBlankSub,
+  body[data-page="home"] .communityActivityEmpty,
+  body[data-page="home"] .communityMediaEmpty {
+    max-width: 34rem;
+    color: var(--ui-muted);
+    line-height: 1.55;
+  }
+
+  body[data-page="home"] .groupsHeroCard,
+  body[data-page="home"] .workspaceSidebarCard,
+  body[data-page="home"] .workspaceTipCard {
+    margin: 0 0.9rem 0.9rem;
+    padding: 1rem;
+  }
+
+  body[data-page="home"] .groupsHeroLabel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  body[data-page="home"] .groupsHeroLabel strong {
+    color: var(--ui-text-strong);
+    font-size: 0.9rem;
+  }
+
+  body[data-page="home"] .groupsHeroSub,
+  body[data-page="home"] .workspaceTipCard p {
+    margin-top: 0.75rem;
+    color: var(--ui-muted);
+    line-height: 1.5;
+    font-size: 0.85rem;
+  }
+
+  body[data-page="home"] .groupsHeroAction {
+    margin-top: 0.9rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  body[data-page="home"] .groupsOverviewRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0 0.9rem 0.9rem;
+  }
+
+  body[data-page="home"] .groupsList {
+    padding-top: 0;
+  }
+
+  body[data-page="home"] .groupHubCard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.65rem;
+    padding: 0.2rem;
+    border-radius: 1.25rem;
+  }
+
+  body[data-page="home"] .groupHubCard.active {
+    border-color: var(--ui-border-strong);
+    background: linear-gradient(135deg, var(--ui-accent-soft), rgba(255, 255, 255, 0.03));
+  }
+
+  body[data-page="home"] .groupHubMain {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0.7rem;
+    text-align: left;
+  }
+
+  body[data-page="home"] .groupHubAvatar {
+    position: relative;
+    flex: 0 0 auto;
+  }
+
+  body[data-page="home"] .groupHubCluster {
+    position: absolute;
+    right: -0.2rem;
+    bottom: -0.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.15rem;
+    height: 1.15rem;
+    border-radius: 999px;
+    background: var(--ui-accent-strong);
+    color: white;
+    box-shadow: 0 6px 14px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .groupHubContent {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  body[data-page="home"] .groupHubTop,
+  body[data-page="home"] .groupHubMeta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  body[data-page="home"] .groupHubName {
+    color: var(--ui-text-strong);
+    font-size: 0.92rem;
+    font-weight: 650;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  body[data-page="home"] .groupHubTime,
+  body[data-page="home"] .groupHubMeta {
+    color: var(--ui-muted);
+    font-size: 0.78rem;
+  }
+
+  body[data-page="home"] .groupHubMeta {
+    justify-content: flex-start;
+  }
+
+  body[data-page="home"] .groupHubDot {
+    width: 0.25rem;
+    height: 0.25rem;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.7;
+  }
+
+  body[data-page="home"] .groupHubSide {
+    display: flex;
+    align-items: center;
+    padding-right: 0.8rem;
+  }
+
+  body[data-page="home"] .communityActivityList,
+  body[data-page="home"] .callsHistoryList,
+  body[data-page="home"] .profileSummaryList,
+  body[data-page="home"] .workspaceNavList {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  body[data-page="home"] .communityActivityItem,
+  body[data-page="home"] .callsHistoryRow,
+  body[data-page="home"] .profileSummaryRow,
+  body[data-page="home"] .workspaceNavBtn,
+  body[data-page="home"] .settingsRow,
+  body[data-page="home"] .settingsAccountSummary {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.85rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.15rem;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  body[data-page="home"] .communityActivityAvatar,
+  body[data-page="home"] .settingsHeroIcon,
+  body[data-page="home"] .settingsRowIcon,
+  body[data-page="home"] .communityHighlightIcon,
+  body[data-page="home"] .workspaceNavGlyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 0.9rem;
+    background: var(--ui-accent-soft);
+    color: var(--ui-accent-strong);
+    flex: 0 0 auto;
+  }
+
+  body[data-page="home"] .communityActivityText,
+  body[data-page="home"] .callsHistoryText,
+  body[data-page="home"] .workspaceNavText {
+    min-width: 0;
+    flex: 1 1 auto;
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  body[data-page="home"] .communityActivityText strong,
+  body[data-page="home"] .callsHistoryText strong,
+  body[data-page="home"] .workspaceNavText strong,
+  body[data-page="home"] .profileSummaryRow strong,
+  body[data-page="home"] .settingsRowLead strong,
+  body[data-page="home"] .settingsAccountSummary strong {
+    color: var(--ui-text-strong);
+    font-size: 0.92rem;
+    font-weight: 650;
+  }
+
+  body[data-page="home"] .communityActivityText span,
+  body[data-page="home"] .callsHistoryText span,
+  body[data-page="home"] .workspaceNavText small,
+  body[data-page="home"] .profileSummaryRow span,
+  body[data-page="home"] .settingsRowLead small,
+  body[data-page="home"] .settingsAccountSummary small {
+    color: var(--ui-muted);
+    font-size: 0.8rem;
+  }
+
+  body[data-page="home"] .communityActivityTime,
+  body[data-page="home"] .callsHistoryMeta small {
+    color: var(--ui-muted);
+    font-size: 0.76rem;
+  }
+
+  body[data-page="home"] .callsHistoryRow {
+    text-align: left;
+  }
+
+  body[data-page="home"] .callsHistoryMeta {
+    display: grid;
+    justify-items: end;
+    gap: 0.3rem;
+    margin-left: auto;
+  }
+
+  body[data-page="home"] .callsHistoryBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 1.5rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    background: var(--ui-accent-soft);
+    color: var(--ui-accent-strong);
+    font-size: 0.72rem;
+    font-weight: 650;
+  }
+
+  body[data-page="home"] .floatingActionDock {
+    position: sticky;
+    bottom: 0.3rem;
+    z-index: 2;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding-bottom: 0.2rem;
+  }
+
+  body[data-page="home"] .communityMediaGrid,
+  body[data-page="home"] .profileGalleryGrid,
+  body[data-page="home"] .settingsOptionGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body[data-page="home"] .communityMediaTile,
+  body[data-page="home"] .profileGalleryTile,
+  body[data-page="home"] .settingsVisualOption {
+    display: grid;
+    gap: 0.45rem;
+    min-height: 8.8rem;
+    padding: 0.9rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.2rem;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--ui-text);
+    text-align: left;
+  }
+
+  body[data-page="home"] .communityMediaGlyph,
+  body[data-page="home"] .profileGalleryIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.85rem;
+    background: var(--ui-accent-soft);
+    color: var(--ui-accent-strong);
+  }
+
+  body[data-page="home"] .communityMediaTile strong,
+  body[data-page="home"] .profileGalleryTile strong,
+  body[data-page="home"] .settingsVisualOption strong {
+    color: var(--ui-text-strong);
+    font-size: 0.9rem;
+    font-weight: 650;
+  }
+
+  body[data-page="home"] .communityMediaTile small,
+  body[data-page="home"] .profileGalleryTile small {
+    color: var(--ui-muted);
+    font-size: 0.78rem;
+  }
+
+  body[data-page="home"] .profileGalleryPreview,
+  body[data-page="home"] .settingsVisualSwatch {
+    min-height: 5rem;
+    border-radius: 1rem;
+    background:
+      radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.25), transparent 24%),
+      linear-gradient(135deg, rgba(37, 99, 235, 0.5), rgba(59, 130, 246, 0.18));
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  body[data-page="home"] .settingsVisualSwatch.gradientA {
+    background:
+      radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.35), transparent 24%),
+      linear-gradient(135deg, rgba(37, 99, 235, 0.55), rgba(15, 118, 110, 0.22));
+  }
+
+  body[data-page="home"] .settingsVisualSwatch.gradientB {
+    background:
+      radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.3), transparent 24%),
+      linear-gradient(135deg, rgba(244, 114, 182, 0.4), rgba(37, 99, 235, 0.25));
+  }
+
+  body[data-page="home"] .settingsVisualSwatch.gradientC {
+    background:
+      radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.28), transparent 24%),
+      linear-gradient(135deg, rgba(15, 23, 42, 0.82), rgba(71, 85, 105, 0.28));
+  }
+
+  body[data-page="home"] .settingsVisualOption.active,
+  body[data-page="home"] .workspaceNavBtn.active {
+    border-color: var(--ui-border-strong);
+    background: linear-gradient(135deg, var(--ui-accent-soft), rgba(255, 255, 255, 0.04));
+  }
+
+  body[data-page="home"] .workspaceSidebarIdentity {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  body[data-page="home"] .workspaceSidebarIdentity strong {
+    display: block;
+    color: var(--ui-text-strong);
+    font-size: 0.95rem;
+  }
+
+  body[data-page="home"] .workspaceSidebarIdentity span {
+    display: block;
+    margin-top: 0.2rem;
+    color: var(--ui-muted);
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+
+  body[data-page="home"] .workspaceSidebarStats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin-top: 0.95rem;
+  }
+
+  body[data-page="home"] .workspaceSidebarStats span {
+    display: block;
+    color: var(--ui-muted);
+    font-size: 0.72rem;
+  }
+
+  body[data-page="home"] .workspaceSidebarStats strong {
+    display: block;
+    margin-top: 0.2rem;
+    color: var(--ui-text-strong);
+    font-size: 1rem;
+  }
+
+  body[data-page="home"] .workspaceNavList {
+    padding: 0 0.9rem 0.9rem;
+  }
+
+  body[data-page="home"] .workspaceNavBtn {
+    text-align: left;
+  }
+
+  body[data-page="home"] .profileSummaryRow,
+  body[data-page="home"] .settingsRow,
+  body[data-page="home"] .settingsAccountSummary {
+    justify-content: space-between;
+  }
+
+  body[data-page="home"] .settingsRowLead {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  body[data-page="home"] .settingsSegment {
+    display: inline-flex;
+    gap: 0.35rem;
+    padding: 0.35rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  body[data-page="home"] .settingsSegmentBtn {
+    min-height: 2.25rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    color: var(--ui-muted);
+    font-weight: 650;
+  }
+
+  body[data-page="home"] .settingsSegmentBtn.active {
+    background: var(--ui-accent-soft);
+    color: var(--ui-accent-strong);
+  }
+
+  body[data-page="home"] .settingsToggle {
+    position: relative;
+    flex: 0 0 auto;
+    width: 3rem;
+    height: 1.8rem;
+    padding: 0.15rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  body[data-page="home"] .settingsToggle span {
+    display: block;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 999px;
+    background: white;
+    transform: translateX(0);
+    transition: transform 180ms ease;
+  }
+
+  body[data-page="home"] .settingsToggle.active {
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    border-color: transparent;
+  }
+
+  body[data-page="home"] .settingsToggle.active span {
+    transform: translateX(1.18rem);
+  }
+
+  body[data-page="home"] .settingsAccountCard,
+  body[data-page="home"] .profileHighlightsCard,
+  body[data-page="home"] .communityHighlightsCard {
+    margin-top: 0.05rem;
+  }
+
+  body[data-page="home"] .communityHighlightGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body[data-page="home"] .communityHighlightItem {
+    display: flex;
+    gap: 0.8rem;
+    padding: 0.95rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.2rem;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  body[data-page="home"] .communityHighlightItem strong {
+    display: block;
+    color: var(--ui-text-strong);
+    font-size: 0.92rem;
+  }
+
+  body[data-page="home"] .communityHighlightItem span {
+    display: block;
+    margin-top: 0.2rem;
+    color: var(--ui-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  body[data-page="home"] .callsHistoryCard,
+  body[data-page="home"] .profileSummaryCard,
+  body[data-page="home"] .profileGalleryCard,
+  body[data-page="home"] .settingsSectionCard {
+    min-height: 100%;
+  }
+
+  @media (max-width: 1280px) {
+    body[data-page="home"] .appBody.appBodyExpanded {
+      grid-template-columns: 280px minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 900px) {
+    body[data-page="home"] .sectionWorkspace {
+      padding: 0.9rem;
+    }
+
+    body[data-page="home"] .sectionHero {
+      min-height: auto;
+      padding: 1rem;
+      border-radius: 1.25rem;
+    }
+
+    body[data-page="home"] .sectionHeroMain,
+    body[data-page="home"] .profileHeroMain {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    body[data-page="home"] .sectionMetricGrid,
+    body[data-page="home"] .sectionContentGrid,
+    body[data-page="home"] .profileContentGrid,
+    body[data-page="home"] .settingsContentGrid,
+    body[data-page="home"] .communityHighlightGrid,
+    body[data-page="home"] .communityMediaGrid,
+    body[data-page="home"] .profileGalleryGrid,
+    body[data-page="home"] .settingsOptionGrid {
+      grid-template-columns: 1fr;
+    }
+
+    body[data-page="home"] .floatingActionDock {
+      justify-content: stretch;
+      gap: 0.55rem;
+    }
+
+    body[data-page="home"] .floatingActionBtn {
+      flex: 1 1 0;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 640px) {
+    body[data-page="home"] .sectionWorkspace {
+      padding: 0.8rem;
+      gap: 0.8rem;
+    }
+
+    body[data-page="home"] .sectionHeroTitle {
+      font-size: 1.45rem;
+    }
+
+    body[data-page="home"] .sectionHeroSub {
+      font-size: 0.88rem;
+    }
+
+    body[data-page="home"] .sectionPrimaryAction,
+    body[data-page="home"] .sectionSecondaryAction,
+    body[data-page="home"] .groupsHeroAction {
+      width: 100%;
+      justify-content: center;
+    }
+
+    body[data-page="home"] .groupsHeroCard,
+    body[data-page="home"] .workspaceSidebarCard,
+    body[data-page="home"] .workspaceTipCard {
+      margin-left: 0.65rem;
+      margin-right: 0.65rem;
+    }
+
+    body[data-page="home"] .groupsOverviewRow,
+    body[data-page="home"] .workspaceNavList {
+      padding-left: 0.65rem;
+      padding-right: 0.65rem;
+    }
+
+    body[data-page="home"] .communityActivityItem,
+    body[data-page="home"] .callsHistoryRow,
+    body[data-page="home"] .settingsRow,
+    body[data-page="home"] .workspaceNavBtn,
+    body[data-page="home"] .profileSummaryRow,
+    body[data-page="home"] .settingsAccountSummary {
+      padding: 0.8rem;
+    }
+  }
+}
+
+@layer base {
+  body[data-page="home"] {
+    font-family: "Inter", "Segoe UI Variable Text", "Segoe UI", sans-serif;
+    --ui-bg-top: #060b16;
+    --ui-bg-bottom: #0f172a;
+    --ui-surface: rgba(15, 23, 42, 0.64);
+    --ui-surface-strong: rgba(8, 15, 32, 0.82);
+    --ui-surface-soft: rgba(255, 255, 255, 0.065);
+    --ui-surface-hover: rgba(255, 255, 255, 0.095);
+    --ui-border: rgba(148, 163, 184, 0.16);
+    --ui-border-strong: rgba(148, 163, 184, 0.28);
+    --ui-text-strong: #f8fafc;
+    --ui-text: #dbe5f3;
+    --ui-muted: #8ea1be;
+    --ui-muted-soft: #62748d;
+    --ui-accent: #60a5fa;
+    --ui-accent-strong: #2563eb;
+    --ui-accent-soft: rgba(37, 99, 235, 0.16);
+    --ui-accent-shadow: rgba(37, 99, 235, 0.24);
+    --ui-success: #34d399;
+    --ui-shadow-soft: 0 16px 32px rgba(2, 6, 23, 0.2);
+    --ui-shadow-ambient: 0 28px 56px rgba(2, 6, 23, 0.28);
+    --ui-page-glow-a: rgba(37, 99, 235, 0.26);
+    --ui-page-glow-b: rgba(56, 189, 248, 0.16);
+    --ui-page-glow-c: rgba(244, 114, 182, 0.08);
+    --ui-chat-glow-a: rgba(37, 99, 235, 0.14);
+    --ui-chat-glow-b: rgba(255, 255, 255, 0.05);
+    --ui-bubble-in: rgba(15, 23, 42, 0.88);
+    --ui-bubble-out-start: #2563eb;
+    --ui-bubble-out-end: #1d4ed8;
+    --ui-nav-bg: rgba(8, 15, 30, 0.8);
+    background-image:
+      radial-gradient(880px 480px at 0% 0%, var(--ui-page-glow-a), transparent 56%),
+      radial-gradient(720px 420px at 100% 0%, var(--ui-page-glow-b), transparent 46%),
+      radial-gradient(520px 280px at 50% 100%, var(--ui-page-glow-c), transparent 58%),
+      linear-gradient(180deg, var(--ui-bg-top) 0%, var(--ui-bg-bottom) 58%, #111827 100%);
+  }
+
+  body[data-page="home"][data-view="calls"] {
+    --ui-accent: #67e8f9;
+    --ui-accent-strong: #0891b2;
+    --ui-accent-soft: rgba(34, 211, 238, 0.16);
+    --ui-accent-shadow: rgba(8, 145, 178, 0.22);
+    --ui-page-glow-a: rgba(34, 211, 238, 0.2);
+    --ui-page-glow-b: rgba(59, 130, 246, 0.16);
+    --ui-page-glow-c: rgba(45, 212, 191, 0.08);
+    --ui-chat-glow-a: rgba(34, 211, 238, 0.12);
+    --ui-bubble-out-start: #0ea5e9;
+    --ui-bubble-out-end: #0891b2;
+  }
+
+  body[data-page="home"][data-theme="light"] {
+    color-scheme: light;
+    --ui-bg-top: #f8fbff;
+    --ui-bg-bottom: #eef4ff;
+    --ui-surface: rgba(255, 255, 255, 0.72);
+    --ui-surface-strong: rgba(255, 255, 255, 0.92);
+    --ui-surface-soft: rgba(255, 255, 255, 0.62);
+    --ui-surface-hover: rgba(255, 255, 255, 0.88);
+    --ui-border: rgba(148, 163, 184, 0.18);
+    --ui-border-strong: rgba(148, 163, 184, 0.3);
+    --ui-text-strong: #0f172a;
+    --ui-text: #1e293b;
+    --ui-muted: #52637c;
+    --ui-muted-soft: #74849b;
+    --ui-accent: #2563eb;
+    --ui-accent-strong: #1d4ed8;
+    --ui-accent-soft: rgba(37, 99, 235, 0.1);
+    --ui-accent-shadow: rgba(37, 99, 235, 0.16);
+    --ui-success: #10b981;
+    --ui-shadow-soft: 0 14px 28px rgba(148, 163, 184, 0.14);
+    --ui-shadow-ambient: 0 24px 42px rgba(148, 163, 184, 0.16);
+    --ui-page-glow-a: rgba(37, 99, 235, 0.1);
+    --ui-page-glow-b: rgba(56, 189, 248, 0.08);
+    --ui-page-glow-c: rgba(244, 114, 182, 0.05);
+    --ui-chat-glow-a: rgba(37, 99, 235, 0.08);
+    --ui-chat-glow-b: rgba(37, 99, 235, 0.04);
+    --ui-bubble-in: rgba(255, 255, 255, 0.92);
+    --ui-nav-bg: rgba(255, 255, 255, 0.86);
+  }
+
+  body[data-page="home"][data-theme="light"][data-view="calls"] {
+    --ui-accent: #0891b2;
+    --ui-accent-strong: #0f766e;
+    --ui-accent-soft: rgba(8, 145, 178, 0.1);
+    --ui-accent-shadow: rgba(15, 118, 110, 0.12);
+    --ui-page-glow-a: rgba(8, 145, 178, 0.08);
+    --ui-page-glow-b: rgba(37, 99, 235, 0.08);
+    --ui-page-glow-c: rgba(16, 185, 129, 0.05);
+    --ui-bubble-out-start: #06b6d4;
+    --ui-bubble-out-end: #0f766e;
+  }
+}
+
+@layer components {
+  body[data-page="home"] .app,
+  body[data-page="home"] .app.appDesktopWindow,
+  body[data-page="home"] .app.appMobile {
+    color: var(--ui-text);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0) 16%),
+      transparent;
+  }
+
+  body[data-page="home"] .appTopbar,
+  body[data-page="home"] .app.appDesktopWindow .appTopbar {
+    background: var(--ui-surface);
+    border-bottom-color: var(--ui-border);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .appBrandText {
+    gap: 0.2rem;
+  }
+
+  body[data-page="home"] .appBrandHeading {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-width: 0;
+  }
+
+  body[data-page="home"] .appBrandText strong,
+  body[data-page="home"] .sidebarTitle,
+  body[data-page="home"] .chatName,
+  body[data-page="home"] .chatItemName,
+  body[data-page="home"] .callItemTitle,
+  body[data-page="home"] .blankTitle,
+  body[data-page="home"] .callsBlankTitle,
+  body[data-page="home"] .infoPanelName {
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .appBrandText > span,
+  body[data-page="home"] .appProfileText span,
+  body[data-page="home"] .chatSub,
+  body[data-page="home"] .chatItemSub,
+  body[data-page="home"] .chatItemTime,
+  body[data-page="home"] .callItemSub,
+  body[data-page="home"] .callItemTime,
+  body[data-page="home"] .callItemDur,
+  body[data-page="home"] .blankSub,
+  body[data-page="home"] .callsBlankSub,
+  body[data-page="home"] .small,
+  body[data-page="home"] .sidebarMetaLabel,
+  body[data-page="home"] .sidebarMetaCount,
+  body[data-page="home"] .sidebarOffline,
+  body[data-page="home"] .appTopbarShortcut,
+  body[data-page="home"] .infoPanelAbout,
+  body[data-page="home"] .infoPanelStatus,
+  body[data-page="home"] .infoPanelRow span,
+  body[data-page="home"] .infoPanelRow strong,
+  body[data-page="home"] .infoPanelLinkRow span,
+  body[data-page="home"] .infoPanelLinkRow strong,
+  body[data-page="home"] .infoPanelToggleSub,
+  body[data-page="home"] .infoPanelMediaMeta span,
+  body[data-page="home"] .infoPanelMediaText small,
+  body[data-page="home"] .infoPanelMediaEmpty {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .appViewChip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 1.5rem;
+    padding: 0.1rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid var(--ui-border);
+    background: var(--ui-accent-soft);
+    color: var(--ui-accent-strong);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  body[data-page="home"] .appBrandLogo {
+    background: var(--ui-surface-strong);
+    border-color: var(--ui-border);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .appTopbarSearch,
+  body[data-page="home"] .appProfileBtn,
+  body[data-page="home"] .sidebarSearchField,
+  body[data-page="home"] .sidebarNewChatBtn,
+  body[data-page="home"] .waComposer,
+  body[data-page="home"] .infoPanelAction,
+  body[data-page="home"] .infoPanelActionHero,
+  body[data-page="home"] .infoPanelMediaCard,
+  body[data-page="home"] .modal,
+  body[data-page="home"] .settingsModal,
+  body[data-page="home"] .attachMenu,
+  body[data-page="home"] .emojiMenu,
+  body[data-page="home"] .sideMenu,
+  body[data-page="home"] .waMenu,
+  body[data-page="home"] .blankCard,
+  body[data-page="home"] .blankShell,
+  body[data-page="home"] .callsBlankShell {
+    background: var(--ui-surface-soft);
+    border-color: var(--ui-border);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .appTopbarSearch,
+  body[data-page="home"] .sidebarSearchField,
+  body[data-page="home"] .waComposer {
+    background: linear-gradient(180deg, var(--ui-surface-soft), rgba(255, 255, 255, 0.02));
+  }
+
+  body[data-page="home"] .appTopbarSearch:focus-within,
+  body[data-page="home"] .sidebarSearchField:focus-within {
+    border-color: var(--ui-border-strong);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 0 0 4px var(--ui-accent-soft),
+      var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .appTopbarSearchIcon,
+  body[data-page="home"] .sidebarSearchIcon,
+  body[data-page="home"] .infoPanelActionGlyph,
+  body[data-page="home"] .callMediaIcon {
+    color: var(--ui-accent);
+  }
+
+  body[data-page="home"] .appTopbarSearch input,
+  body[data-page="home"] .sidebarSearchField input,
+  body[data-page="home"] .waInput {
+    color: var(--ui-text);
+  }
+
+  body[data-page="home"] .appTopbarSearch input::placeholder,
+  body[data-page="home"] .sidebarSearchField input::placeholder,
+  body[data-page="home"] .waInput::placeholder {
+    color: var(--ui-muted-soft);
+  }
+
+  body[data-page="home"] .topbarIconBtn,
+  body[data-page="home"] .appProfileBtn,
+  body[data-page="home"] .waIconBtn,
+  body[data-page="home"] .iconBtn,
+  body[data-page="home"] .infoPanelClose,
+  body[data-page="home"] .chatBackBtn {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .topbarIconBtn:hover,
+  body[data-page="home"] .appProfileBtn:hover,
+  body[data-page="home"] .waIconBtn:hover,
+  body[data-page="home"] .iconBtn:hover,
+  body[data-page="home"] .infoPanelClose:hover,
+  body[data-page="home"] .chatBackBtn:hover {
+    background: var(--ui-surface-hover);
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .sidebar,
+  body[data-page="home"] .infoPanel {
+    background:
+      linear-gradient(180deg, var(--ui-surface-strong), rgba(255, 255, 255, 0.02)),
+      transparent;
+    border-color: var(--ui-border);
+  }
+
+  body[data-page="home"] .chat::before {
+    background:
+      radial-gradient(620px 320px at 16% 0%, var(--ui-chat-glow-a), transparent 60%),
+      radial-gradient(460px 260px at 82% 8%, var(--ui-chat-glow-b), transparent 52%),
+      linear-gradient(180deg, rgba(15, 23, 42, 0.18) 0%, rgba(15, 23, 42, 0.04) 100%);
+  }
+
+  body[data-page="home"][data-theme="light"] .chat::before {
+    background:
+      radial-gradient(620px 320px at 16% 0%, var(--ui-chat-glow-a), transparent 60%),
+      radial-gradient(460px 260px at 82% 8%, var(--ui-chat-glow-b), transparent 52%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.02) 100%);
+  }
+
+  body[data-page="home"] .messages {
+    background:
+      radial-gradient(720px 340px at 12% 0%, var(--ui-chat-glow-a), transparent 56%),
+      radial-gradient(520px 280px at 88% 10%, var(--ui-chat-glow-b), transparent 52%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+      linear-gradient(180deg, rgba(2, 6, 23, 0.02), rgba(2, 6, 23, 0.02));
+  }
+
+  body[data-page="home"] .sidebarList {
+    padding-bottom: 0.75rem;
+  }
+
+  body[data-page="home"] .chatItem,
+  body[data-page="home"] .callItem {
+    position: relative;
+    overflow: hidden;
+    border-color: transparent;
+  }
+
+  body[data-page="home"] .chatItem::before,
+  body[data-page="home"] .callItem::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    border-radius: 999px;
+    background: transparent;
+    transition: background 180ms ease, box-shadow 180ms ease;
+  }
+
+  body[data-page="home"] .chatItem:hover,
+  body[data-page="home"] .callItem:hover {
+    background: var(--ui-surface-soft);
+    transform: translateX(2px);
+  }
+
+  body[data-page="home"] .chatItem.active {
+    background: linear-gradient(135deg, var(--ui-accent-soft), rgba(255, 255, 255, 0.02));
+    border-color: var(--ui-border);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  }
+
+  body[data-page="home"] .chatItem.active::before {
+    background: var(--ui-accent-strong);
+    box-shadow: 0 0 18px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .chatItemMain,
+  body[data-page="home"] .callItemMain {
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+  }
+
+  body[data-page="home"] .chatItemRight {
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+  }
+
+  body[data-page="home"] .badge,
+  body[data-page="home"] .railBadge,
+  body[data-page="home"] .sidebarDockBadge,
+  body[data-page="home"] .topbarNotifyBadge {
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    box-shadow: 0 8px 18px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .sidebarDock,
+  body[data-page="home"] .rail.railMobile {
+    background: var(--ui-nav-bg);
+    border-color: var(--ui-border);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .sidebarDockBtn,
+  body[data-page="home"] .rail.railMobile .railBtn {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .sidebarDockBtn:hover,
+  body[data-page="home"] .rail.railMobile .railBtn:hover {
+    background: var(--ui-surface-soft);
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .sidebarDockBtn.active,
+  body[data-page="home"] .rail.railMobile .railBtn.active {
+    background: var(--ui-accent-soft);
+    color: var(--ui-accent-strong);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  }
+
+  body[data-page="home"] .sidebarDockLabel,
+  body[data-page="home"] .rail.railMobile .railLabel {
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+
+  body[data-page="home"] .rail.railMobile {
+    margin: 0 0.75rem calc(0.75rem + env(safe-area-inset-bottom));
+    padding: 0.4rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.4rem;
+    backdrop-filter: blur(26px) saturate(1.3);
+  }
+
+  body[data-page="home"] .rail.railMobile .railBtn {
+    min-width: 0;
+    flex: 1 1 0;
+    gap: 0.18rem;
+    padding: 0.45rem 0.35rem;
+    border-radius: 1rem;
+  }
+
+  body[data-page="home"] .rail.railMobile .railIcon,
+  body[data-page="home"] .rail.railMobile .avatar {
+    transform: scale(0.92);
+  }
+
+  body[data-page="home"] .rail.railMobile .railLabel {
+    font-size: 0.58rem;
+  }
+
+  body[data-page="home"] .chatHeader,
+  body[data-page="home"] .composer {
+    background: var(--ui-surface);
+    border-color: var(--ui-border);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .chatHeader {
+    min-height: 4.25rem;
+  }
+
+  body[data-page="home"] .bubble {
+    background: var(--ui-bubble-in);
+    border-color: var(--ui-border);
+    color: var(--ui-text);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .bubbleRow.me .bubble {
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    box-shadow: 0 12px 26px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .bubbleSender {
+    color: var(--ui-accent);
+  }
+
+  body[data-page="home"] .bubbleMeta {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .typingBubble,
+  body[data-page="home"] .attachFile {
+    background: var(--ui-surface-soft);
+    border-color: var(--ui-border);
+  }
+
+  body[data-page="home"] .waComposer {
+    border-color: var(--ui-border);
+  }
+
+  body[data-page="home"] .waComposer .waIconBtn {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .waSendBtn {
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    box-shadow: 0 10px 20px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .waSendBtn:hover {
+    transform: translateY(-1px);
+    filter: saturate(1.05);
+  }
+
+  body[data-page="home"] .chatBlank,
+  body[data-page="home"] .callsBlank {
+    padding: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  body[data-page="home"] .blankShell,
+  body[data-page="home"] .callsBlankShell {
+    width: min(31rem, 100%);
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    background:
+      linear-gradient(180deg, var(--ui-surface-soft), rgba(255, 255, 255, 0.02)),
+      transparent;
+  }
+
+  body[data-page="home"] .blankBadge,
+  body[data-page="home"] .blankEyebrow {
+    color: var(--ui-accent-strong);
+  }
+
+  body[data-page="home"] .blankLogoWrap,
+  body[data-page="home"] .callsBlankIcon {
+    background: var(--ui-accent-soft);
+    color: var(--ui-accent-strong);
+    box-shadow: 0 16px 34px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .blankTitle,
+  body[data-page="home"] .callsBlankTitle {
+    letter-spacing: -0.04em;
+  }
+
+  body[data-page="home"] .blankActions {
+    gap: 0.75rem;
+  }
+
+  body[data-page="home"] .blankCard {
+    color: var(--ui-text);
+  }
+
+  body[data-page="home"] .blankCard:hover {
+    background: var(--ui-surface-hover);
+    border-color: var(--ui-border-strong);
+    transform: translateY(-1px);
+  }
+
+  body[data-page="home"] .blankIcon {
+    color: var(--ui-accent-strong);
+  }
+
+  body[data-page="home"] .infoPanel {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  body[data-page="home"] .infoPanelCard {
+    border-bottom-color: var(--ui-border);
+  }
+
+  body[data-page="home"] .infoPanelIdentity.large .avatarWithPresence,
+  body[data-page="home"] .infoPanelIdentity .avatarWithPresence {
+    position: relative;
+    isolation: isolate;
+  }
+
+  body[data-page="home"] .infoPanelIdentity.large .avatarWithPresence::before {
+    content: "";
+    position: absolute;
+    inset: -0.9rem;
+    border-radius: 999px;
+    background: radial-gradient(circle, var(--ui-accent-soft) 0%, transparent 70%);
+    filter: blur(18px);
+    z-index: -1;
+  }
+
+  body[data-page="home"] .infoPanelStatus.online,
+  body[data-page="home"] .chatSub.online {
+    color: var(--ui-success);
+  }
+
+  body[data-page="home"] .infoPanelStatus.online::before {
+    content: "";
+    display: inline-block;
+    width: 0.45rem;
+    height: 0.45rem;
+    margin-right: 0.45rem;
+    border-radius: 999px;
+    background: currentColor;
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.34);
+    animation: homePresencePulse 2.8s ease-out infinite;
+    vertical-align: middle;
+  }
+
+  body[data-page="home"] .presenceDot.online,
+  body[data-page="home"] .avatarWithPresence::after {
+    background: var(--ui-success);
+    animation: homePresencePulse 2.8s ease-out infinite;
+  }
+
+  body[data-page="home"] .avatarWithPresence::after {
+    border-color: rgba(15, 23, 42, 0.9);
+  }
+
+  body[data-page="home"][data-theme="light"] .avatarWithPresence::after {
+    border-color: rgba(255, 255, 255, 0.92);
+  }
+
+  body[data-page="home"] .infoPanelAction:hover,
+  body[data-page="home"] .infoPanelActionHero:hover,
+  body[data-page="home"] .infoPanelMediaCard:hover {
+    background: var(--ui-surface-hover);
+    border-color: var(--ui-border-strong);
+  }
+
+  body[data-page="home"] .infoPanelMediaBadge {
+    background: rgba(15, 23, 42, 0.7);
+  }
+
+  body[data-page="home"][data-theme="light"] .infoPanelMediaBadge {
+    background: rgba(255, 255, 255, 0.76);
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .infoPanelMediaText strong,
+  body[data-page="home"] .infoPanelMediaMeta strong,
+  body[data-page="home"] .infoPanelToggleTitle,
+  body[data-page="home"] .infoPanelActionLabel {
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .infoPanelSwitch {
+    background: var(--ui-surface-soft);
+    border-color: var(--ui-border);
+  }
+
+  body[data-page="home"] .infoPanelSwitch.active {
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    border-color: transparent;
+  }
+
+  body[data-page="home"] .sideMenu,
+  body[data-page="home"] .waMenu,
+  body[data-page="home"] .attachMenu,
+  body[data-page="home"] .emojiMenu,
+  body[data-page="home"] .modal,
+  body[data-page="home"] .settingsModal {
+    background: var(--ui-surface-strong);
+    border-color: var(--ui-border);
+    box-shadow: var(--ui-shadow-ambient);
+  }
+
+  body[data-page="home"] .menuItemIcon {
+    background: var(--ui-surface-soft);
+    border-color: var(--ui-border);
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .pill {
+    background: var(--ui-surface-soft);
+    border-color: var(--ui-border);
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .pill.active {
+    background: var(--ui-accent-soft);
+    color: var(--ui-accent-strong);
+    border-color: transparent;
+  }
+
+  body[data-page="home"] .syncBanner {
+    border-bottom-color: rgba(251, 113, 133, 0.14);
+    background: rgba(251, 113, 133, 0.1);
+  }
+
+  @media (max-width: 900px) {
+    body[data-page="home"] .sidebar,
+    body[data-page="home"] .chat {
+      background: transparent;
+    }
+
+    body[data-page="home"] .sidebarHeader.mobileHeader {
+      padding: 0.85rem 0.95rem;
+      background: var(--ui-surface);
+      border-bottom-color: var(--ui-border);
+      box-shadow: var(--ui-shadow-soft);
+    }
+
+    body[data-page="home"] .sidebarSearch,
+    body[data-page="home"] .messages,
+    body[data-page="home"] .composer {
+      padding-left: 0.85rem;
+      padding-right: 0.85rem;
+    }
+
+    body[data-page="home"] .sidebarList {
+      padding-left: 0.65rem;
+      padding-right: 0.65rem;
+    }
+
+    body[data-page="home"] .chatItemMain,
+    body[data-page="home"] .callItemMain,
+    body[data-page="home"] .chatItemRight {
+      padding-top: 0.8rem;
+      padding-bottom: 0.8rem;
+    }
+
+    body[data-page="home"] .chatHeader {
+      min-height: 4rem;
+      padding-left: 0.9rem;
+      padding-right: 0.9rem;
+    }
+
+    body[data-page="home"] .messages {
+      padding-top: 1rem;
+      padding-bottom: 1.15rem;
+    }
+
+    body[data-page="home"] .composer {
+      padding-top: 0.75rem;
+      padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0), var(--ui-surface));
+    }
+
+    body[data-page="home"] .waComposer {
+      padding: 0.45rem 0.55rem;
+      border-radius: 1.25rem;
+    }
+
+    body[data-page="home"] .waComposer .waIconBtn {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    body[data-page="home"] .waInput {
+      min-height: 2.6rem;
+    }
+
+    body[data-page="home"] .waSendBtn {
+      width: 2.35rem;
+      height: 2.35rem;
+    }
+
+    body[data-page="home"] .blankShell,
+    body[data-page="home"] .callsBlankShell {
+      padding: 1.2rem 1rem;
+      border-radius: 1.35rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    body[data-page="home"] .sidebarFilters.mobileOnly {
+      gap: 0.4rem;
+      padding-left: 0.85rem;
+      padding-right: 0.85rem;
+    }
+
+    body[data-page="home"] .pill {
+      min-height: 2rem;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      font-size: 0.72rem;
+    }
+
+    body[data-page="home"] .blankActions {
+      grid-template-columns: 1fr;
+    }
+
+    body[data-page="home"] .rail.railMobile {
+      margin: 0 0.65rem calc(0.65rem + env(safe-area-inset-bottom));
+      padding: 0.35rem;
+    }
+
+    body[data-page="home"] .rail.railMobile .railBtn {
+      padding: 0.42rem 0.2rem;
+    }
+  }
+}
+
+@keyframes homePresencePulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.3);
+  }
+
+  70% {
+    box-shadow: 0 0 0 8px rgba(52, 211, 153, 0);
+  }
+}
+
+@layer components {
+  body[data-page="home"] .homeRoot {
+    @apply min-h-screen bg-transparent;
+  }
+
+  body[data-page="home"] .app,
+  body[data-page="home"] .app.appDesktopWindow {
+    @apply m-0 h-dvh w-full rounded-none border-0 bg-transparent shadow-none;
+    backdrop-filter: none;
+  }
+
+  body[data-page="home"] .app::before,
+  body[data-page="home"] .app::after {
+    display: none;
+  }
+
+  body[data-page="home"] .appTopbar {
+    @apply sticky top-0 z-20 grid items-center gap-4 border-b border-white/10 bg-slate-950/55 px-5 py-3 backdrop-blur-2xl;
+    grid-template-columns: auto minmax(20rem, 1fr) auto;
+    box-shadow: 0 10px 30px rgba(2, 6, 23, 0.24);
+  }
+
+  body[data-page="home"] .appBrand {
+    @apply min-w-0 items-center gap-3;
+  }
+
+  body[data-page="home"] .appBrandLogo {
+    @apply h-9 w-9 rounded-xl border border-white/10 bg-slate-900/90 p-1.5;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3);
+  }
+
+  body[data-page="home"] .appBrandText {
+    @apply gap-0;
+  }
+
+  body[data-page="home"] .appBrandText strong {
+    @apply text-sm font-semibold tracking-[-0.02em] text-white;
+  }
+
+  body[data-page="home"] .appBrandText span {
+    @apply text-[11px] text-slate-400;
+  }
+
+  body[data-page="home"] .appTopbarSearch {
+    @apply flex min-h-11 w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/6 px-4 text-slate-200 backdrop-blur-xl;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      0 10px 26px rgba(2, 6, 23, 0.16);
+  }
+
+  body[data-page="home"] .appTopbarSearch:focus-within {
+    @apply border-blue-400/30 bg-white/8;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      0 0 0 4px rgba(37, 99, 235, 0.12),
+      0 16px 36px rgba(2, 6, 23, 0.22);
+  }
+
+  body[data-page="home"] .appTopbarSearchIcon {
+    @apply text-slate-400;
+  }
+
+  body[data-page="home"] .appTopbarSearch input {
+    @apply border-0 bg-transparent px-0 py-0 text-sm text-slate-100 shadow-none;
+  }
+
+  body[data-page="home"] .appTopbarSearch input::placeholder {
+    @apply text-slate-500;
+  }
+
+  body[data-page="home"] .appTopbarShortcut {
+    @apply rounded-xl border border-white/8 bg-white/5 px-2.5 py-1 text-[11px] font-semibold text-slate-500;
+  }
+
+  body[data-page="home"] .appTopbarActions {
+    @apply gap-2;
+  }
+
+  body[data-page="home"] .topbarIconBtn,
+  body[data-page="home"] .appProfileBtn,
+  body[data-page="home"] .waIconBtn,
+  body[data-page="home"] .waCallBtn,
+  body[data-page="home"] .iconBtn,
+  body[data-page="home"] .infoPanelClose,
+  body[data-page="home"] .railBtn,
+  body[data-page="home"] .sidebarDockBtn {
+    @apply transition-all duration-200 ease-out;
+  }
+
+  body[data-page="home"] .topbarIconBtn {
+    @apply h-9 w-9 rounded-xl border-0 bg-transparent text-slate-300 shadow-none;
+  }
+
+  body[data-page="home"] .topbarIconBtn:hover,
+  body[data-page="home"] .appProfileBtn:hover {
+    @apply bg-white/8 text-white;
+    transform: translateY(-1px);
+  }
+
+  body[data-page="home"] .topbarNotifyBadge {
+    @apply border-0 bg-blue-500 text-[10px] text-white shadow-none;
+  }
+
+  body[data-page="home"] .appProfileBtn {
+    @apply gap-2 rounded-2xl border border-white/8 bg-white/4 px-2 py-1.5 text-left text-slate-200 shadow-none;
+  }
+
+  body[data-page="home"] .appProfileText strong {
+    @apply text-xs font-semibold text-white;
+  }
+
+  body[data-page="home"] .appProfileText span {
+    @apply text-[11px] text-slate-400;
+  }
+
+  body[data-page="home"] .appBody {
+    @apply min-h-0 bg-transparent;
+    grid-template-columns: 300px minmax(0, 1fr) 300px;
+  }
+
+  body[data-page="home"] .sidebar,
+  body[data-page="home"] .chat,
+  body[data-page="home"] .infoPanel {
+    @apply min-h-0;
+  }
+
+  body[data-page="home"] .sidebar {
+    @apply border-r border-white/10 bg-slate-950/60 backdrop-blur-xl;
+  }
+
+  body[data-page="home"] .chat {
+    @apply relative bg-transparent;
+  }
+
+  body[data-page="home"] .chat::before {
+    content: "";
+    @apply pointer-events-none absolute inset-0;
+    background:
+      radial-gradient(600px 300px at 16% 0%, rgba(37, 99, 235, 0.12), transparent 60%),
+      radial-gradient(460px 240px at 82% 8%, rgba(255, 255, 255, 0.05), transparent 52%),
+      linear-gradient(180deg, rgba(15, 23, 42, 0.55) 0%, rgba(15, 23, 42, 0.2) 100%);
+  }
+
+  body[data-page="home"] .sidebarHeader {
+    @apply border-b border-white/10 bg-transparent px-5 py-4 shadow-none;
+    backdrop-filter: none;
+  }
+
+  body[data-page="home"] .sidebarHeader::before {
+    display: none;
+  }
+
+  body[data-page="home"] .sidebarTitle {
+    @apply text-lg font-semibold tracking-[-0.03em] text-white;
+  }
+
+  body[data-page="home"] .sidebarOffline {
+    @apply rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400;
+  }
+
+  body[data-page="home"] .sidebarUtilityCard.minimal {
+    @apply m-0 bg-transparent px-5 pb-3 pt-4 shadow-none;
+  }
+
+  body[data-page="home"] .sidebarNewChatBtn {
+    @apply min-h-11 w-full justify-start gap-2.5 rounded-2xl border border-white/10 bg-white/6 px-4 text-sm font-semibold text-slate-100 shadow-none;
+  }
+
+  body[data-page="home"] .sidebarNewChatBtn:hover {
+    @apply border-blue-400/30 bg-blue-500/10;
+  }
+
+  body[data-page="home"] .sidebarSearch {
+    @apply px-5 pb-3 pt-0;
+  }
+
+  body[data-page="home"] .sidebarSearchField {
+    @apply min-h-11 rounded-2xl border border-white/10 bg-white/5 px-4 backdrop-blur-xl;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  body[data-page="home"] .sidebarSearchField:focus-within {
+    @apply border-blue-400/25 bg-white/7;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 0 0 4px rgba(37, 99, 235, 0.1);
+  }
+
+  body[data-page="home"] .sidebarSearchField input {
+    @apply border-0 bg-transparent text-sm text-slate-100 shadow-none;
+  }
+
+  body[data-page="home"] .sidebarSearchField input::placeholder {
+    @apply text-slate-500;
+  }
+
+  body[data-page="home"] .sidebarMetaRow {
+    @apply px-5 pb-2 pt-0 text-slate-500;
+  }
+
+  body[data-page="home"] .sidebarMetaLabel {
+    @apply text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500;
+  }
+
+  body[data-page="home"] .sidebarMetaCount {
+    @apply text-xs font-semibold text-slate-400;
+  }
+
+  body[data-page="home"] .sidebarList {
+    @apply px-3 pb-3;
+  }
+
+  body[data-page="home"] .chatItem,
+  body[data-page="home"] .callItem {
+    @apply mb-1 rounded-2xl border border-transparent bg-transparent shadow-none;
+  }
+
+  body[data-page="home"] .chatItem:hover,
+  body[data-page="home"] .callItem:hover {
+    @apply bg-white/5;
+  }
+
+  body[data-page="home"] .chatItem.active {
+    @apply border-white/10 bg-blue-500/10;
+    box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.16);
+  }
+
+  body[data-page="home"] .chatItem.active::before {
+    @apply rounded-full bg-blue-500;
+  }
+
+  body[data-page="home"] .chatItemMain,
+  body[data-page="home"] .callItemMain {
+    @apply gap-3 px-3.5 py-3 text-slate-100;
+  }
+
+  body[data-page="home"] .chatItemName,
+  body[data-page="home"] .callItemTitle {
+    @apply text-[13px] font-semibold tracking-[-0.01em] text-white;
+  }
+
+  body[data-page="home"] .chatItemSub,
+  body[data-page="home"] .callItemSub,
+  body[data-page="home"] .chatItemTime,
+  body[data-page="home"] .callItemTime {
+    @apply text-[11px] text-slate-400;
+  }
+
+  body[data-page="home"] .chatItemRight {
+    @apply gap-2 px-3.5 py-3 pl-0;
+  }
+
+  body[data-page="home"] .badge,
+  body[data-page="home"] .railBadge,
+  body[data-page="home"] .sidebarDockBadge {
+    @apply border-0 bg-blue-500 text-white shadow-none;
+  }
+
+  body[data-page="home"] .chatItemPinned {
+    @apply bg-emerald-400;
+  }
+
+  body[data-page="home"] .callItemDelete {
+    @apply w-11 border-l border-white/10 text-slate-500;
+  }
+
+  body[data-page="home"] .callItemDelete:hover {
+    @apply bg-rose-500/10 text-rose-300;
+  }
+
+  body[data-page="home"] .sidebarDock {
+    @apply mt-auto grid grid-cols-4 gap-1 border-t border-white/10 bg-slate-950/80 px-3 py-2 backdrop-blur-xl;
+  }
+
+  body[data-page="home"] .sidebarDockBtn {
+    @apply rounded-2xl px-2 py-2 text-slate-500;
+  }
+
+  body[data-page="home"] .sidebarDockBtn:hover {
+    @apply bg-white/6 text-slate-300;
+  }
+
+  body[data-page="home"] .sidebarDockBtn.active {
+    @apply bg-white/8 text-blue-400;
+  }
+
+  body[data-page="home"] .sidebarDockIconWrap {
+    @apply bg-transparent shadow-none;
+  }
+
+  body[data-page="home"] .sidebarDockLabel {
+    @apply text-[10px] font-semibold tracking-[0.02em];
+  }
+
+  body[data-page="home"] .chatHeader {
+    @apply sticky top-0 z-10 min-h-[72px] border-b border-white/10 bg-slate-950/45 px-6 py-0 backdrop-blur-2xl;
+    box-shadow: 0 10px 24px rgba(2, 6, 23, 0.18);
+  }
+
+  body[data-page="home"] .chatHeader::before {
+    display: none;
+  }
+
+  body[data-page="home"] .chatHeaderLeft {
+    @apply gap-3;
+  }
+
+  body[data-page="home"] .chatHeaderText {
+    @apply gap-1;
+  }
+
+  body[data-page="home"] .chatName {
+    @apply text-sm font-semibold text-white;
+  }
+
+  body[data-page="home"] .chatSub,
+  body[data-page="home"] .chatSub.online {
+    @apply text-[11px] font-medium text-slate-400;
+  }
+
+  body[data-page="home"] .presenceDot.online {
+    @apply bg-emerald-400;
+    box-shadow: 0 0 0 6px rgba(52, 211, 153, 0.12);
+  }
+
+  body[data-page="home"] .avatarWithPresence::after {
+    @apply bg-emerald-400;
+    border-color: #0f172a;
+    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.75);
+  }
+
+  body[data-page="home"] .waActions {
+    @apply gap-2.5;
+  }
+
+  body[data-page="home"] .waIconBtn.headerAction,
+  body[data-page="home"] .waMenuWrap .waIconBtn {
+    @apply h-9 w-9 rounded-xl text-slate-400;
+  }
+
+  body[data-page="home"] .waIconBtn:hover,
+  body[data-page="home"] .waCallBtn:hover,
+  body[data-page="home"] .infoPanelClose:hover,
+  body[data-page="home"] .iconBtn:hover {
+    @apply bg-white/8 text-white;
+    transform: translateY(-1px);
+  }
+
+  body[data-page="home"] .messages {
+    @apply relative px-6 py-6;
+    background:
+      radial-gradient(680px 340px at 14% 0%, rgba(37, 99, 235, 0.1), transparent 58%),
+      radial-gradient(520px 280px at 86% 12%, rgba(255, 255, 255, 0.04), transparent 52%),
+      linear-gradient(180deg, rgba(15, 23, 42, 0.35), rgba(15, 23, 42, 0.08)),
+      linear-gradient(180deg, #0b1120 0%, #0f172a 100%);
+  }
+
+  body[data-page="home"] .bubble {
+    @apply rounded-[20px] border border-white/10 bg-slate-900/88 text-slate-100;
+    box-shadow: 0 10px 24px rgba(2, 6, 23, 0.2);
+  }
+
+  body[data-page="home"] .bubbleRow.me .bubble {
+    @apply border-transparent text-white;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 12px 28px rgba(37, 99, 235, 0.22);
+  }
+
+  body[data-page="home"] .bubbleSender {
+    @apply text-[11px] font-semibold text-blue-300;
+  }
+
+  body[data-page="home"] .bubbleText {
+    @apply text-[14px] leading-6;
+  }
+
+  body[data-page="home"] .bubbleMeta {
+    @apply text-[10px] text-slate-400;
+  }
+
+  body[data-page="home"] .bubbleRow.me .bubbleMeta {
+    @apply text-blue-100/80;
+  }
+
+  body[data-page="home"] .attachImage,
+  body[data-page="home"] .attachVideo {
+    @apply rounded-2xl;
+  }
+
+  body[data-page="home"] .attachFile {
+    @apply rounded-2xl border border-white/10 bg-white/5;
+  }
+
+  body[data-page="home"] .typingBubble {
+    @apply border border-white/10 bg-slate-900/70 shadow-none;
+  }
+
+  body[data-page="home"] .composer {
+    @apply sticky bottom-0 z-10 border-t border-white/10 bg-slate-950/55 px-5 py-4 backdrop-blur-2xl;
+  }
+
+  body[data-page="home"] .waComposer {
+    @apply gap-2.5 rounded-[26px] border border-white/10 bg-white/6 px-3 py-2 shadow-none backdrop-blur-xl;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 10px 24px rgba(2, 6, 23, 0.16);
+  }
+
+  body[data-page="home"] .waComposer .waIconBtn {
+    @apply h-9 w-9 rounded-xl p-0 text-slate-400;
+  }
+
+  body[data-page="home"] .waInput {
+    @apply min-h-11 border-0 bg-transparent px-1 py-0 text-sm text-slate-100 shadow-none;
+  }
+
+  body[data-page="home"] .waInput::placeholder {
+    @apply text-slate-500;
+  }
+
+  body[data-page="home"] .waSendBtn {
+    @apply h-10 w-10 rounded-full border-0 bg-blue-600 text-white;
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.24);
+  }
+
+  body[data-page="home"] .waSendBtn:hover {
+    @apply bg-blue-500;
+    filter: none;
+  }
+
+  body[data-page="home"] .infoPanel {
+    @apply border-l border-white/10 bg-slate-950/55 px-5 py-5 backdrop-blur-xl;
+  }
+
+  body[data-page="home"] .infoPanelCard {
+    @apply rounded-none border-b border-white/10 bg-transparent px-0 py-5 shadow-none;
+  }
+
+  body[data-page="home"] .infoPanelCard:first-child {
+    @apply pt-0;
+  }
+
+  body[data-page="home"] .infoPanelCard:last-child {
+    @apply border-b-0 pb-0;
+  }
+
+  body[data-page="home"] .infoPanelTopbar {
+    @apply items-center;
+  }
+
+  body[data-page="home"] .infoPanelSectionTitle {
+    @apply text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500;
+  }
+
+  body[data-page="home"] .infoPanelIdentity.large {
+    @apply mt-3 gap-3;
+  }
+
+  body[data-page="home"] .infoPanelName {
+    @apply text-[22px] font-semibold tracking-[-0.03em] text-white;
+  }
+
+  body[data-page="home"] .infoPanelStatus,
+  body[data-page="home"] .infoPanelAbout,
+  body[data-page="home"] .infoPanelLinkRow span,
+  body[data-page="home"] .infoPanelLinkRow strong,
+  body[data-page="home"] .infoPanelToggleSub,
+  body[data-page="home"] .infoPanelRow span,
+  body[data-page="home"] .infoPanelRow strong,
+  body[data-page="home"] .infoPanelMediaMeta span {
+    @apply text-slate-400;
+  }
+
+  body[data-page="home"] .infoPanelStatus.online {
+    @apply text-emerald-400;
+  }
+
+  body[data-page="home"] .infoPanelActionGrid,
+  body[data-page="home"] .infoPanelActionGridHero {
+    @apply mt-4 gap-2;
+  }
+
+  body[data-page="home"] .infoPanelAction,
+  body[data-page="home"] .infoPanelActionHero {
+    @apply rounded-2xl border border-white/10 bg-white/5 px-3 py-3 text-slate-200;
+  }
+
+  body[data-page="home"] .infoPanelAction:hover,
+  body[data-page="home"] .infoPanelActionHero:hover {
+    @apply border-blue-400/20 bg-white/8;
+  }
+
+  body[data-page="home"] .infoPanelActionGlyph {
+    @apply text-blue-400;
+  }
+
+  body[data-page="home"] .infoPanelActionLabel {
+    @apply text-[11px] font-semibold text-slate-200;
+  }
+
+  body[data-page="home"] .infoPanelRows,
+  body[data-page="home"] .infoPanelFooterStack {
+    @apply mt-2 gap-0;
+  }
+
+  body[data-page="home"] .infoPanelRow,
+  body[data-page="home"] .infoPanelLinkRow {
+    @apply border-b border-white/8 py-3.5;
+  }
+
+  body[data-page="home"] .infoPanelClose {
+    @apply rounded-xl p-2 text-slate-400;
+  }
+
+  body[data-page="home"] .infoPanelSwitch {
+    @apply border border-white/10 bg-white/8;
+  }
+
+  body[data-page="home"] .infoPanelSwitch span {
+    @apply bg-white;
+  }
+
+  body[data-page="home"] .infoPanelSwitch.active {
+    @apply border-blue-500 bg-blue-600;
+  }
+
+  body[data-page="home"] .infoPanelMediaGrid {
+    @apply mt-4 grid grid-cols-2 gap-2;
+  }
+
+  body[data-page="home"] .infoPanelMediaCard {
+    @apply overflow-hidden rounded-2xl border border-white/10 bg-white/5 text-slate-100;
+    box-shadow: 0 8px 18px rgba(2, 6, 23, 0.16);
+  }
+
+  body[data-page="home"] .infoPanelMediaCard.visual {
+    @apply relative aspect-square;
+  }
+
+  body[data-page="home"] .infoPanelMediaCard.visual img,
+  body[data-page="home"] .infoPanelMediaCard.visual video {
+    @apply h-full w-full object-cover;
+  }
+
+  body[data-page="home"] .infoPanelMediaCard.visual::after {
+    content: "";
+    @apply pointer-events-none absolute inset-0;
+    background: linear-gradient(180deg, transparent 38%, rgba(2, 6, 23, 0.78) 100%);
+  }
+
+  body[data-page="home"] .infoPanelMediaCard.file {
+    @apply flex min-h-[84px] items-center gap-3 p-3;
+  }
+
+  body[data-page="home"] .infoPanelMediaCard:hover {
+    @apply border-blue-400/20 bg-white/8;
+    transform: translateY(-1px);
+  }
+
+  body[data-page="home"] .infoPanelMediaBadge {
+    @apply absolute bottom-2 left-2 right-2 z-[1] inline-flex min-h-7 items-center justify-center gap-1.5 rounded-full bg-slate-950/75 px-3 text-[11px] font-semibold text-white backdrop-blur-md;
+  }
+
+  body[data-page="home"] .infoPanelMediaIcon {
+    @apply grid h-9 w-9 flex-none place-items-center rounded-xl bg-blue-500/12 text-blue-400;
+  }
+
+  body[data-page="home"] .infoPanelMediaText {
+    @apply min-w-0;
+  }
+
+  body[data-page="home"] .infoPanelMediaText strong {
+    @apply block truncate text-xs font-semibold text-white;
+  }
+
+  body[data-page="home"] .infoPanelMediaText small,
+  body[data-page="home"] .infoPanelMediaEmpty {
+    @apply text-[11px] text-slate-400;
+  }
+
+  body[data-page="home"] .infoPanelMediaMeta {
+    @apply mt-3 flex items-center justify-between gap-3;
+  }
+
+  body[data-page="home"] .infoPanelMediaMeta strong {
+    @apply text-[11px] font-semibold text-slate-200;
+  }
+
+  body[data-page="home"] .infoPanelMediaEmpty {
+    @apply mt-3 leading-5;
+  }
+
+  body[data-page="home"] .sideMenu,
+  body[data-page="home"] .waMenu,
+  body[data-page="home"] .attachMenu,
+  body[data-page="home"] .emojiMenu,
+  body[data-page="home"] .modal,
+  body[data-page="home"] .settingsModal {
+    @apply border border-white/10 bg-slate-900/95 backdrop-blur-2xl;
+    box-shadow: 0 20px 40px rgba(2, 6, 23, 0.32);
+  }
+
+  body[data-page="home"] .sideMenuItem,
+  body[data-page="home"] .waMenuItem,
+  body[data-page="home"] .attachMenuBtn,
+  body[data-page="home"] .emojiBtn {
+    @apply text-slate-200;
+  }
+
+  body[data-page="home"] .sideMenuItem:hover,
+  body[data-page="home"] .waMenuItem:hover,
+  body[data-page="home"] .attachMenuBtn:hover,
+  body[data-page="home"] .emojiBtn:hover {
+    @apply bg-white/8;
+  }
+
+  body[data-page="home"] .menuItemIcon {
+    @apply border border-white/10 bg-white/5 text-slate-300;
+  }
+
+  body[data-page="home"] .pill {
+    @apply border border-white/10 bg-white/5 text-slate-400 shadow-none;
+  }
+
+  body[data-page="home"] .pill:hover {
+    @apply border-white/15 bg-white/8;
+    transform: none;
+    box-shadow: none;
+  }
+
+  body[data-page="home"] .pill.active {
+    @apply border-blue-400/20 bg-blue-500/10 text-blue-300;
+    box-shadow: none;
+  }
+
+  body[data-page="home"] .syncBanner {
+    @apply border-b border-rose-400/10 bg-rose-500/10 px-4 py-3 text-sm text-rose-200;
+  }
+
+  body[data-page="home"] .rail.railMobile {
+    @apply border-t border-white/10 bg-slate-950/80 px-3 py-2 backdrop-blur-2xl;
+    box-shadow: 0 -10px 30px rgba(2, 6, 23, 0.28);
+  }
+
+  body[data-page="home"] .rail.railMobile::before {
+    display: none;
+  }
+
+  body[data-page="home"] .rail.railMobile .railBtn {
+    @apply min-w-[68px] gap-1 rounded-2xl px-2 py-2 text-slate-500;
+  }
+
+  body[data-page="home"] .rail.railMobile .railBtn:hover {
+    @apply bg-white/6 text-slate-300;
+  }
+
+  body[data-page="home"] .rail.railMobile .railBtn.active {
+    @apply border-0 bg-white/8 text-blue-400 shadow-none;
+  }
+
+  body[data-page="home"] .empty,
+  body[data-page="home"] .blankSub,
+  body[data-page="home"] .callsBlankSub,
+  body[data-page="home"] .small {
+    @apply text-slate-400;
+  }
+
+  @media (max-width: 1280px) {
+    body[data-page="home"] .appBody {
+      grid-template-columns: 280px minmax(0, 1fr);
+    }
+
+    body[data-page="home"] .infoPanel {
+      display: none;
+    }
+  }
+
+  @media (max-width: 900px) {
+    body[data-page="home"] .app {
+      @apply h-dvh w-full;
+    }
+
+    body[data-page="home"] .sidebar,
+    body[data-page="home"] .chat {
+      @apply bg-slate-950/85;
+    }
+
+    body[data-page="home"] .sidebarHeader.mobileHeader {
+      @apply border-b border-white/10 bg-slate-950/70 px-4 py-3 backdrop-blur-xl;
+    }
+
+    body[data-page="home"] .sidebarSearch,
+    body[data-page="home"] .messages,
+    body[data-page="home"] .composer {
+      @apply px-4;
+    }
+
+    body[data-page="home"] .chatHeader {
+      @apply px-4;
+    }
+
+    body[data-page="home"] .messages {
+      @apply py-5;
+    }
+
+    body[data-page="home"] .composer {
+      padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    }
+
+    body[data-page="home"] .waComposer {
+      @apply rounded-[22px];
+    }
+  }
+}
+
+@layer components {
+  body[data-page="home"] .app,
+  body[data-page="home"] .app.appDesktopWindow,
+  body[data-page="home"] .app.appMobile {
+    color: var(--ui-text);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0) 16%),
+      transparent;
+  }
+
+  body[data-page="home"] .appTopbar,
+  body[data-page="home"] .app.appDesktopWindow .appTopbar,
+  body[data-page="home"] .chatHeader,
+  body[data-page="home"] .composer,
+  body[data-page="home"] .sidebar,
+  body[data-page="home"] .infoPanel {
+    border-color: var(--ui-border);
+  }
+
+  body[data-page="home"] .appTopbar,
+  body[data-page="home"] .app.appDesktopWindow .appTopbar {
+    background: var(--ui-surface);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .appBrandText {
+    gap: 0.2rem;
+  }
+
+  body[data-page="home"] .appBrandHeading {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-width: 0;
+  }
+
+  body[data-page="home"] .appBrandLogo {
+    background: var(--ui-surface-strong);
+    border-color: var(--ui-border);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .appViewChip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 1.5rem;
+    padding: 0.1rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid var(--ui-border);
+    background: var(--ui-accent-soft);
+    color: var(--ui-accent-strong);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  body[data-page="home"] .appBrandText strong,
+  body[data-page="home"] .sidebarTitle,
+  body[data-page="home"] .chatName,
+  body[data-page="home"] .chatItemName,
+  body[data-page="home"] .callItemTitle,
+  body[data-page="home"] .blankTitle,
+  body[data-page="home"] .callsBlankTitle,
+  body[data-page="home"] .infoPanelName,
+  body[data-page="home"] .infoPanelMediaText strong,
+  body[data-page="home"] .infoPanelMediaMeta strong,
+  body[data-page="home"] .infoPanelToggleTitle,
+  body[data-page="home"] .infoPanelActionLabel {
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .appBrandText > span,
+  body[data-page="home"] .appProfileText span,
+  body[data-page="home"] .chatSub,
+  body[data-page="home"] .chatItemSub,
+  body[data-page="home"] .chatItemTime,
+  body[data-page="home"] .callItemSub,
+  body[data-page="home"] .callItemTime,
+  body[data-page="home"] .callItemDur,
+  body[data-page="home"] .blankSub,
+  body[data-page="home"] .callsBlankSub,
+  body[data-page="home"] .small,
+  body[data-page="home"] .sidebarMetaLabel,
+  body[data-page="home"] .sidebarMetaCount,
+  body[data-page="home"] .sidebarOffline,
+  body[data-page="home"] .appTopbarShortcut,
+  body[data-page="home"] .infoPanelAbout,
+  body[data-page="home"] .infoPanelStatus,
+  body[data-page="home"] .infoPanelRow span,
+  body[data-page="home"] .infoPanelRow strong,
+  body[data-page="home"] .infoPanelLinkRow span,
+  body[data-page="home"] .infoPanelLinkRow strong,
+  body[data-page="home"] .infoPanelToggleSub,
+  body[data-page="home"] .infoPanelMediaMeta span,
+  body[data-page="home"] .infoPanelMediaText small,
+  body[data-page="home"] .infoPanelMediaEmpty,
+  body[data-page="home"] .empty {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .appTopbarSearch,
+  body[data-page="home"] .appProfileBtn,
+  body[data-page="home"] .sidebarSearchField,
+  body[data-page="home"] .sidebarNewChatBtn,
+  body[data-page="home"] .waComposer,
+  body[data-page="home"] .infoPanelAction,
+  body[data-page="home"] .infoPanelActionHero,
+  body[data-page="home"] .infoPanelMediaCard,
+  body[data-page="home"] .modal,
+  body[data-page="home"] .settingsModal,
+  body[data-page="home"] .attachMenu,
+  body[data-page="home"] .emojiMenu,
+  body[data-page="home"] .sideMenu,
+  body[data-page="home"] .waMenu,
+  body[data-page="home"] .blankCard,
+  body[data-page="home"] .blankShell,
+  body[data-page="home"] .callsBlankShell,
+  body[data-page="home"] .sidebarDock,
+  body[data-page="home"] .rail.railMobile {
+    background: var(--ui-surface-soft);
+    border-color: var(--ui-border);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .appTopbarSearch,
+  body[data-page="home"] .sidebarSearchField,
+  body[data-page="home"] .waComposer,
+  body[data-page="home"] .blankShell,
+  body[data-page="home"] .callsBlankShell {
+    background:
+      linear-gradient(180deg, var(--ui-surface-soft), rgba(255, 255, 255, 0.02)),
+      transparent;
+  }
+
+  body[data-page="home"] .appTopbarSearch:focus-within,
+  body[data-page="home"] .sidebarSearchField:focus-within {
+    border-color: var(--ui-border-strong);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 0 0 4px var(--ui-accent-soft),
+      var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .appTopbarSearchIcon,
+  body[data-page="home"] .sidebarSearchIcon,
+  body[data-page="home"] .infoPanelActionGlyph,
+  body[data-page="home"] .callMediaIcon,
+  body[data-page="home"] .blankIcon,
+  body[data-page="home"] .blankBadge,
+  body[data-page="home"] .blankEyebrow {
+    color: var(--ui-accent-strong);
+  }
+
+  body[data-page="home"] .appTopbarSearch input,
+  body[data-page="home"] .sidebarSearchField input,
+  body[data-page="home"] .waInput {
+    color: var(--ui-text);
+  }
+
+  body[data-page="home"] .appTopbarSearch input::placeholder,
+  body[data-page="home"] .sidebarSearchField input::placeholder,
+  body[data-page="home"] .waInput::placeholder {
+    color: var(--ui-muted-soft);
+  }
+
+  body[data-page="home"] .topbarIconBtn,
+  body[data-page="home"] .appProfileBtn,
+  body[data-page="home"] .waIconBtn,
+  body[data-page="home"] .iconBtn,
+  body[data-page="home"] .infoPanelClose,
+  body[data-page="home"] .chatBackBtn,
+  body[data-page="home"] .sidebarDockBtn,
+  body[data-page="home"] .rail.railMobile .railBtn {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .topbarIconBtn:hover,
+  body[data-page="home"] .appProfileBtn:hover,
+  body[data-page="home"] .waIconBtn:hover,
+  body[data-page="home"] .iconBtn:hover,
+  body[data-page="home"] .infoPanelClose:hover,
+  body[data-page="home"] .chatBackBtn:hover,
+  body[data-page="home"] .sidebarDockBtn:hover,
+  body[data-page="home"] .rail.railMobile .railBtn:hover,
+  body[data-page="home"] .blankCard:hover,
+  body[data-page="home"] .infoPanelAction:hover,
+  body[data-page="home"] .infoPanelActionHero:hover,
+  body[data-page="home"] .infoPanelMediaCard:hover {
+    background: var(--ui-surface-hover);
+    border-color: var(--ui-border-strong);
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .sidebar,
+  body[data-page="home"] .infoPanel {
+    background:
+      linear-gradient(180deg, var(--ui-surface-strong), rgba(255, 255, 255, 0.02)),
+      transparent;
+  }
+
+  body[data-page="home"] .chat::before {
+    background:
+      radial-gradient(620px 320px at 16% 0%, var(--ui-chat-glow-a), transparent 60%),
+      radial-gradient(460px 260px at 82% 8%, var(--ui-chat-glow-b), transparent 52%),
+      linear-gradient(180deg, rgba(15, 23, 42, 0.18) 0%, rgba(15, 23, 42, 0.04) 100%);
+  }
+
+  body[data-page="home"][data-theme="light"] .chat::before {
+    background:
+      radial-gradient(620px 320px at 16% 0%, var(--ui-chat-glow-a), transparent 60%),
+      radial-gradient(460px 260px at 82% 8%, var(--ui-chat-glow-b), transparent 52%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.02) 100%);
+  }
+
+  body[data-page="home"] .messages {
+    background:
+      radial-gradient(720px 340px at 12% 0%, var(--ui-chat-glow-a), transparent 56%),
+      radial-gradient(520px 280px at 88% 10%, var(--ui-chat-glow-b), transparent 52%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+      linear-gradient(180deg, rgba(2, 6, 23, 0.02), rgba(2, 6, 23, 0.02));
+  }
+
+  body[data-page="home"] .chatItem,
+  body[data-page="home"] .callItem {
+    position: relative;
+    overflow: hidden;
+    border-color: transparent;
+  }
+
+  body[data-page="home"] .chatItem::before,
+  body[data-page="home"] .callItem::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    border-radius: 999px;
+    background: transparent;
+    transition: background 180ms ease, box-shadow 180ms ease;
+  }
+
+  body[data-page="home"] .chatItem:hover,
+  body[data-page="home"] .callItem:hover {
+    background: var(--ui-surface-soft);
+    transform: translateX(2px);
+  }
+
+  body[data-page="home"] .chatItem.active {
+    background: linear-gradient(135deg, var(--ui-accent-soft), rgba(255, 255, 255, 0.02));
+    border-color: var(--ui-border);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  }
+
+  body[data-page="home"] .chatItem.active::before {
+    background: var(--ui-accent-strong);
+    box-shadow: 0 0 18px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .badge,
+  body[data-page="home"] .railBadge,
+  body[data-page="home"] .sidebarDockBadge,
+  body[data-page="home"] .topbarNotifyBadge {
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    box-shadow: 0 8px 18px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .sidebarDockBtn.active,
+  body[data-page="home"] .rail.railMobile .railBtn.active,
+  body[data-page="home"] .pill.active {
+    background: var(--ui-accent-soft);
+    color: var(--ui-accent-strong);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  }
+
+  body[data-page="home"] .sidebarDock,
+  body[data-page="home"] .rail.railMobile {
+    background: var(--ui-nav-bg);
+  }
+
+  body[data-page="home"] .rail.railMobile {
+    margin: 0 0.75rem calc(0.75rem + env(safe-area-inset-bottom));
+    padding: 0.4rem;
+    border: 1px solid var(--ui-border);
+    border-radius: 1.4rem;
+    backdrop-filter: blur(26px) saturate(1.3);
+  }
+
+  body[data-page="home"] .rail.railMobile .railBtn {
+    min-width: 0;
+    flex: 1 1 0;
+    gap: 0.18rem;
+    padding: 0.45rem 0.35rem;
+    border-radius: 1rem;
+  }
+
+  body[data-page="home"] .rail.railMobile .railLabel,
+  body[data-page="home"] .sidebarDockLabel {
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+
+  body[data-page="home"] .rail.railMobile .railLabel {
+    font-size: 0.58rem;
+  }
+
+  body[data-page="home"] .chatHeader,
+  body[data-page="home"] .composer {
+    background: var(--ui-surface);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .bubble {
+    background: var(--ui-bubble-in);
+    border-color: var(--ui-border);
+    color: var(--ui-text);
+    box-shadow: var(--ui-shadow-soft);
+  }
+
+  body[data-page="home"] .bubbleRow.me .bubble {
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    box-shadow: 0 12px 26px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .bubbleSender {
+    color: var(--ui-accent);
+  }
+
+  body[data-page="home"] .bubbleMeta {
+    color: var(--ui-muted);
+  }
+
+  body[data-page="home"] .typingBubble,
+  body[data-page="home"] .attachFile {
+    background: var(--ui-surface-soft);
+    border-color: var(--ui-border);
+  }
+
+  body[data-page="home"] .waSendBtn {
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    box-shadow: 0 10px 20px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .blankShell,
+  body[data-page="home"] .callsBlankShell {
+    width: min(31rem, 100%);
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    text-align: center;
+  }
+
+  body[data-page="home"] .blankLogoWrap,
+  body[data-page="home"] .callsBlankIcon {
+    background: var(--ui-accent-soft);
+    color: var(--ui-accent-strong);
+    box-shadow: 0 16px 34px var(--ui-accent-shadow);
+  }
+
+  body[data-page="home"] .infoPanelIdentity.large .avatarWithPresence,
+  body[data-page="home"] .infoPanelIdentity .avatarWithPresence,
+  body[data-page="home"] .chatHeader .avatarWithPresence {
+    position: relative;
+    isolation: isolate;
+  }
+
+  body[data-page="home"] .infoPanelIdentity.large .avatarWithPresence::before {
+    content: "";
+    position: absolute;
+    inset: -0.9rem;
+    border-radius: 999px;
+    background: radial-gradient(circle, var(--ui-accent-soft) 0%, transparent 70%);
+    filter: blur(18px);
+    z-index: -1;
+  }
+
+  body[data-page="home"] .infoPanelStatus.online,
+  body[data-page="home"] .chatSub.online {
+    color: var(--ui-success);
+  }
+
+  body[data-page="home"] .infoPanelStatus.online::before {
+    content: "";
+    display: inline-block;
+    width: 0.45rem;
+    height: 0.45rem;
+    margin-right: 0.45rem;
+    border-radius: 999px;
+    background: currentColor;
+    box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.34);
+    animation: homePresencePulse 2.8s ease-out infinite;
+    vertical-align: middle;
+  }
+
+  body[data-page="home"] .presenceDot.online,
+  body[data-page="home"] .avatarWithPresence::after {
+    background: var(--ui-success);
+    animation: homePresencePulse 2.8s ease-out infinite;
+  }
+
+  body[data-page="home"] .avatarWithPresence::after {
+    border-color: rgba(15, 23, 42, 0.9);
+  }
+
+  body[data-page="home"][data-theme="light"] .avatarWithPresence::after {
+    border-color: rgba(255, 255, 255, 0.92);
+  }
+
+  body[data-page="home"] .infoPanelMediaBadge {
+    background: rgba(15, 23, 42, 0.7);
+  }
+
+  body[data-page="home"][data-theme="light"] .infoPanelMediaBadge {
+    background: rgba(255, 255, 255, 0.76);
+    color: var(--ui-text-strong);
+  }
+
+  body[data-page="home"] .infoPanelSwitch {
+    background: var(--ui-surface-soft);
+    border-color: var(--ui-border);
+  }
+
+  body[data-page="home"] .infoPanelSwitch.active {
+    background: linear-gradient(135deg, var(--ui-bubble-out-start), var(--ui-bubble-out-end));
+    border-color: transparent;
+  }
+
+  body[data-page="home"] .menuItemIcon,
+  body[data-page="home"] .pill {
+    background: var(--ui-surface-soft);
+    border-color: var(--ui-border);
+    color: var(--ui-muted);
+  }
+
+  @media (max-width: 900px) {
+    body[data-page="home"] .sidebar,
+    body[data-page="home"] .chat {
+      background: transparent;
+    }
+
+    body[data-page="home"] .sidebarHeader.mobileHeader {
+      padding: 0.85rem 0.95rem;
+      background: var(--ui-surface);
+      border-bottom-color: var(--ui-border);
+      box-shadow: var(--ui-shadow-soft);
+    }
+
+    body[data-page="home"] .sidebarSearch,
+    body[data-page="home"] .messages,
+    body[data-page="home"] .composer {
+      padding-left: 0.85rem;
+      padding-right: 0.85rem;
+    }
+
+    body[data-page="home"] .sidebarList {
+      padding-left: 0.65rem;
+      padding-right: 0.65rem;
+    }
+
+    body[data-page="home"] .chatHeader {
+      min-height: 4rem;
+      padding-left: 0.9rem;
+      padding-right: 0.9rem;
+    }
+
+    body[data-page="home"] .messages {
+      padding-top: 1rem;
+      padding-bottom: 1.15rem;
+    }
+
+    body[data-page="home"] .composer {
+      padding-top: 0.75rem;
+      padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0), var(--ui-surface));
+    }
+
+    body[data-page="home"] .waComposer {
+      padding: 0.45rem 0.55rem;
+      border-radius: 1.25rem;
+    }
+
+    body[data-page="home"] .waComposer .waIconBtn {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    body[data-page="home"] .waInput {
+      min-height: 2.6rem;
+    }
+
+    body[data-page="home"] .waSendBtn {
+      width: 2.35rem;
+      height: 2.35rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    body[data-page="home"] .pill {
+      min-height: 2rem;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      font-size: 0.72rem;
+    }
+
+    body[data-page="home"] .blankActions {
+      grid-template-columns: 1fr;
+    }
+
+    body[data-page="home"] .rail.railMobile {
+      margin: 0 0.65rem calc(0.65rem + env(safe-area-inset-bottom));
+      padding: 0.35rem;
+    }
+
+    body[data-page="home"] .rail.railMobile .railBtn {
+      padding: 0.42rem 0.2rem;
+    }
+  }
+}
