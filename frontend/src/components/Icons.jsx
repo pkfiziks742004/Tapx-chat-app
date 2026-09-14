@@ -1573,6 +1573,17 @@ export function IconShare({ size = 18, className = "" }) {
   );
 }
 
+export function IconListCheck({ size = 18, className = "" }) {
+  return (
+    <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M11 6h10M11 12h10M11 18h10" />
+      <polyline points="3 6 4.5 7.5 7.5 4.5" />
+      <polyline points="3 12 4.5 13.5 7.5 10.5" />
+      <polyline points="3 18 4.5 19.5 7.5 16.5" />
+    </svg>
+  );
+}
+
 export function IconPlayCircle({ size = 18, className = "" }) {
   return (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -1581,6 +1592,7 @@ export function IconPlayCircle({ size = 18, className = "" }) {
     </svg>
   );
 }
+
 
 
 

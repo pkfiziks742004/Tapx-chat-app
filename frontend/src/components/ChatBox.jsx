@@ -10,6 +10,7 @@ import {
   IconDoc,
   IconDownload,
   IconForward,
+  IconListCheck,
   IconMoreVertical,
   IconPhone,
   IconSearch,
@@ -33,6 +34,7 @@ export default function ChatBox({
   onStartCall,
   onDeleteChat,
   onSelectMessage,
+  onSelectAllMessages,
   onClearSelectedMessage,
   onCopySelectedMessage,
   onDeleteSelectedMessage,
@@ -56,6 +58,7 @@ export default function ChatBox({
   onEmptySendDoc,
   onEmptyAddContact
 }) {
+
   const [chatMenuOpen, setChatMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -138,6 +141,14 @@ export default function ChatBox({
           </div>
           <div className="chatSelectionRight">
             <button
+              className="chatTopSelectAllBtn"
+              type="button"
+              onClick={onSelectAllMessages}
+              title={selectedCount === (messages?.length || 0) ? "Unselect all" : "Select all"}
+            >
+              {selectedCount === (messages?.length || 0) ? "Unselect all" : "Select all"}
+            </button>
+            <button
               className="chatTopIconBtn"
               type="button"
               onClick={onCopySelectedMessage}
@@ -168,6 +179,7 @@ export default function ChatBox({
             </button>
           </div>
         </header>
+
       ) : (
         <header className="chatTopHeader">
           <div className="chatTopHeaderLeft">
@@ -346,7 +358,21 @@ export default function ChatBox({
                     <span>Search messages</span>
                   </button>
 
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setChatMenuOpen(false);
+                      if (messages && messages.length > 0) {
+                        onSelectMessage?.(messages[messages.length - 1]);
+                      }
+                    }}
+                  >
+                    <IconListCheck size={16} />
+                    <span>Select messages</span>
+                  </button>
+
                   <div className="chatTopDropdownDivider" />
+
 
                   <button
                     type="button"

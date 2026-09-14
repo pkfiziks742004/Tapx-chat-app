@@ -1,7 +1,15 @@
-import { useMemo } from "react";
-import { motion } from "framer-motion";
+import { useState, useMemo, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Avatar from "./Avatar.jsx";
-import { IconEdit, IconSearch, IconUserPlus } from "./Icons.jsx";
+import {
+  IconCheck,
+  IconEdit,
+  IconListCheck,
+  IconSearch,
+  IconTrash,
+  IconUserPlus,
+  IconX
+} from "./Icons.jsx";
 
 function formatTimeDisplay(iso) {
   if (!iso) return "";
@@ -40,8 +48,14 @@ export default function Sidebar({
   selectedId,
   onSelect,
   onAddContact,
-  onAddGroup
+  onAddGroup,
+  onDeleteChats
 }) {
+  const [selectionMode, setSelectionMode] = useState(false);
+  const [selectedChatIds, setSelectedChatIds] = useState([]);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
   const q = String(filterText ?? searchInput ?? "").trim().toLowerCase();
   const favSet = useMemo(() => new Set((favoriteIds || []).filter(Boolean)), [favoriteIds]);
 
@@ -84,29 +98,117 @@ export default function Sidebar({
   const activeStories = useMemo(() => {
     const userContacts = (contacts || []).filter((c) => c && c.id);
     if (userContacts.length > 0) return userContacts;
-    // Fallback if no contacts yet: return list of all chats
     return allChats.filter((item) => item.kind === "user");
   }, [contacts, allChats]);
 
+  const handleToggleSelectChat = useCallback((id) => {
+    setSelectedChatIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  }, []);
+
+  const handleSelectAll = useCallback(() => {
+    if (selectedChatIds.length === allChats.length) {
+      setSelectedChatIds([]);
+    } else {
+      setSelectedChatIds(allChats.map((c) => c.id));
+    }
+  }, [selectedChatIds.length, allChats]);
+
+  const handleExitSelection = useCallback(() => {
+    setSelectionMode(false);
+    setSelectedChatIds([]);
+    setShowDeleteConfirm(false);
+  }, []);
+
+  const handleConfirmDelete = async () => {
+    if (selectedChatIds.length === 0) return;
+    setDeleting(true);
+    try {
+      if (onDeleteChats) {
+        await onDeleteChats(selectedChatIds);
+      }
+      handleExitSelection();
+    } catch {
+      // Ignored
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  const allSelected = allChats.length > 0 && selectedChatIds.length === allChats.length;
+
   return (
     <aside className={className}>
-      <div className="sidebarHeader">
-        <div className="sidebarTitleWrap">
-          <h1 className="sidebarTitle">Chats</h1>
-          {!socketConnected && <span className="sidebarOfflineBadge">Offline</span>}
+      {/* Top Sidebar Header or Selection Bar */}
+      {selectionMode ? (
+        <div className="sidebarHeader sidebarSelectionHeader">
+          <div className="sidebarSelectionLeft">
+            <button
+              className="sidebarHeaderActionBtn"
+              type="button"
+              onClick={handleExitSelection}
+              title="Cancel selection"
+              aria-label="Cancel selection"
+            >
+              <IconX size={18} />
+            </button>
+            <span className="sidebarSelectionCount">
+              {selectedChatIds.length} selected
+            </span>
+          </div>
+
+          <div className="sidebarSelectionRight">
+            <button
+              className="sidebarSelectAllBtn"
+              type="button"
+              onClick={handleSelectAll}
+              title={allSelected ? "Unselect all" : "Select all"}
+            >
+              {allSelected ? "Unselect all" : "Select all"}
+            </button>
+            <button
+              className="sidebarHeaderActionBtn danger"
+              type="button"
+              onClick={() => setShowDeleteConfirm(true)}
+              disabled={selectedChatIds.length === 0}
+              title="Delete selected chats"
+              aria-label="Delete selected chats"
+            >
+              <IconTrash size={18} />
+            </button>
+          </div>
         </div>
-        <div className="sidebarHeaderActions">
-          <button
-            className="sidebarHeaderActionBtn"
-            type="button"
-            onClick={onAddContact}
-            aria-label="Add Contact"
-            title="Add Contact"
-          >
-            <IconUserPlus size={19} />
-          </button>
+      ) : (
+        <div className="sidebarHeader">
+          <div className="sidebarTitleWrap">
+            <h1 className="sidebarTitle">Chats</h1>
+            {!socketConnected && <span className="sidebarOfflineBadge">Offline</span>}
+          </div>
+          <div className="sidebarHeaderActions">
+            {allChats.length > 0 && (
+              <button
+                className="sidebarHeaderActionBtn"
+                type="button"
+                onClick={() => setSelectionMode(true)}
+                aria-label="Select multiple chats"
+                title="Select multiple chats"
+              >
+                <IconListCheck size={18} />
+              </button>
+            )}
+            <button
+              className="sidebarHeaderActionBtn"
+              type="button"
+              onClick={onAddContact}
+              aria-label="Add Contact"
+              title="Add Contact"
+            >
+              <IconUserPlus size={19} />
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       {!socketConnected && syncError && <div className="syncBanner">{syncError}</div>}
 
@@ -124,8 +226,8 @@ export default function Sidebar({
         </div>
       </div>
 
-      {/* Active Contacts / Stories Carousel */}
-      {activeStories.length > 0 && (
+      {/* Active Contacts / Stories Carousel (hide when selecting chats) */}
+      {!selectionMode && activeStories.length > 0 && (
         <div className="sidebarStoriesSection" aria-label="Active users">
           <div className="sidebarStoriesTrack">
             {activeStories.map((contact) => {
@@ -153,7 +255,18 @@ export default function Sidebar({
         </div>
       )}
 
-      <div className="sidebarSectionLabel">Recent</div>
+      <div className="sidebarSectionRow">
+        <span className="sidebarSectionLabel">Recent</span>
+        {!selectionMode && allChats.length > 0 && (
+          <button
+            type="button"
+            className="sidebarQuickSelectText"
+            onClick={() => setSelectionMode(true)}
+          >
+            Select
+          </button>
+        )}
+      </div>
 
       <div className="sidebarList">
         {allChats.length === 0 ? (
@@ -166,6 +279,7 @@ export default function Sidebar({
             const time = meta.lastAt ? formatTimeDisplay(meta.lastAt) : "";
             const isFav = favSet.has(id);
             const isSelected = selectedId === id;
+            const isChecked = selectedChatIds.includes(id);
             const title = item.kind === "group" ? item.name : item.name || item.email?.split("@")[0] || "User";
 
             let sub = "";
@@ -186,9 +300,30 @@ export default function Sidebar({
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.18 }}
-                className={`chatItem ${isSelected ? "active" : ""}`}
+                className={`chatItem ${isSelected && !selectionMode ? "active" : ""} ${isChecked ? "chatItemMultiSelected" : ""}`}
+                onClick={selectionMode ? () => handleToggleSelectChat(id) : undefined}
+                style={{ cursor: "pointer" }}
               >
-                <button className="chatItemMain" onClick={() => onSelect?.(item)} type="button">
+                {/* WhatsApp-style Checkbox in Multi-Select Mode */}
+                {selectionMode && (
+                  <div
+                    className="chatItemCheckboxWrap"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleToggleSelectChat(id);
+                    }}
+                  >
+                    <div className={`chatItemCheckbox ${isChecked ? "checked" : ""}`}>
+                      {isChecked && <IconCheck size={13} />}
+                    </div>
+                  </div>
+                )}
+
+                <button
+                  className="chatItemMain"
+                  onClick={selectionMode ? () => handleToggleSelectChat(id) : () => onSelect?.(item)}
+                  type="button"
+                >
                   <div className="chatItemAvatarWrap">
                     <Avatar name={title} url={item.kind === "user" ? item.avatarUrl : ""} size={44} />
                     {item.kind === "user" && <span className="chatItemOnlineDot" />}
@@ -210,6 +345,50 @@ export default function Sidebar({
           })
         )}
       </div>
+
+      {/* WhatsApp-style Bulk Delete Chats Confirmation Modal */}
+      <AnimatePresence>
+        {showDeleteConfirm && (
+          <div className="modalOverlay" onClick={() => !deleting && setShowDeleteConfirm(false)}>
+            <motion.div
+              className="modal confirmDeleteModal"
+              initial={{ scale: 0.94, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.94, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="confirmDeleteIconWrap">
+                <IconTrash size={28} />
+              </div>
+              <h3 className="confirmDeleteTitle">
+                Delete {selectedChatIds.length} {selectedChatIds.length === 1 ? "chat" : "chats"}?
+              </h3>
+              <p className="confirmDeleteSub">
+                Messages in the selected {selectedChatIds.length === 1 ? "chat" : "chats"} will be cleared from your account history.
+              </p>
+              <div className="confirmDeleteActions">
+                <button
+                  type="button"
+                  className="btn confirmDeleteCancelBtn"
+                  onClick={() => setShowDeleteConfirm(false)}
+                  disabled={deleting}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn btnDanger confirmDeleteBtn"
+                  onClick={handleConfirmDelete}
+                  disabled={deleting}
+                >
+                  {deleting ? "Deleting..." : `Delete ${selectedChatIds.length > 1 ? `(${selectedChatIds.length})` : ""}`}
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </aside>
   );
 }
+

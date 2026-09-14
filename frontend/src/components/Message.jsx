@@ -149,14 +149,34 @@ export default function Message({
     onDownload?.(m);
   };
 
+  const handleToggleSelect = (e) => {
+    e?.stopPropagation?.();
+    setMenuOpen(false);
+    onSelect?.(m);
+  };
+
   return (
     <motion.div
       layout
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.18 }}
-      className={`messageRow ${isMe ? "outgoing" : "incoming"} ${selected ? "selected" : ""} ${isCallEvent ? "callRow" : ""}`}
+      className={`messageRow ${isMe ? "outgoing" : "incoming"} ${selected ? "selected" : ""} ${isCallEvent ? "callRow" : ""} ${selectionMode ? "inSelectionMode" : ""}`}
+      onClick={selectionMode ? handleToggleSelect : undefined}
+      style={{ cursor: selectionMode ? "pointer" : "default" }}
     >
+      {/* WhatsApp-style Selection Checkbox */}
+      {selectionMode && (
+        <div
+          className="messageSelectCheckboxCol"
+          onClick={handleToggleSelect}
+        >
+          <div className={`messageCheckboxCircle ${selected ? "checked" : ""}`}>
+            {selected && <IconTickSingle size={14} className="messageCheckIcon" />}
+          </div>
+        </div>
+      )}
+
       {/* Avatar on side */}
       <div className="messageAvatarCol">
         <Avatar name={senderName} url={senderAvatar} size={32} />
@@ -180,6 +200,9 @@ export default function Message({
 
             {menuOpen && (
               <div className="messageDropdownMenu">
+                <button type="button" onClick={handleToggleSelect}>
+                  Select
+                </button>
                 <button type="button" onClick={handleCopy}>
                   Copy
                 </button>
@@ -199,6 +222,7 @@ export default function Message({
               </div>
             )}
           </div>
+
 
           {deleted ? (
             <div className="messageDeleted">🚫 This message was deleted</div>

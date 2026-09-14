@@ -4911,6 +4911,218 @@ body[data-theme="dark"] .callItem:hover {
   margin-top: 4px;
 }
 
+/* ==========================================================================
+   WHATSAPP MULTI-CHAT & MULTI-MESSAGE SELECTION & DELETION
+   ========================================================================== */
+
+.sidebarSelectionHeader,
+.chatSelectionHeader {
+  background: var(--bg-panel-header, rgba(30, 38, 44, 0.95)) !important;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  min-height: 60px;
+  z-index: 15;
+}
+
+.sidebarSelectionLeft,
+.chatSelectionLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebarSelectionCount,
+.chatSelectionCount {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-heading, #ffffff);
+}
+
+.sidebarSelectionRight,
+.chatSelectionRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebarSelectAllBtn,
+.chatTopSelectAllBtn {
+  background: rgba(114, 105, 239, 0.18);
+  border: 1px solid rgba(114, 105, 239, 0.35);
+  color: var(--brand-primary, #7269ef);
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sidebarSelectAllBtn:hover,
+.chatTopSelectAllBtn:hover {
+  background: var(--brand-primary, #7269ef);
+  color: #ffffff;
+  border-color: var(--brand-primary, #7269ef);
+}
+
+.sidebarSectionRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px 4px;
+}
+
+.sidebarQuickSelectText {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--brand-primary, #7269ef);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.sidebarQuickSelectText:hover {
+  background: rgba(114, 105, 239, 0.12);
+}
+
+.chatItemCheckboxWrap {
+  padding-left: 14px;
+  padding-right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.chatItemCheckbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #8696a0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  color: #ffffff;
+}
+
+.chatItemCheckbox.checked {
+  background: var(--brand-primary, #7269ef);
+  border-color: var(--brand-primary, #7269ef);
+}
+
+.chatItem.chatItemMultiSelected {
+  background: rgba(114, 105, 239, 0.1) !important;
+}
+
+/* Message Selection Checkboxes */
+.messageSelectCheckboxCol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  flex-shrink: 0;
+}
+
+.messageCheckboxCircle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #8696a0;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.messageCheckboxCircle.checked {
+  background: var(--brand-primary, #7269ef);
+  border-color: var(--brand-primary, #7269ef);
+}
+
+.messageRow.selected .messageBubble {
+  outline: 2px solid var(--brand-primary, #7269ef);
+  outline-offset: 2px;
+  box-shadow: 0 4px 16px rgba(114, 105, 239, 0.3);
+}
+
+.messageRow.inSelectionMode:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Confirm Delete Modal */
+.confirmDeleteModal {
+  max-width: 380px;
+  text-align: center;
+  padding: 28px 24px;
+}
+
+.confirmDeleteIconWrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.confirmDeleteTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-heading, #ffffff);
+  margin-bottom: 8px;
+}
+
+.confirmDeleteSub {
+  font-size: 13.5px;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.confirmDeleteActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+}
+
+.confirmDeleteCancelBtn {
+  flex: 1;
+  background: var(--bg-input, rgba(255, 255, 255, 0.08));
+  color: var(--text-heading, #ffffff);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.12));
+}
+
+.confirmDeleteCancelBtn:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.confirmDeleteBtn {
+  flex: 1;
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+}
+
+.confirmDeleteBtn:hover {
+  background: #dc2626;
+}
+
+
 
 
 

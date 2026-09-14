@@ -2700,6 +2700,55 @@ export default function Home({ session, onLogout }) {
     }
   }
 
+  async function deleteMultipleChats(chatIds) {
+
+    if (!Array.isArray(chatIds) || chatIds.length === 0) return;
+    const count = chatIds.length;
+    try {
+      for (const id of chatIds) {
+        const isGroup = groups.some((g) => g.id === id);
+        if (isGroup) {
+          await api.clearGroupChat(token, id).catch(() => {});
+        } else {
+          await api.clearChat(token, id).catch(() => {});
+        }
+      }
+
+      setThreads((prev) => {
+        const next = { ...prev };
+        for (const id of chatIds) {
+          if (next[id]) {
+            next[id] = {
+              ...next[id],
+              unread: 0,
+              lastText: "",
+              lastAt: null
+            };
+          }
+        }
+        return next;
+      });
+
+      if (selected?.id && chatIds.includes(selected.id)) {
+        setMessages([]);
+      }
+
+      showToast(count > 1 ? `${count} chats deleted` : "Chat deleted");
+      refresh({ force: true }).catch(() => {});
+    } catch {
+      showToast("Could not delete selected chats.");
+    }
+  }
+
+  function selectAllMessages() {
+    if (messages.length === 0) return;
+    if (selectedMessageIds.length === messages.length) {
+      setSelectedMessageIds([]);
+    } else {
+      setSelectedMessageIds(messages.map((m) => m.id));
+    }
+  }
+
   function selectContact(c) {
     setSendError("");
     stopTyping();
@@ -2955,6 +3004,7 @@ export default function Home({ session, onLogout }) {
             onAddGroup={() => setShowAddGroup(true)}
             onEditProfile={() => setShowProfile(true)}
             onLogout={onLogout}
+            onDeleteChats={deleteMultipleChats}
             dockActive="chats"
             dockUnreadTotal={unreadTotal}
             onDockChats={openChatsView}
@@ -2972,45 +3022,47 @@ export default function Home({ session, onLogout }) {
           selectedMessage={selectedMessage}
           selectedMessageIds={selectedMessageIds}
           selectedHasDeleted={selectedHasDeleted}
-            isMobile={isMobile}
-            socketConnected={socketConnected}
-            onBack={() => {
-              if (selectedCount > 0) {
-                setSelectedMessageIds([]);
-                return;
-              }
-              stopTyping();
-              setSelected(null);
-            }}
-            onStartCall={startCall}
-            onDeleteChat={() => {
-              setClearChatError("");
-              setShowClearChat(true);
-            }}
-            onSelectMessage={toggleSelectMessage}
-            onClearSelectedMessage={() => setSelectedMessageIds([])}
-            onCopySelectedMessage={copySelectedMessage}
-            onDeleteSelectedMessage={openDeleteModal}
-            onForwardSelectedMessage={openForwardModal}
-            onDownloadSelectedMessage={downloadSelectedMessage}
-            onReactSelectedMessage={reactSelectedMessage}
-            onToggleInfoPanel={() => setShowInfoPanel((prev) => !prev)}
-            isPeerTyping={selected?.id ? Boolean(typingById?.[selected.id]) : false}
-            myId={myId}
-            me={me}
-            messages={messages}
-            loadingMessages={loadingMessages && messages.length === 0}
-            loadError={loadError}
-            sendError={sendError}
-            messagesWrapRef={messagesWrapRef}
-            onMessagesScroll={onMessagesScroll}
-            onSend={sendMessage}
-            onSendFile={sendFile}
-            onTyping={onComposerTyping}
-            sending={sendingMessage}
-            onEmptySendDoc={() => setShowAddContact(true)}
-            onEmptyAddContact={() => setShowAddContact(true)}
-          />
+          isMobile={isMobile}
+          socketConnected={socketConnected}
+          onBack={() => {
+            if (selectedCount > 0) {
+              setSelectedMessageIds([]);
+              return;
+            }
+            stopTyping();
+            setSelected(null);
+          }}
+          onStartCall={startCall}
+          onDeleteChat={() => {
+            setClearChatError("");
+            setShowClearChat(true);
+          }}
+          onSelectMessage={toggleSelectMessage}
+          onSelectAllMessages={selectAllMessages}
+          onClearSelectedMessage={() => setSelectedMessageIds([])}
+          onCopySelectedMessage={copySelectedMessage}
+          onDeleteSelectedMessage={openDeleteModal}
+          onForwardSelectedMessage={openForwardModal}
+          onDownloadSelectedMessage={downloadSelectedMessage}
+          onReactSelectedMessage={reactSelectedMessage}
+          onToggleInfoPanel={() => setShowInfoPanel((prev) => !prev)}
+          isPeerTyping={selected?.id ? Boolean(typingById?.[selected.id]) : false}
+          myId={myId}
+          me={me}
+          messages={messages}
+          loadingMessages={loadingMessages && messages.length === 0}
+          loadError={loadError}
+          sendError={sendError}
+          messagesWrapRef={messagesWrapRef}
+          onMessagesScroll={onMessagesScroll}
+          onSend={sendMessage}
+          onSendFile={sendFile}
+          onTyping={onComposerTyping}
+          sending={sendingMessage}
+          onEmptySendDoc={() => setShowAddContact(true)}
+          onEmptyAddContact={() => setShowAddContact(true)}
+        />
+
 
         {((!isMobile && showDesktopInfoPanel) || (isMobile && showInfoPanel && Boolean(selected))) && (
           <InfoPanel
