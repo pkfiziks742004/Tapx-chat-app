@@ -1239,7 +1239,9 @@ body[data-theme="dark"] .contactItem:hover:not(.active) {
    ========================================================================== */
 
 .chat {
-  flex: 1;
+  flex: 1 1 0%;
+  min-width: 0;
+  min-height: 0;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -1578,8 +1580,10 @@ body[data-theme="dark"] .contactItem:hover:not(.active) {
 
 /* Chat Messages */
 .chatMessagesContainer {
-  flex: 1;
+  flex: 1 1 0%;
+  min-height: 0;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 24px 32px;
   display: flex;
   flex-direction: column;
@@ -2420,10 +2424,13 @@ body[data-theme="dark"] .vnOutgoing .vnScrubberDot {
    ========================================================================== */
 
 .chatFooter {
-  padding: 16px 28px 20px;
+  padding: 14px 24px max(14px, env(safe-area-inset-bottom, 14px));
   background: var(--bg-panel);
   border-top: 1px solid var(--border-color);
   flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 20;
 }
 
 .composerContainer {
@@ -3670,7 +3677,7 @@ body[data-theme="dark"] .vnOutgoing .vnScrubberDot {
    RESPONSIVE DESIGN (MOBILE & TABLET FULL SUPPORT)
    ========================================================================== */
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   html, body, #root, .homeRoot {
     overflow-x: hidden !important;
     width: 100vw;
@@ -3726,6 +3733,53 @@ body[data-theme="dark"] .vnOutgoing .vnScrubberDot {
     overflow: hidden !important;
     box-sizing: border-box !important;
   }
+}
+
+/* Tablet & Medium Screen Support (769px to 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .rail {
+    width: 62px;
+    min-width: 62px;
+    padding: 16px 0 12px;
+  }
+
+  .sidebar {
+    width: 300px;
+    min-width: 280px;
+    max-width: 320px;
+    padding: 16px 14px 0;
+  }
+
+  .chat {
+    flex: 1 1 0%;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .chatMessagesContainer {
+    padding: 16px 18px;
+    flex: 1 1 0%;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  .chatFooter {
+    padding: 10px 14px max(10px, env(safe-area-inset-bottom, 10px));
+    flex-shrink: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .composerInput {
+    font-size: 13.5px;
+  }
+}
+
+@media (max-width: 768px) {
 
   .rail.railMobile {
     width: 100vw;

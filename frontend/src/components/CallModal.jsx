@@ -112,6 +112,7 @@ export default function CallModal({
                 className={`callRemoteVideo ${remoteVideoOn ? "visible" : "hidden"}`}
                 autoPlay
                 playsInline
+                muted
               />
 
               {(!remoteVideoOn || !isConnected) && (

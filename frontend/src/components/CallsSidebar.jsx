@@ -100,7 +100,7 @@ export default function CallsSidebar({
         </div>
       </div>
 
-      {error && <div className="syncBanner">{error}</div>}
+      {!socketConnected && error && <div className="syncBanner">{error}</div>}
 
       <div className="sidebarSearch">
         <div className="sidebarSearchField">

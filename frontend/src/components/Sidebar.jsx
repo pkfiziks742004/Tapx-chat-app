@@ -108,7 +108,7 @@ export default function Sidebar({
         </div>
       </div>
 
-      {syncError && <div className="syncBanner">{syncError}</div>}
+      {!socketConnected && syncError && <div className="syncBanner">{syncError}</div>}
 
       <div className="sidebarSearch">
         <div className="sidebarSearchField">

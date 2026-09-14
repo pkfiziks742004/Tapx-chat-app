@@ -768,7 +768,7 @@ export default function Home({ session, onLogout }) {
   const [showInfoPanel, setShowInfoPanel] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
-  const [isMobile, setIsMobile] = useState(() => window.matchMedia("(max-width: 900px)").matches);
+  const [isMobile, setIsMobile] = useState(() => window.matchMedia("(max-width: 768px)").matches);
   const [typingById, setTypingById] = useState({}); // { [userId]: true }
   const [primaryView, setPrimaryView] = useState("chats"); // chats | groups | calls | profile | settings
   const [callLogs, setCallLogs] = useState([]);
@@ -945,7 +945,7 @@ export default function Home({ session, onLogout }) {
   }, [call.active]);
 
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 900px)");
+    const mq = window.matchMedia("(max-width: 768px)");
     const onChange = (e) => setIsMobile(Boolean(e.matches));
     if (mq.addEventListener) mq.addEventListener("change", onChange);
     else mq.addListener(onChange);
@@ -1020,10 +1020,10 @@ export default function Home({ session, onLogout }) {
         }
         else errors.push(threadsRes.reason);
 
-        if (errors.length === 0) {
+        if (errors.length === 0 || socketConnected) {
           setSyncError("");
           schemaBlockedRef.current = false;
-          return;
+          if (errors.length === 0) return;
         }
 
         const first = errors[0];
@@ -1033,7 +1033,9 @@ export default function Home({ session, onLogout }) {
           schemaBlockedRef.current = true;
           return;
         }
-        setSyncError(first?.message || "Could not sync.");
+        if (!socketConnected) {
+          setSyncError(first?.message || "Connecting to server...");
+        }
       })
       .finally(() => {
         refreshInFlightRef.current = null;
@@ -2058,16 +2060,43 @@ export default function Home({ session, onLogout }) {
   async function ensureLocalStream(media = "video") {
     if (localStreamRef.current) return localStreamRef.current;
     const wantsVideo = media !== "audio";
+    const audioConstraints = {
+      echoCancellation: true,
+      noiseSuppression: true,
+      autoGainControl: true,
+      googEchoCancellation: true,
+      googAutoGainControl: true,
+      googNoiseSuppression: true,
+      googHighpassFilter: true,
+      channelCount: 1,
+      sampleRate: 48000
+    };
+
     let stream;
     try {
       stream = await navigator.mediaDevices.getUserMedia({
-        video: wantsVideo,
-        audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
+        video: wantsVideo ? { width: { ideal: 1280 }, height: { ideal: 720 } } : false,
+        audio: audioConstraints
       });
     } catch (_e) {
-      stream = await navigator.mediaDevices.getUserMedia({ video: wantsVideo, audio: true });
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: wantsVideo,
+          audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
+        });
+      } catch (_e2) {
+        stream = await navigator.mediaDevices.getUserMedia({ video: wantsVideo, audio: true });
+      }
     }
-    for (const t of stream.getAudioTracks()) t.enabled = micOn;
+
+    for (const t of stream.getAudioTracks()) {
+      t.enabled = micOn;
+      try {
+        if (typeof t.applyConstraints === "function") {
+          t.applyConstraints(audioConstraints).catch(() => {});
+        }
+      } catch (_e) {}
+    }
     for (const t of stream.getVideoTracks()) t.enabled = wantsVideo && camOn;
     localStreamRef.current = stream;
     if (wantsVideo) {

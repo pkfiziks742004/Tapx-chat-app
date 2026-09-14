@@ -224,7 +224,20 @@ export default function Composer({ onSend, onSendFile, onTyping, sending = false
     if (!navigator.mediaDevices?.getUserMedia) return;
     try {
       cancelRecordingRef.current = false;
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      let stream;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true,
+            channelCount: 1,
+            sampleRate: 48000
+          }
+        });
+      } catch (_e) {
+        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      }
       recStreamRef.current = stream;
       const mime = pickRecordingMime();
       const recorder = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
