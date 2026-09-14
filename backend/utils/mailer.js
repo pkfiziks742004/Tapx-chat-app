@@ -5,9 +5,9 @@ const nodemailer = require("nodemailer");
 let cachedTransporter = null;
 
 function getSmtpConfig() {
-  const host = process.env.SMTP_HOST || "smtp.gmail.com";
-  const port = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : 587;
-  const secure = process.env.SMTP_SECURE === "1" || port === 465;
+  const host = "smtp.gmail.com";
+  const port = 587;
+  const secure = false;
   const user = process.env.SMTP_USER || "supreetmc2003@gmail.com";
   const rawPass = process.env.SMTP_PASS || "qssu mbcc yite isnh";
   const pass = String(rawPass).replace(/\s+/g, "").trim();
@@ -19,16 +19,13 @@ function getSmtpConfig() {
 
 function getTransporter() {
   if (cachedTransporter) return cachedTransporter;
-  const { host, port, secure, user, pass } = getSmtpConfig();
+  const { host, user, pass } = getSmtpConfig();
 
   cachedTransporter = nodemailer.createTransport({
     host,
-    port: port || 587,
-    secure: Boolean(secure),
+    port: 587,
+    secure: false,
     auth: { user, pass },
-    pool: true,
-    maxConnections: 5,
-    maxMessages: 100,
     connectionTimeout: 10000,
     greetingTimeout: 5000,
     socketTimeout: 15000,
