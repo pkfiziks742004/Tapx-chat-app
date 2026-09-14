@@ -89,6 +89,19 @@ async function sendOtpEmail({ to, otp, expiresMinutes = 10, subject, text } = {}
   }
 }
 
-module.exports = { sendOtpEmail };
+function warmupMailer() {
+  try {
+    const transporter = getTransporter();
+    transporter.verify((err) => {
+      if (err) {
+        // eslint-disable-next-line no-console
+        console.warn("SMTP warmup check:", err?.message || err);
+      } else {
+        // eslint-disable-next-line no-console
+        console.log("SMTP mailer pool ready and verified.");
+      }
+    });
+  } catch (_e) {}
+}
 
-
+module.exports = { sendOtpEmail, warmupMailer, getSmtpConfig };

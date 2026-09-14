@@ -27,6 +27,7 @@ const { createChatRoutes } = require("./routes/chatRoutes");
 const { createMessageRoutes } = require("./routes/messageRoutes");
 const { createGroupRoutes } = require("./routes/groupRoutes");
 const { createCallRoutes } = require("./routes/callRoutes");
+const { warmupMailer } = require("./utils/mailer");
 
 const { registerSocketHandlers } = require("./sockets/socket");
 
@@ -111,6 +112,9 @@ async function main() {
   const messageController = createMessageController({ chats, messages });
   const groupController = createGroupController({ groups, users });
   const callController = createCallController({ calls });
+
+  // Pre-warm SMTP mailer connection pool for instant OTP delivery
+  warmupMailer();
 
   // Auto-delete old messages (default: 24h TTL). This keeps the database clean on Render.
   async function runMessageCleanup() {

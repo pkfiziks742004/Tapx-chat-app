@@ -387,7 +387,7 @@ export default function AuthCard({ onSignedIn, initialTab = "signup" }) {
                   lineHeight: 1.5
                 }}
               >
-                📬 OTP sent to <b>{email}</b>.<br />
+                📬 OTP sent to <b>{email}</b> (Valid for <b>10 minutes</b>).<br />
                 ⚠️ <b>Gmail users:</b> Please check your <b>Spam (स्पैम)</b>, <b>Updates</b>, or <b>All Mail</b> folder if it doesn't appear in your Primary Inbox.
               </div>
             </>
