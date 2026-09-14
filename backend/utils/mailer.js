@@ -38,11 +38,53 @@ function getTransporter() {
   return cachedTransporter;
 }
 
+async function sendViaResend({ apiKey, from, to, subject, html, text }) {
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      from,
+      to: [to],
+      subject,
+      html,
+      text
+    })
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.message || `Resend error: ${res.status}`);
+  }
+  return await res.json();
+}
+
+async function sendViaBrevo({ apiKey, from, senderName, to, subject, html, text }) {
+  const res = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "api-key": apiKey
+    },
+    body: JSON.stringify({
+      sender: { name: senderName, email: from },
+      to: [{ email: to }],
+      subject,
+      htmlContent: html,
+      textContent: text
+    })
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.message || `Brevo error: ${res.status}`);
+  }
+  return await res.json();
+}
+
 async function sendOtpEmail({ to, otp, expiresMinutes = 10, subject, text } = {}) {
   try {
     const { from, senderName } = getSmtpConfig();
-    const transporter = getTransporter();
-
     const mailSubject = subject || `Tapx verification code: ${otp}`;
     const mailText =
       text ||
@@ -71,6 +113,33 @@ async function sendOtpEmail({ to, otp, expiresMinutes = 10, subject, text } = {}
       </div>
     `;
 
+    const resendKey = process.env.RESEND_API_KEY;
+    const brevoKey = process.env.BREVO_API_KEY;
+
+    if (resendKey) {
+      return await sendViaResend({
+        apiKey: resendKey,
+        from: `${senderName} <${process.env.RESEND_FROM || "onboarding@resend.dev"}>`,
+        to,
+        subject: mailSubject,
+        html,
+        text: mailText
+      });
+    }
+
+    if (brevoKey) {
+      return await sendViaBrevo({
+        apiKey: brevoKey,
+        from: process.env.BREVO_FROM || from,
+        senderName,
+        to,
+        subject: mailSubject,
+        html,
+        text: mailText
+      });
+    }
+
+    const transporter = getTransporter();
     return await transporter.sendMail({
       from: `"${senderName}" <${from}>`,
       to,
