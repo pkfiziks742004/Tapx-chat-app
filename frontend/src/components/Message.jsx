@@ -7,6 +7,9 @@ import {
   IconMaximize,
   IconMoreVertical,
   IconPhone,
+  IconPhoneMissed,
+  IconPhoneOutgoing,
+  IconPhoneIncoming,
   IconTickDouble,
   IconTickSingle,
   IconVideo
@@ -208,7 +211,15 @@ export default function Message({
               title="Click to call back"
             >
               <div className={`messageCallIconWrap ${isMissedCall && !isMe ? "missed" : isMe ? "outgoing" : "incoming"}`}>
-                {isVideoCall ? <IconVideo size={20} /> : <IconPhone size={20} />}
+                {isVideoCall ? (
+                  <IconVideo size={20} />
+                ) : isMissedCall ? (
+                  isMe ? <IconPhoneOutgoing size={20} /> : <IconPhoneMissed size={20} />
+                ) : isMe ? (
+                  <IconPhoneOutgoing size={20} />
+                ) : (
+                  <IconPhoneIncoming size={20} />
+                )}
               </div>
               <div className="messageCallInfo">
                 <div className="messageCallTitle">
@@ -219,7 +230,7 @@ export default function Message({
                     : (isVideoCall ? "Video call" : "Voice call")}
                 </div>
                 <div className="messageCallSub">
-                  {isMissedCall ? (isMe ? "No answer" : "Tap to call back") : (m.file?.mime || "Call ended")}
+                  {isMissedCall ? (isMe ? "No answer" : "Click to call back") : (m.file?.mime || "Call ended")}
                 </div>
               </div>
             </div>

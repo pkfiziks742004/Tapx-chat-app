@@ -29,6 +29,15 @@ import {
   IconVideo,
   IconX
 } from "../components/Icons.jsx";
+import {
+  startOutgoingRingTone,
+  stopOutgoingRingTone,
+  startIncomingRingTone,
+  stopIncomingRingTone,
+  playCallConnected,
+  playCallEnded,
+  playMessagePop
+} from "../lib/soundEffects.js";
 
 const SETTINGS_STORAGE_KEY = "chatapp.settings.v1";
 const FAVORITES_STORAGE_KEY = "chatapp.favorites.v1";
@@ -1358,8 +1367,11 @@ export default function Home({ session, onLogout }) {
     el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
   }, [messages.length, selected?.id]);
 
-  function cleanupCall() {
+  function cleanupCall({ playSound = true } = {}) {
     callActiveRef.current = false;
+    stopOutgoingRingTone();
+    stopIncomingRingTone();
+    if (playSound) playCallEnded();
     if (pcRef.current) {
       pcRef.current.onicecandidate = null;
       pcRef.current.ontrack = null;
@@ -1412,31 +1424,7 @@ export default function Home({ session, onLogout }) {
   function playMessageBeep() {
     const enabled = settingsRef.current?.messageSounds !== false;
     if (!enabled) return;
-
-    try {
-      const Ctx = window.AudioContext || window.webkitAudioContext;
-      if (!Ctx) return;
-
-      if (!audioCtxRef.current) audioCtxRef.current = new Ctx();
-      const ctx = audioCtxRef.current;
-      if (ctx.state === "suspended") ctx.resume().catch(() => {});
-
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = "sine";
-      osc.frequency.value = 880;
-      gain.gain.value = 0.0001;
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      const t = ctx.currentTime;
-      gain.gain.setValueAtTime(0.0001, t);
-      gain.gain.exponentialRampToValueAtTime(0.06, t + 0.01);
-      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
-      osc.start(t);
-      osc.stop(t + 0.13);
-    } catch (_e) {}
+    playMessagePop();
   }
 
   useEffect(() => {
@@ -1629,6 +1617,7 @@ export default function Home({ session, onLogout }) {
       }
       const safeMedia = media === "audio" ? "audio" : "video";
       pendingOfferRef.current = { from, sdp, media: safeMedia };
+      startIncomingRingTone();
       setCall({ active: false, peerId: from, status: "Incoming call…", startedAt: null, media: safeMedia });
     };
 
@@ -1656,6 +1645,8 @@ export default function Home({ session, onLogout }) {
     const onCallAnswer = async ({ sdp } = {}) => {
       if (!sdp || !pcRef.current) return;
       try {
+        stopOutgoingRingTone();
+        playCallConnected();
         await pcRef.current.setRemoteDescription(sdp);
         await drainIceCandidates(pcRef.current);
         setCall((c) => ({ ...c, status: "Connected" }));
@@ -2215,6 +2206,7 @@ export default function Home({ session, onLogout }) {
         setRemoteVideoOn(true);
       }
       callActiveRef.current = true;
+      startOutgoingRingTone();
 
       const startedAt = Date.now();
       setCall({
@@ -2246,6 +2238,7 @@ export default function Home({ session, onLogout }) {
         });
 
         if (!ok) {
+          stopOutgoingRingTone();
           setCall((c) => ({ ...c, status: "Offline" }));
           setTimeout(() => cleanupCall(), 900);
           return;
@@ -2258,6 +2251,7 @@ export default function Home({ session, onLogout }) {
       await pc.setLocalDescription(offer);
       socket.emit("call:offer", { to: peerId, sdp: pc.localDescription, media: safeMedia });
     } catch (err) {
+      stopOutgoingRingTone();
       setCall((c) => (c?.active ? { ...c, status: callErrorText(err, safeMedia) } : c));
       setTimeout(() => cleanupCall(), 2200);
     }
@@ -2267,6 +2261,8 @@ export default function Home({ session, onLogout }) {
     const offer = pendingOfferRef.current;
     if (!offer) return;
     try {
+      stopIncomingRingTone();
+      playCallConnected();
       const peerId = offer.from;
       const safeMedia = offer.media === "audio" ? "audio" : "video";
       if (safeMedia === "audio") setCamOn(false);
@@ -2295,6 +2291,8 @@ export default function Home({ session, onLogout }) {
   }
 
   function declineIncomingCall() {
+    stopIncomingRingTone();
+    playCallEnded();
     const offer = pendingOfferRef.current;
     if (offer?.from) socket.emit("call:hangup", { to: offer.from });
     cleanupCall();
