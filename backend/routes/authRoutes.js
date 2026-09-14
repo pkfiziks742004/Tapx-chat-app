@@ -51,6 +51,9 @@ function createAuthRoutes({ controller, authMiddleware }) {
 
   router.post("/signup/send-otp", sendOtpIpLimiter, sendOtpEmailLimiter, wrapAsync(controller.sendSignupOtp));
   router.post("/signup/verify-otp", verifyOtpLimiter, wrapAsync(controller.verifySignupOtp));
+  router.post("/forgot-password/send-otp", sendOtpIpLimiter, sendOtpEmailLimiter, wrapAsync(controller.sendForgotPasswordOtp));
+  router.post("/forgot-password/verify-otp", verifyOtpLimiter, wrapAsync(controller.verifyForgotPasswordOtp));
+  router.post("/forgot-password/reset", setPasswordLimiter, wrapAsync(controller.resetPasswordWithOtp));
   router.post("/set-password", authMiddleware, setPasswordLimiter, wrapAsync(controller.setPassword));
   router.post("/login", loginLimiter, wrapAsync(controller.login));
 

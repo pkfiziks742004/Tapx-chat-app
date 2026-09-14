@@ -34,18 +34,20 @@ function createTransport() {
   });
 }
 
-async function sendOtpEmail({ to, otp, expiresMinutes = 10 } = {}) {
+async function sendOtpEmail({ to, otp, expiresMinutes = 10, subject, text } = {}) {
   const { from, senderName } = getSmtpConfig();
   const transporter = createTransport();
 
-  const subject = `${senderName} verification code`;
-  const text = `Your verification code is: ${otp}\n\nThis code expires in ${expiresMinutes} minutes.\n\nIf you did not request this, you can ignore this email.`;
+  const mailSubject = subject || `${senderName} verification code`;
+  const mailText =
+    text ||
+    `Your verification code is: ${otp}\n\nThis code expires in ${expiresMinutes} minutes.\n\nIf you did not request this, you can ignore this email.`;
 
   await transporter.sendMail({
     from: `${senderName} <${from}>`,
     to,
-    subject,
-    text
+    subject: mailSubject,
+    text: mailText
   });
 }
 

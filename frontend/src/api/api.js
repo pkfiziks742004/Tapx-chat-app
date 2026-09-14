@@ -138,6 +138,12 @@ export const authApi = {
   sendSignupOtp: (email) => request("/auth/signup/send-otp", { method: "POST", body: { email } }),
   verifySignupOtp: (email, otp) =>
     request("/auth/signup/verify-otp", { method: "POST", body: { email, otp } }),
+  sendForgotPasswordOtp: (email) =>
+    request("/auth/forgot-password/send-otp", { method: "POST", body: { email } }),
+  verifyForgotPasswordOtp: (email, otp) =>
+    request("/auth/forgot-password/verify-otp", { method: "POST", body: { email, otp } }),
+  resetPasswordWithOtp: (email, otp, newPassword) =>
+    request("/auth/forgot-password/reset", { method: "POST", body: { email, otp, newPassword } }),
   setPassword: (token, password, currentPassword) =>
     request("/auth/set-password", {
       method: "POST",

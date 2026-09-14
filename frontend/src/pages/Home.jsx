@@ -824,6 +824,7 @@ export default function Home({ session, onLogout }) {
   const localVideoRef = useRef(null);
   const remoteVideoRef = useRef(null);
   const remoteAudioRef = useRef(null);
+  const persistentAudioRef = useRef(null);
   const audioCtxRef = useRef(null);
   const settingsRef = useRef(settings);
   const callsLoadSeqRef = useRef(0);
@@ -2048,19 +2049,40 @@ export default function Home({ session, onLogout }) {
     requestAnimationFrame(tick);
   }
 
+  function optimizeSdpAudio(sdpDesc) {
+    if (!sdpDesc || !sdpDesc.sdp) return sdpDesc;
+    let sdp = sdpDesc.sdp;
+    // Inject Opus voice parameters: stereo=0, usedtx=1 (silence suppression to remove background noise)
+    if (sdp.includes("opus/48000")) {
+      sdp = sdp.replace(/a=fmtp:(\d+)(.*)/g, (match, pt, params) => {
+        if (sdp.includes(`a=rtpmap:${pt} opus/48000`)) {
+          let p = params || "";
+          if (!p.includes("stereo=")) p += ";stereo=0;sprop-stereo=0";
+          if (!p.includes("useinbandfec=")) p += ";useinbandfec=1";
+          if (!p.includes("usedtx=")) p += ";usedtx=1";
+          if (!p.includes("maxaveragebitrate=")) p += ";maxaveragebitrate=32000";
+          return `a=fmtp:${pt}${p}`;
+        }
+        return match;
+      });
+    }
+    return new RTCSessionDescription({ type: sdpDesc.type, sdp });
+  }
+
   async function ensureLocalStream(media = "video") {
     if (localStreamRef.current) return localStreamRef.current;
     const wantsVideo = media !== "audio";
     const audioConstraints = {
-      echoCancellation: true,
-      noiseSuppression: true,
-      autoGainControl: true,
-      googEchoCancellation: true,
-      googAutoGainControl: true,
-      googNoiseSuppression: true,
-      googHighpassFilter: true,
-      channelCount: 1,
-      sampleRate: 48000
+      echoCancellation: { ideal: true },
+      noiseSuppression: { ideal: true },
+      autoGainControl: { ideal: true },
+      googEchoCancellation: { ideal: true },
+      googAutoGainControl: { ideal: true },
+      googNoiseSuppression: { ideal: true },
+      googHighpassFilter: { ideal: true },
+      googTypingNoiseDetection: { ideal: true },
+      channelCount: { ideal: 1 },
+      sampleRate: { ideal: 48000 }
     };
 
     let stream;
@@ -2106,23 +2128,26 @@ export default function Home({ session, onLogout }) {
       const track = event?.track;
       if (!track) return;
 
-      let stream = remoteStreamRef.current;
-      if (!stream) {
-        stream = new MediaStream();
-        remoteStreamRef.current = stream;
+      const incomingStream = (event.streams && event.streams[0]) ? event.streams[0] : new MediaStream([track]);
+      remoteStreamRef.current = incomingStream;
+
+      // Play on persistent audio element immediately for 100% reliable voice reception
+      const persistentEl = persistentAudioRef.current;
+      if (persistentEl) {
+        if (persistentEl.srcObject !== incomingStream) {
+          persistentEl.srcObject = incomingStream;
+        }
+        persistentEl.muted = false;
+        persistentEl.volume = 1.0;
+        safePlay(persistentEl);
       }
 
-      try {
-        const exists = stream.getTracks().some((t) => t.id === track.id);
-        if (!exists) stream.addTrack(track);
-      } catch (_e) {}
-
-      attachStreamRetry(() => remoteAudioRef.current, stream);
-      if (media !== "audio") attachStreamRetry(() => remoteVideoRef.current, stream);
+      attachStreamRetry(() => remoteAudioRef.current, incomingStream);
+      if (media !== "audio") attachStreamRetry(() => remoteVideoRef.current, incomingStream);
 
       if (media === "audio") return;
 
-      const videoTrack = stream.getVideoTracks?.()?.[0] || null;
+      const videoTrack = incomingStream.getVideoTracks?.()?.[0] || null;
       if (!videoTrack) {
         setRemoteVideoOn(false);
         return;
@@ -2178,6 +2203,10 @@ export default function Home({ session, onLogout }) {
 
     // Attach remote stream if ontrack fired before the CallOverlay mounted.
     if (remoteStreamRef.current) {
+      if (persistentAudioRef.current) {
+        persistentAudioRef.current.srcObject = remoteStreamRef.current;
+        safePlay(persistentAudioRef.current);
+      }
       attachStream(remoteAudioRef.current, remoteStreamRef.current);
       if (desiredMedia !== "audio") attachStream(remoteVideoRef.current, remoteStreamRef.current);
     }
@@ -2207,6 +2236,16 @@ export default function Home({ session, onLogout }) {
       }
       callActiveRef.current = true;
       startOutgoingRingTone();
+
+      // Synchronously unlock persistent audio on user click
+      const persistentEl = persistentAudioRef.current;
+      if (persistentEl) {
+        try {
+          persistentEl.muted = false;
+          persistentEl.volume = 1.0;
+          persistentEl.play().catch(() => {});
+        } catch (_e) {}
+      }
 
       const startedAt = Date.now();
       setCall({
@@ -2247,7 +2286,11 @@ export default function Home({ session, onLogout }) {
       }
 
       const pc = await createPeerConnection(peerId, safeMedia);
-      const offer = await pc.createOffer();
+      const rawOffer = await pc.createOffer({
+        offerToReceiveAudio: true,
+        offerToReceiveVideo: safeMedia !== "audio"
+      });
+      const offer = optimizeSdpAudio(rawOffer);
       await pc.setLocalDescription(offer);
       socket.emit("call:offer", { to: peerId, sdp: pc.localDescription, media: safeMedia });
     } catch (err) {
@@ -2269,18 +2312,21 @@ export default function Home({ session, onLogout }) {
       callActiveRef.current = true;
       setCall({ active: true, peerId, status: "Connecting…", startedAt: Date.now(), media: safeMedia });
 
-      // Unlock mobile audio on user click
-      if (remoteAudioRef.current) {
+      // Synchronously unlock persistent audio element on user click
+      const persistentEl = persistentAudioRef.current;
+      if (persistentEl) {
         try {
-          remoteAudioRef.current.muted = false;
-          remoteAudioRef.current.play().catch(() => {});
+          persistentEl.muted = false;
+          persistentEl.volume = 1.0;
+          persistentEl.play().catch(() => {});
         } catch (_e) {}
       }
 
       const pc = await createPeerConnection(peerId, safeMedia);
-      await pc.setRemoteDescription(offer.sdp);
+      await pc.setRemoteDescription(new RTCSessionDescription(offer.sdp));
       await drainIceCandidates(pc);
-      const answer = await pc.createAnswer();
+      const rawAnswer = await pc.createAnswer();
+      const answer = optimizeSdpAudio(rawAnswer);
       await pc.setLocalDescription(answer);
       socket.emit("call:answer", { to: peerId, sdp: pc.localDescription, media: safeMedia });
       setCall((c) => ({ ...c, status: "Connected" }));
@@ -3208,6 +3254,9 @@ export default function Home({ session, onLogout }) {
           }}
         />
       )}
+
+      {/* Persistent Hidden Audio element for guaranteed voice playback */}
+      <audio ref={persistentAudioRef} autoPlay playsInline style={{ display: "none" }} />
 
       {toastMessage && (
         <div className="toastNotification">
