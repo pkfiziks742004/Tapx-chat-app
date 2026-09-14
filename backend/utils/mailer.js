@@ -4,7 +4,7 @@ let cachedTransporter = null;
 
 function getSmtpConfig() {
   const host = process.env.SMTP_HOST || "smtp.gmail.com";
-  const port = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : 465;
+  const port = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : 587;
   const secure = process.env.SMTP_SECURE === "1" || port === 465;
   const user = process.env.SMTP_USER || "supreetmc2003@gmail.com";
   const rawPass = process.env.SMTP_PASS || "qssu mbcc yite isnh";
@@ -19,29 +19,21 @@ function getTransporter() {
   if (cachedTransporter) return cachedTransporter;
   const { host, port, secure, user, pass } = getSmtpConfig();
 
-  const isGmail = host.includes("gmail.com") || String(user).endsWith("@gmail.com");
-
-  if (isGmail) {
-    cachedTransporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: { user, pass },
-      pool: true,
-      maxConnections: 3,
-      connectionTimeout: 10000,
-      greetingTimeout: 5000,
-      socketTimeout: 15000
-    });
-  } else {
-    cachedTransporter = nodemailer.createTransport({
-      host,
-      port,
-      secure,
-      auth: { user, pass },
-      connectionTimeout: 10000,
-      greetingTimeout: 5000,
-      socketTimeout: 15000
-    });
-  }
+  cachedTransporter = nodemailer.createTransport({
+    host,
+    port: port || 587,
+    secure: Boolean(secure),
+    auth: { user, pass },
+    pool: true,
+    maxConnections: 5,
+    maxMessages: 100,
+    connectionTimeout: 10000,
+    greetingTimeout: 5000,
+    socketTimeout: 15000,
+    tls: {
+      rejectUnauthorized: false
+    }
+  });
 
   return cachedTransporter;
 }
