@@ -58,8 +58,6 @@ function dbSchemaFixMessage() {
 }
 
 function withDebugMessage(message, err) {
-  const enabled = process.env.DEBUG_ERRORS === "1";
-  if (!enabled) return message;
   const detail = String(err?.message || "").trim();
   if (!detail) return message;
   return `${message} (${detail})`;
