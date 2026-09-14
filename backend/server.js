@@ -1,8 +1,13 @@
 const path = require("path");
 const http = require("http");
+const dns = require("dns");
 const express = require("express");
 const cors = require("cors");
 const { Server } = require("socket.io");
+
+if (dns.setDefaultResultOrder) {
+  dns.setDefaultResultOrder("ipv4first");
+}
 
 require("dotenv").config({ path: path.join(__dirname, ".env") });
 

@@ -22,13 +22,14 @@ function getTransporter() {
   const { host, user, pass } = getSmtpConfig();
 
   cachedTransporter = nodemailer.createTransport({
-    host,
+    host: host || "smtp.gmail.com",
     port: 587,
     secure: false,
+    family: 4,
     auth: { user, pass },
-    connectionTimeout: 10000,
-    greetingTimeout: 5000,
-    socketTimeout: 15000,
+    connectionTimeout: 15000,
+    greetingTimeout: 10000,
+    socketTimeout: 20000,
     tls: {
       rejectUnauthorized: false
     }
