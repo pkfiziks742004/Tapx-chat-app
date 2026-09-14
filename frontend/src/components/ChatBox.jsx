@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import Avatar from "./Avatar.jsx";
+import Message, { formatMessageWithReply } from "./Message.jsx";
 import Composer from "./Composer.jsx";
 import MediaViewerModal from "./MediaViewerModal.jsx";
-import Message from "./Message.jsx";
 import {
   IconBack,
   IconChat,
@@ -58,14 +58,30 @@ export default function ChatBox({
   onEmptySendDoc,
   onEmptyAddContact
 }) {
-
   const [chatMenuOpen, setChatMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeMedia, setActiveMedia] = useState(null);
+  const [replyingTo, setReplyingTo] = useState(null);
   const chatMenuBtnRef = useRef(null);
   const chatMenuRef = useRef(null);
   const searchRef = useRef(null);
+
+  useEffect(() => {
+    setReplyingTo(null);
+  }, [selected?.id]);
+
+  const handleSendMessage = (text) => {
+    const payload = formatMessageWithReply(text, replyingTo);
+    setReplyingTo(null);
+    return onSend?.(payload);
+  };
+
+  const handleSendFile = (file, caption = "") => {
+    const payloadCaption = formatMessageWithReply(caption, replyingTo);
+    setReplyingTo(null);
+    return onSendFile?.(file, payloadCaption);
+  };
 
   useEffect(() => {
     if (!searchOpen && !chatMenuOpen) return;
@@ -419,6 +435,7 @@ export default function ChatBox({
               selectionMode={selectionMode}
               onStartCall={onStartCall}
               onSelect={onSelectMessage}
+              onReply={setReplyingTo}
               onCopy={onCopySelectedMessage}
               onDelete={onDeleteSelectedMessage}
               onForward={onForwardSelectedMessage}
@@ -449,13 +466,16 @@ export default function ChatBox({
       {/* Bottom Composer */}
       <footer className="chatFooter">
         <Composer
-          onSend={onSend}
-          onSendFile={onSendFile}
+          onSend={handleSendMessage}
+          onSendFile={handleSendFile}
           onTyping={onTyping}
           sending={sending}
           disabled={selectionMode}
+          replyingTo={replyingTo}
+          onCancelReply={() => setReplyingTo(null)}
         />
       </footer>
+
 
       {/* WhatsApp Fullscreen Media Lightbox Modal */}
       {activeMedia && (

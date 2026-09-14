@@ -2,19 +2,47 @@ import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import Avatar from "./Avatar.jsx";
 import {
+  IconCopy,
   IconDoc,
   IconDownload,
+  IconForward,
+  IconListCheck,
   IconMaximize,
   IconMoreVertical,
   IconPhone,
   IconPhoneMissed,
   IconPhoneOutgoing,
   IconPhoneIncoming,
+  IconReply,
   IconTickDouble,
   IconTickSingle,
+  IconTrash,
   IconVideo
 } from "./Icons.jsx";
 import VoiceNote from "./VoiceNote.jsx";
+
+export function parseMessageReply(rawText) {
+  if (typeof rawText !== "string") return { text: rawText || "", replyTo: null };
+  const match = rawText.match(/^\[reply:([^\]]+)\]([\s\S]*)$/);
+  if (!match) return { text: rawText, replyTo: null };
+  try {
+    const replyData = JSON.parse(decodeURIComponent(match[1]));
+    return { text: match[2], replyTo: replyData };
+  } catch (_e) {
+    return { text: rawText, replyTo: null };
+  }
+}
+
+export function formatMessageWithReply(text, replyTo) {
+  if (!replyTo) return text;
+  const snippet = {
+    id: replyTo.id,
+    senderName: replyTo.senderName || "User",
+    text: String(replyTo.text || replyTo.file?.name || "Media attachment").slice(0, 120),
+    kind: replyTo.file?.kind || "text"
+  };
+  return `[reply:${encodeURIComponent(JSON.stringify(snippet))}]${text}`;
+}
 
 function formatClock(iso) {
   if (!iso) return "";
@@ -84,6 +112,7 @@ export default function Message({
   showTicks = true,
   onStartCall,
   onSelect,
+  onReply,
   onCopy,
   onDelete,
   onForward,
@@ -116,9 +145,13 @@ export default function Message({
   const senderName = isMe ? myName || "You" : m.fromName || peerName || "User";
   const senderAvatar = isMe ? myAvatarUrl : peerAvatarUrl;
 
-  const isMissedCall = m.file?.kind === "missed_call" || String(m.text || "").toLowerCase().includes("missed");
-  const isCallEvent = m.file?.kind === "call" || isMissedCall || String(m.text || "").toLowerCase().includes("call");
-  const isVideoCall = m.file?.name === "video" || String(m.text || "").toLowerCase().includes("video");
+  const parsed = parseMessageReply(m.text);
+  const displayReply = m.replyTo || parsed.replyTo;
+  const displayText = parsed.text;
+
+  const isMissedCall = m.file?.kind === "missed_call" || String(displayText || "").toLowerCase().includes("missed");
+  const isCallEvent = m.file?.kind === "call" || isMissedCall || String(displayText || "").toLowerCase().includes("call");
+  const isVideoCall = m.file?.name === "video" || String(displayText || "").toLowerCase().includes("video");
 
   const isImageAttachment = !isCallEvent && (m.file?.kind === "image" || (m.file?.mime && m.file.mime.startsWith("image/")));
   const isVideoAttachment = !isCallEvent && (m.file?.kind === "video" || (m.file?.mime && m.file.mime.startsWith("video/")));
@@ -128,7 +161,13 @@ export default function Message({
   const handleCopy = (e) => {
     e?.stopPropagation?.();
     setMenuOpen(false);
-    onCopy?.(m);
+    onCopy?.({ ...m, text: displayText });
+  };
+
+  const handleReply = (e) => {
+    e?.stopPropagation?.();
+    setMenuOpen(false);
+    onReply?.({ ...m, text: displayText, senderName });
   };
 
   const handleForward = (e) => {
@@ -157,6 +196,7 @@ export default function Message({
 
   return (
     <motion.div
+      id={`msg-${m.id}`}
       layout
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
@@ -183,7 +223,10 @@ export default function Message({
       </div>
 
       <div className="messageBodyCol">
-        <div className={`messageBubble ${isMe ? "bubbleOutgoing" : "bubbleIncoming"} ${isCallEvent ? "callEventBubble" : ""}`}>
+        <div
+          className={`messageBubble ${isMe ? "bubbleOutgoing" : "bubbleIncoming"} ${isCallEvent ? "callEventBubble" : ""}`}
+          onDoubleClick={!deleted && !isCallEvent && !selectionMode ? handleReply : undefined}
+        >
           {/* Top-right 3-dots context button */}
           <div className="messageDropdownWrap" ref={menuRef}>
             <button
@@ -194,34 +237,75 @@ export default function Message({
                 setMenuOpen(!menuOpen);
               }}
               title="Message options"
+              aria-label="Message options"
             >
-              <IconMoreVertical size={14} />
+              <IconMoreVertical size={15} />
             </button>
 
             {menuOpen && (
               <div className="messageDropdownMenu">
+                {!deleted && (
+                  <button type="button" onClick={handleReply}>
+                    <IconReply size={15} />
+                    <span>Reply</span>
+                  </button>
+                )}
                 <button type="button" onClick={handleToggleSelect}>
-                  Select
+                  <IconListCheck size={15} />
+                  <span>Select</span>
                 </button>
-                <button type="button" onClick={handleCopy}>
-                  Copy
-                </button>
+                {displayText && (
+                  <button type="button" onClick={handleCopy}>
+                    <IconCopy size={15} />
+                    <span>Copy</span>
+                  </button>
+                )}
                 {!deleted && (
                   <button type="button" onClick={handleForward}>
-                    Forward
+                    <IconForward size={15} />
+                    <span>Forward</span>
                   </button>
                 )}
                 {fileHref && (
                   <button type="button" onClick={handleDownload}>
-                    Download
+                    <IconDownload size={15} />
+                    <span>Download</span>
                   </button>
                 )}
+                <div className="messageDropdownDivider" />
                 <button className="danger" type="button" onClick={handleDelete}>
-                  Delete
+                  <IconTrash size={15} />
+                  <span>Delete</span>
                 </button>
               </div>
             )}
           </div>
+
+          {/* WhatsApp-style Quoted Reply Preview */}
+          {displayReply && !deleted && (
+            <div
+              className="messageQuotedReply"
+              onClick={(e) => {
+                e.stopPropagation();
+                const target = document.getElementById(`msg-${displayReply.id}`);
+                if (target) {
+                  target.scrollIntoView({ behavior: "smooth", block: "center" });
+                  target.classList.add("messageHighlightPulse");
+                  setTimeout(() => target.classList.remove("messageHighlightPulse"), 1600);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              title="Click to jump to original message"
+            >
+              <div className="messageQuotedAccent" />
+              <div className="messageQuotedContent">
+                <span className="messageQuotedSender">{displayReply.senderName || "User"}</span>
+                <span className="messageQuotedSnippet">{displayReply.text || "Attachment"}</span>
+              </div>
+            </div>
+          )}
+
 
 
           {deleted ? (
@@ -374,11 +458,12 @@ export default function Message({
               )}
 
               {/* Message text with clickable links */}
-              {String(m.text || "").trim() && (
-                <div className="messageText">{renderParsedText(m.text)}</div>
+              {String(displayText || "").trim() && (
+                <div className="messageText">{renderParsedText(displayText)}</div>
               )}
             </>
           )}
+
 
           {/* Timestamp and ticks inside bubble */}
           <div className="messageMeta">

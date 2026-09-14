@@ -44,7 +44,15 @@ function extForMime(mime) {
   return "wav";
 }
 
-export default function Composer({ onSend, onSendFile, onTyping, sending = false, disabled = false }) {
+export default function Composer({
+  onSend,
+  onSendFile,
+  onTyping,
+  sending = false,
+  disabled = false,
+  replyingTo = null,
+  onCancelReply
+}) {
   const [text, setText] = useState("");
   const [attachOpen, setAttachOpen] = useState(false);
   const [emojiOpen, setEmojiOpen] = useState(false);
@@ -54,6 +62,7 @@ export default function Composer({ onSend, onSendFile, onTyping, sending = false
   const [cameraError, setCameraError] = useState("");
 
   const inputRef = useRef(null);
+
   const attachBtnRef = useRef(null);
   const attachMenuRef = useRef(null);
   const emojiBtnRef = useRef(null);
@@ -81,6 +90,12 @@ export default function Composer({ onSend, onSendFile, onTyping, sending = false
   ];
 
   useEffect(() => {
+    if (replyingTo) {
+      inputRef.current?.focus?.();
+    }
+  }, [replyingTo]);
+
+  useEffect(() => {
     if (!attachOpen && !emojiOpen) return;
     const onDown = (e) => {
       const el = e.target;
@@ -94,6 +109,7 @@ export default function Composer({ onSend, onSendFile, onTyping, sending = false
     document.addEventListener("mousedown", onDown);
     return () => document.removeEventListener("mousedown", onDown);
   }, [attachOpen, emojiOpen]);
+
 
   useEffect(() => {
     return () => {
@@ -375,8 +391,38 @@ export default function Composer({ onSend, onSendFile, onTyping, sending = false
         </div>
       )}
 
+      {/* WhatsApp Reply Banner */}
+      {replyingTo && (
+        <div className="composerReplyBar">
+          <div className="composerReplyBarLeft">
+            <div className="composerReplyBarAccent" />
+            <div className="composerReplyBarContent">
+              <span className="composerReplyBarSender">
+                Replying to {replyingTo.senderName || "User"}
+              </span>
+              <span className="composerReplyBarText">
+                {replyingTo.text || (replyingTo.file?.name ? `📎 ${replyingTo.file.name}` : "Media attachment")}
+              </span>
+            </div>
+          </div>
+          {replyingTo.file?.url && (replyingTo.file.kind === "image" || replyingTo.file.mime?.startsWith("image/")) && (
+            <img src={replyingTo.file.url} alt="Reply preview" className="composerReplyThumb" />
+          )}
+          <button
+            type="button"
+            className="composerReplyCloseBtn"
+            onClick={onCancelReply}
+            title="Cancel reply"
+            aria-label="Cancel reply"
+          >
+            <IconX size={16} />
+          </button>
+        </div>
+      )}
+
       {/* Main input wrapper */}
       <div className={`composerPill ${recording ? "recordingActive" : ""}`}>
+
         {recording ? (
           <div className="composerRecordingBar">
             <div className="composerRecTimerWrap">
