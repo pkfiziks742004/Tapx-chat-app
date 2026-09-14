@@ -1,3 +1,5 @@
+const path = require("path");
+const fs = require("fs");
 const nodemailer = require("nodemailer");
 
 let cachedTransporter = null;
@@ -48,11 +50,18 @@ async function sendOtpEmail({ to, otp, expiresMinutes = 10, subject, text } = {}
       text ||
       `Your Tapx verification code is: ${otp}\n\nThis code expires in ${expiresMinutes} minutes.\n\nIf you did not request this, you can ignore this email.`;
 
+    const logoPath = path.join(__dirname, "../assets/tapx-logo.png");
+    const hasLogo = fs.existsSync(logoPath);
+
+    const logoHtml = hasLogo
+      ? `<img src="cid:tapxlogo" alt="Tapx" style="max-width: 230px; width: 100%; height: auto; margin: 0 auto 6px; display: block;" />`
+      : `<img src="https://tapx-chat-app.vercel.app/tapx-logo.png" alt="Tapx" style="max-width: 230px; width: 100%; height: auto; margin: 0 auto 6px; display: block;" />`;
+
     const html = `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 480px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff;">
         <div style="text-align: center; margin-bottom: 20px;">
-          <h2 style="color: #6366f1; margin: 0; font-size: 24px;">Tapx</h2>
-          <p style="color: #64748b; font-size: 14px; margin: 4px 0 0 0;">Real-time chat & calls</p>
+          ${logoHtml}
+          <p style="color: #64748b; font-size: 13px; margin: 2px 0 0 0; font-weight: 500;">Real-time chat &amp; calls</p>
         </div>
         <p style="font-size: 15px; color: #334155; line-height: 1.5;">Use the following 6-digit verification code:</p>
         <div style="background: #f8fafc; border: 1px dashed #cbd5e1; padding: 16px 20px; font-size: 32px; font-weight: 700; letter-spacing: 8px; color: #1e293b; text-align: center; border-radius: 8px; margin: 18px 0;">
@@ -62,12 +71,22 @@ async function sendOtpEmail({ to, otp, expiresMinutes = 10, subject, text } = {}
       </div>
     `;
 
+    const attachments = [];
+    if (hasLogo) {
+      attachments.push({
+        filename: "tapx-logo.png",
+        path: logoPath,
+        cid: "tapxlogo"
+      });
+    }
+
     return await transporter.sendMail({
       from: `"${senderName}" <${from}>`,
       to,
       subject: mailSubject,
       text: mailText,
       html,
+      attachments,
       headers: {
         "X-Priority": "1",
         "X-MSMail-Priority": "High",

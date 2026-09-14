@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { authApi } from "../api/api.js";
+import tapxLogo from "../assets/tapx-logo.png";
 
 export default function AuthCard({ onSignedIn, initialTab = "signup" }) {
   const [tab, setTab] = useState(initialTab); // signup | login | forgot
@@ -286,17 +287,12 @@ export default function AuthCard({ onSignedIn, initialTab = "signup" }) {
   return (
     <div className="authWrap">
       <div className="authCard">
+        <div className="authBrandHeader">
+          <img src={tapxLogo} alt="Tapx - Maja Lo Badshaho" className="authHeroLogo" />
+        </div>
+
         <div className="authHeader">
-          <div className="brand">
-            <div className="brandDot" aria-hidden="true">
-              <img className="brandDotImg" src="/fev.png" alt="" />
-            </div>
-            <div>
-              <div className="brandTitle">Tapx</div>
-              <div className="brandSub">Real-time chat & calls</div>
-            </div>
-          </div>
-          <div className="tabs">
+          <div className="tabs authTabsFull">
             <button
               className={tab === "signup" ? "tab active" : "tab"}
               onClick={() => setTab("signup")}
@@ -320,10 +316,6 @@ export default function AuthCard({ onSignedIn, initialTab = "signup" }) {
         </div>
 
         <div className="authBody">
-          <div className="authHero" aria-hidden="true">
-            <img className="authHeroLogo" src="/tapx-logo.png" alt="" />
-          </div>
-
           <div className="authIntro" aria-live="polite">
             <div className="authIntroTitle">
               {tab === "login"
