@@ -100,20 +100,26 @@ function createAuthController({ users }) {
         const expiresAt = new Date(Date.now() + expiresMinutes * 60 * 1000).toISOString();
 
         await users.otp.create({ email, purpose: "signup", otpHash, expiresAt });
-        const mailPromise = sendOtpEmail({
-          to: email,
-          otp,
-          expiresMinutes,
-          subject: `Your Tapx Signup Verification Code: ${otp}`
-        });
-
-        await Promise.race([
-          mailPromise,
-          new Promise((resolve) => setTimeout(resolve, 3500))
-        ]).catch((mailErr) => {
+        try {
+          await Promise.race([
+            sendOtpEmail({
+              to: email,
+              otp,
+              expiresMinutes,
+              subject: `Tapx verification code: ${otp}`
+            }),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error("Email dispatch timed out")), 8000)
+            )
+          ]);
+        } catch (mailErr) {
           // eslint-disable-next-line no-console
           console.error("Signup email send error:", mailErr?.message || mailErr);
-        });
+          return res.status(500).json({
+            message: "Unable to send verification email right now. Please try again.",
+            code: "email_send_failed"
+          });
+        }
 
         return res.json({ ok: true });
       } catch (err) {
@@ -164,21 +170,27 @@ function createAuthController({ users }) {
         const expiresAt = new Date(Date.now() + expiresMinutes * 60 * 1000).toISOString();
 
         await users.otp.create({ email, purpose: "reset_password", otpHash, expiresAt });
-        const mailPromise = sendOtpEmail({
-          to: email,
-          otp,
-          expiresMinutes,
-          subject: `Your Tapx Password Reset Code: ${otp}`,
-          text: `Your password reset code is: ${otp}\n\nThis code expires in ${expiresMinutes} minutes.\n\nIf you did not request this, you can ignore this email.`
-        });
-
-        await Promise.race([
-          mailPromise,
-          new Promise((resolve) => setTimeout(resolve, 3500))
-        ]).catch((mailErr) => {
+        try {
+          await Promise.race([
+            sendOtpEmail({
+              to: email,
+              otp,
+              expiresMinutes,
+              subject: `Tapx Password Reset code: ${otp}`,
+              text: `Your password reset code is: ${otp}\n\nThis code expires in ${expiresMinutes} minutes.\n\nIf you did not request this, you can ignore this email.`
+            }),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error("Email dispatch timed out")), 8000)
+            )
+          ]);
+        } catch (mailErr) {
           // eslint-disable-next-line no-console
           console.error("Forgot-password email send error:", mailErr?.message || mailErr);
-        });
+          return res.status(500).json({
+            message: "Unable to send password reset email right now. Please try again.",
+            code: "email_send_failed"
+          });
+        }
 
         return res.json({ ok: true });
       } catch (err) {

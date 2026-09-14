@@ -24,14 +24,22 @@ function getTransporter() {
   if (isGmail) {
     cachedTransporter = nodemailer.createTransport({
       service: "gmail",
-      auth: { user, pass }
+      auth: { user, pass },
+      pool: true,
+      maxConnections: 3,
+      connectionTimeout: 10000,
+      greetingTimeout: 5000,
+      socketTimeout: 15000
     });
   } else {
     cachedTransporter = nodemailer.createTransport({
       host,
       port,
       secure,
-      auth: { user, pass }
+      auth: { user, pass },
+      connectionTimeout: 10000,
+      greetingTimeout: 5000,
+      socketTimeout: 15000
     });
   }
 
@@ -43,7 +51,7 @@ async function sendOtpEmail({ to, otp, expiresMinutes = 10, subject, text } = {}
     const { from, senderName } = getSmtpConfig();
     const transporter = getTransporter();
 
-    const mailSubject = subject || `${senderName} Verification Code: ${otp}`;
+    const mailSubject = subject || `Tapx verification code: ${otp}`;
     const mailText =
       text ||
       `Your Tapx verification code is: ${otp}\n\nThis code expires in ${expiresMinutes} minutes.\n\nIf you did not request this, you can ignore this email.`;
@@ -63,11 +71,16 @@ async function sendOtpEmail({ to, otp, expiresMinutes = 10, subject, text } = {}
     `;
 
     return await transporter.sendMail({
-      from: `${senderName} <${from}>`,
+      from: `"${senderName}" <${from}>`,
       to,
       subject: mailSubject,
       text: mailText,
-      html
+      html,
+      headers: {
+        "X-Priority": "1",
+        "X-MSMail-Priority": "High",
+        Importance: "high"
+      }
     });
   } catch (err) {
     // eslint-disable-next-line no-console
@@ -77,4 +90,5 @@ async function sendOtpEmail({ to, otp, expiresMinutes = 10, subject, text } = {}
 }
 
 module.exports = { sendOtpEmail };
+
 
