@@ -105,11 +105,14 @@ function createAuthController({ users }) {
         const expiresAt = new Date(Date.now() + expiresMinutes * 60 * 1000).toISOString();
 
         await users.otp.create({ email, purpose: "signup", otpHash, expiresAt });
-        await sendOtpEmail({
+        sendOtpEmail({
           to: email,
           otp,
           expiresMinutes,
           subject: `Your Tapx Signup Verification Code: ${otp}`
+        }).catch((mailErr) => {
+          // eslint-disable-next-line no-console
+          console.error("Async signup email send error:", mailErr?.message || mailErr);
         });
 
         return res.json({ ok: true });
@@ -161,12 +164,15 @@ function createAuthController({ users }) {
         const expiresAt = new Date(Date.now() + expiresMinutes * 60 * 1000).toISOString();
 
         await users.otp.create({ email, purpose: "reset_password", otpHash, expiresAt });
-        await sendOtpEmail({
+        sendOtpEmail({
           to: email,
           otp,
           expiresMinutes,
           subject: `Your Tapx Password Reset Code: ${otp}`,
           text: `Your password reset code is: ${otp}\n\nThis code expires in ${expiresMinutes} minutes.\n\nIf you did not request this, you can ignore this email.`
+        }).catch((mailErr) => {
+          // eslint-disable-next-line no-console
+          console.error("Async forgot-password email send error:", mailErr?.message || mailErr);
         });
 
         return res.json({ ok: true });
