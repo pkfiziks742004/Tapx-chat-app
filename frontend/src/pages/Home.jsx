@@ -67,6 +67,18 @@ const WALLPAPER_PRESETS = {
   solid: "rgba(255, 255, 255, 0.03)"
 };
 
+const RTC_CONFIG = {
+  iceServers: [
+    { urls: "stun:stun.l.google.com:19302" },
+    { urls: "stun:stun1.l.google.com:19302" },
+    { urls: "stun:stun2.l.google.com:19302" },
+    { urls: "stun:stun3.l.google.com:19302" },
+    { urls: "stun:stun4.l.google.com:19302" },
+    { urls: "stun:stun.services.mozilla.com" }
+  ],
+  iceCandidatePoolSize: 10
+};
+
 function loadStoredSettings() {
   try {
     const raw = localStorage.getItem(SETTINGS_STORAGE_KEY);
@@ -796,6 +808,7 @@ export default function Home({ session, onLogout }) {
   const stickToBottomRef = useRef(true);
   const pendingOfferRef = useRef(null);
   const pcRef = useRef(null);
+  const iceCandidatesQueueRef = useRef([]);
   const localStreamRef = useRef(null);
   const remoteStreamRef = useRef(null);
   const remoteVideoTrackRef = useRef(null);
@@ -1295,7 +1308,14 @@ export default function Home({ session, onLogout }) {
   }, []);
 
   useEffect(() => {
-    const intervalMs = socketConnected ? 30000 : 5000;
+    if (socketConnected) {
+      setSyncError("");
+      refresh({ force: true }).catch(() => {});
+    }
+  }, [socketConnected]);
+
+  useEffect(() => {
+    const intervalMs = socketConnected ? 30000 : 6000;
     const t = setInterval(() => {
       refresh().catch(() => {});
       const active = selectedRef.current;
@@ -1366,12 +1386,25 @@ export default function Home({ session, onLogout }) {
     setIncomingUpgradePrompt(false);
     setUpgradeNotice("");
     pendingOfferRef.current = null;
+    iceCandidatesQueueRef.current = [];
     setCall({ active: false, peerId: null, status: "", startedAt: null, media: "video" });
     setSpeakerOn(false);
     setMicOn(true);
     setCamOn(true);
     setRemoteVideoOn(true);
     setAudioUnlockNeeded(false);
+  }
+
+  async function drainIceCandidates(pc) {
+    if (!pc || !pc.remoteDescription) return;
+    const queued = [...iceCandidatesQueueRef.current];
+    iceCandidatesQueueRef.current = [];
+    for (const cand of queued) {
+      if (!cand) continue;
+      try {
+        await pc.addIceCandidate(new RTCIceCandidate(cand));
+      } catch (_e) {}
+    }
   }
 
   function playMessageBeep() {
@@ -1622,15 +1655,21 @@ export default function Home({ session, onLogout }) {
       if (!sdp || !pcRef.current) return;
       try {
         await pcRef.current.setRemoteDescription(sdp);
+        await drainIceCandidates(pcRef.current);
         setCall((c) => ({ ...c, status: "Connected" }));
       } catch (_e) {}
     };
 
     const onCallIce = async ({ candidate } = {}) => {
-      if (!candidate || !pcRef.current) return;
-      try {
-        await pcRef.current.addIceCandidate(candidate);
-      } catch (_e) {}
+      if (!candidate) return;
+      const pc = pcRef.current;
+      if (pc && pc.remoteDescription && pc.remoteDescription.type) {
+        try {
+          await pc.addIceCandidate(new RTCIceCandidate(candidate));
+        } catch (_e) {}
+      } else {
+        iceCandidatesQueueRef.current.push(candidate);
+      }
     };
 
     const onCallHangup = () => {
@@ -1678,6 +1717,7 @@ export default function Home({ session, onLogout }) {
       if (!pcRef.current || !sdp) return;
       try {
         await pcRef.current.setRemoteDescription(sdp);
+        await drainIceCandidates(pcRef.current);
         if (sdp.type === "offer") {
           const answer = await pcRef.current.createAnswer();
           await pcRef.current.setLocalDescription(answer);
@@ -1695,6 +1735,7 @@ export default function Home({ session, onLogout }) {
       if (!pcRef.current || !sdp) return;
       try {
         await pcRef.current.setRemoteDescription(sdp);
+        await drainIceCandidates(pcRef.current);
       } catch (err) {
         console.warn("Renegotiate answer error:", err);
       }
@@ -2036,7 +2077,7 @@ export default function Home({ session, onLogout }) {
   }
 
   async function createPeerConnection(peerId, media = "video") {
-    const pc = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });
+    const pc = new RTCPeerConnection(RTC_CONFIG);
 
     pc.onicecandidate = (event) => {
       if (event.candidate) socket.emit("call:ice", { to: peerId, candidate: event.candidate });
@@ -2202,8 +2243,18 @@ export default function Home({ session, onLogout }) {
       if (safeMedia === "audio") setCamOn(false);
       callActiveRef.current = true;
       setCall({ active: true, peerId, status: "Connecting…", startedAt: Date.now(), media: safeMedia });
+
+      // Unlock mobile audio on user click
+      if (remoteAudioRef.current) {
+        try {
+          remoteAudioRef.current.muted = false;
+          remoteAudioRef.current.play().catch(() => {});
+        } catch (_e) {}
+      }
+
       const pc = await createPeerConnection(peerId, safeMedia);
       await pc.setRemoteDescription(offer.sdp);
+      await drainIceCandidates(pc);
       const answer = await pc.createAnswer();
       await pc.setLocalDescription(answer);
       socket.emit("call:answer", { to: peerId, sdp: pc.localDescription, media: safeMedia });

@@ -3679,21 +3679,24 @@ body[data-theme="dark"] .vnOutgoing .vnScrubberDot {
 
   .app {
     flex-direction: column;
-    height: 100vh;
+    height: 100dvh;
+    height: 100%;
     width: 100vw;
     max-width: 100vw;
-    position: relative;
+    position: fixed;
+    inset: 0;
     overflow: hidden;
   }
 
   .appBody,
   .appBody.appBodyExpanded,
   .appBody.appBodyMobile {
-    flex: 1;
+    flex: 1 1 0%;
+    min-height: 0;
     display: flex;
     width: 100vw !important;
     max-width: 100vw !important;
-    height: 100vh !important;
+    height: 100% !important;
     overflow: hidden;
     position: relative;
   }
@@ -3703,7 +3706,7 @@ body[data-theme="dark"] .vnOutgoing .vnScrubberDot {
     max-width: 100vw !important;
     min-width: 100vw !important;
     height: 100% !important;
-    padding-bottom: 74px !important;
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px)) !important;
     border-right: none !important;
     z-index: 10;
   }
@@ -3712,14 +3715,16 @@ body[data-theme="dark"] .vnOutgoing .vnScrubberDot {
     width: 100vw !important;
     max-width: 100vw !important;
     min-width: 100vw !important;
+    height: 100dvh !important;
     height: 100% !important;
-    position: absolute;
-    inset: 0;
-    z-index: 20;
-    display: flex;
-    flex-direction: column;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 200 !important;
+    display: flex !important;
+    flex-direction: column !important;
     background: var(--bg-panel);
-    overflow-x: hidden;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
   }
 
   .rail.railMobile {
@@ -3817,7 +3822,11 @@ body[data-theme="dark"] .vnOutgoing .vnScrubberDot {
   }
 
   .chatMessagesContainer {
-    padding: 10px 10px;
+    flex: 1 1 0% !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 10px !important;
     gap: 14px;
     overflow-x: hidden !important;
     width: 100%;
@@ -3866,11 +3875,14 @@ body[data-theme="dark"] .vnOutgoing .vnScrubberDot {
   }
 
   .chatFooter {
-    padding: 8px 10px 10px;
-    background: var(--bg-panel);
-    width: 100%;
-    max-width: 100vw;
-    box-sizing: border-box;
+    padding: 8px 10px max(10px, env(safe-area-inset-bottom, 10px)) !important;
+    background: var(--bg-panel) !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+    flex-shrink: 0 !important;
+    z-index: 30 !important;
+    border-top: 1px solid var(--border-color) !important;
     overflow: hidden;
   }
 

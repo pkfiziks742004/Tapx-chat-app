@@ -12,7 +12,7 @@ async function request(path, { method = "GET", token, body } = {}) {
       body: body ? JSON.stringify(body) : undefined
     });
   } catch (err) {
-    const e = new Error(`Cannot reach server (${API_URL}). Start backend: cd backend && npm run dev`);
+    const e = new Error(`Connecting to server...`);
     e.code = "network_error";
     e.status = 0;
     e.cause = err;
@@ -44,7 +44,7 @@ async function requestForm(path, { method = "POST", token, formData } = {}) {
       body: formData
     });
   } catch (err) {
-    const e = new Error(`Cannot reach server (${API_URL}). Start backend: cd backend && npm run dev`);
+    const e = new Error(`Connecting to server...`);
     e.code = "network_error";
     e.status = 0;
     e.cause = err;
