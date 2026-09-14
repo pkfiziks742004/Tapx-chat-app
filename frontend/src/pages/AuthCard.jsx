@@ -355,34 +355,16 @@ export default function AuthCard({ onSignedIn, initialTab = "signup" }) {
 
           {/* OTP input (for Signup and Forgot Password Step 2) */}
           {(tab === "signup" || tab === "forgot") && step >= 2 && (
-            <>
-              <label className="field">
-                <span>6-Digit OTP Code</span>
-                <input
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                  placeholder="123456"
-                  maxLength={6}
-                  autoFocus
-                />
-              </label>
-              <div
-                style={{
-                  fontSize: "12.5px",
-                  color: "#cbd5e1",
-                  marginTop: "2px",
-                  marginBottom: "12px",
-                  padding: "10px 12px",
-                  background: "rgba(99, 102, 241, 0.08)",
-                  border: "1px solid rgba(99, 102, 241, 0.2)",
-                  borderRadius: "8px",
-                  lineHeight: 1.5
-                }}
-              >
-                📬 OTP sent to <b>{email}</b> (Valid for <b>10 minutes</b>).<br />
-                ⚠️ <b>Gmail users:</b> Please check your <b>Spam (स्पैम)</b>, <b>Updates</b>, or <b>All Mail</b> folder if it doesn't appear in your Primary Inbox.
-              </div>
-            </>
+            <label className="field">
+              <span>6-Digit OTP Code</span>
+              <input
+                value={otp}
+                onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                placeholder="123456"
+                maxLength={6}
+                autoFocus
+              />
+            </label>
           )}
 
           {/* Password inputs */}

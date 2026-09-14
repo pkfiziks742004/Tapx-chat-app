@@ -100,16 +100,12 @@ function createAuthController({ users }) {
         const expiresAt = new Date(Date.now() + expiresMinutes * 60 * 1000).toISOString();
 
         await users.otp.create({ email, purpose: "signup", otpHash, expiresAt });
-        // Non-blocking asynchronous email delivery via pre-warmed pool for zero latency
-        sendOtpEmail({
+        await sendOtpEmail({
           to: email,
           otp,
           expiresMinutes,
           subject: `Tapx verification code: ${otp}`,
           text: `Your Tapx verification code is: ${otp}\n\nThis code is valid for ${expiresMinutes} minutes.\n\nIf you did not request this, you can ignore this email.`
-        }).catch((mailErr) => {
-          // eslint-disable-next-line no-console
-          console.error("Signup background email send error:", mailErr?.message || mailErr);
         });
 
         return res.json({ ok: true, expiresMinutes });
@@ -161,16 +157,12 @@ function createAuthController({ users }) {
         const expiresAt = new Date(Date.now() + expiresMinutes * 60 * 1000).toISOString();
 
         await users.otp.create({ email, purpose: "reset_password", otpHash, expiresAt });
-        // Non-blocking asynchronous email delivery via pre-warmed pool for zero latency
-        sendOtpEmail({
+        await sendOtpEmail({
           to: email,
           otp,
           expiresMinutes,
           subject: `Tapx Password Reset code: ${otp}`,
           text: `Your password reset code is: ${otp}\n\nThis code is valid for ${expiresMinutes} minutes.\n\nIf you did not request this, you can ignore this email.`
-        }).catch((mailErr) => {
-          // eslint-disable-next-line no-console
-          console.error("Forgot-password background email send error:", mailErr?.message || mailErr);
         });
 
         return res.json({ ok: true, expiresMinutes });
