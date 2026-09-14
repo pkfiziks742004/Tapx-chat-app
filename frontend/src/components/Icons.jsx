@@ -1128,6 +1128,8 @@ export function IconPhoneEnd({ size = 20, className = "" }) {
       />
     </svg>
   );
+}
+
 export function IconPhoneMissed({ size = 20, className = "" }) {
   return (
     <svg
