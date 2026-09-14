@@ -100,14 +100,19 @@ function createAuthController({ users }) {
         const expiresAt = new Date(Date.now() + expiresMinutes * 60 * 1000).toISOString();
 
         await users.otp.create({ email, purpose: "signup", otpHash, expiresAt });
-        sendOtpEmail({
+        const mailPromise = sendOtpEmail({
           to: email,
           otp,
           expiresMinutes,
           subject: `Your Tapx Signup Verification Code: ${otp}`
-        }).catch((mailErr) => {
+        });
+
+        await Promise.race([
+          mailPromise,
+          new Promise((resolve) => setTimeout(resolve, 3500))
+        ]).catch((mailErr) => {
           // eslint-disable-next-line no-console
-          console.error("Async signup email send error:", mailErr?.message || mailErr);
+          console.error("Signup email send error:", mailErr?.message || mailErr);
         });
 
         return res.json({ ok: true });
@@ -136,7 +141,7 @@ function createAuthController({ users }) {
         const existing = await users.getAuthByEmail(email);
         if (!existing) {
           return res.status(404).json({
-            message: "No account found with this email address.",
+            message: "No account found with this email address. Please sign up first.",
             code: "user_not_found"
           });
         }
@@ -159,15 +164,20 @@ function createAuthController({ users }) {
         const expiresAt = new Date(Date.now() + expiresMinutes * 60 * 1000).toISOString();
 
         await users.otp.create({ email, purpose: "reset_password", otpHash, expiresAt });
-        sendOtpEmail({
+        const mailPromise = sendOtpEmail({
           to: email,
           otp,
           expiresMinutes,
           subject: `Your Tapx Password Reset Code: ${otp}`,
           text: `Your password reset code is: ${otp}\n\nThis code expires in ${expiresMinutes} minutes.\n\nIf you did not request this, you can ignore this email.`
-        }).catch((mailErr) => {
+        });
+
+        await Promise.race([
+          mailPromise,
+          new Promise((resolve) => setTimeout(resolve, 3500))
+        ]).catch((mailErr) => {
           // eslint-disable-next-line no-console
-          console.error("Async forgot-password email send error:", mailErr?.message || mailErr);
+          console.error("Forgot-password email send error:", mailErr?.message || mailErr);
         });
 
         return res.json({ ok: true });

@@ -363,16 +363,21 @@ export default function AuthCard({ onSignedIn, initialTab = "signup" }) {
 
           {/* OTP input (for Signup and Forgot Password Step 2) */}
           {(tab === "signup" || tab === "forgot") && step >= 2 && (
-            <label className="field">
-              <span>6-Digit OTP Code</span>
-              <input
-                value={otp}
-                onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                placeholder="123456"
-                maxLength={6}
-                autoFocus
-              />
-            </label>
+            <>
+              <label className="field">
+                <span>6-Digit OTP Code</span>
+                <input
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                  placeholder="123456"
+                  maxLength={6}
+                  autoFocus
+                />
+              </label>
+              <div style={{ fontSize: "12px", color: "rgba(255, 255, 255, 0.72)", marginTop: "-4px", marginBottom: "8px" }}>
+                📩 Code sent to <b>{email}</b>. If not found in Primary Inbox, check <b>Spam (स्पैम)</b> or <b>Updates</b> folder.
+              </div>
+            </>
           )}
 
           {/* Password inputs */}
